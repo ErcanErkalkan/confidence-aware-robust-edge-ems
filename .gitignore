@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+
+# Build/package
+build/
+dist/
+*.egg-info/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Raw/external datasets: never commit measurement partitions
+/data/raw/
+/data/raw_external/
+/data/OpenCEM/
+02_DATA/01_RAW_EXTERNAL/
+*.part
+
+# Generated runs and local outputs
+outputs/
+results/
+artifacts/
+qa_outputs/
+*.log
