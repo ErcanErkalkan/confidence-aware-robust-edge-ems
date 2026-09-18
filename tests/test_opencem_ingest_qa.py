@@ -133,6 +133,8 @@ def test_run_qa_reports_per_inverter_availability_and_missingness(tmp_path: Path
     assert set(report['per_inverter_raw'])=={'1','2'}
     assert report['per_inverter_raw']['1']['rows']==140
     assert report['per_inverter_raw']['1']['missing_fraction']['battsoc']>0
+    assert report['per_inverter_raw']['1']['raw_gap_seconds']['median']==300.0
+    assert report['per_inverter_raw']['1']['raw_gap_seconds']['p95']==300.0
     assert report['neutral_peak_flag_verified'] is True
 
 
