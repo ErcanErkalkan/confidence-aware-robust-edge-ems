@@ -1,0 +1,79 @@
+name: OpenCEM predeclared sensitivity suite
+
+on:
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: "Frozen optimizer seed matching selection/internal artifacts"
+        required: true
+        type: string
+      selection_run_id:
+        description: "Validation-selection workflow run ID"
+        required: true
+        type: string
+      primary_internal_run_id:
+        description: "Primary one-shot internal-test workflow run ID"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  sensitivity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: "${{ github.token }}"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Validate frozen seed
+        run: |
+          python - <<'PY'
+          seed = int("${{ inputs.seed }}")
+          assert 1001 <= seed <= 1030, seed
+          PY
+
+      - name: Install project
+        run: python -m pip install -U pip && python -m pip install -e .
+
+      - name: Download selection and primary internal-test artifacts
+        shell: bash
+        run: |
+          mkdir -p selection primary_internal
+          gh run download "${{ inputs.selection_run_id }}" --repo "${{ github.repository }}" --name "validation-selection-seed${{ inputs.seed }}" --dir selection
+          gh run download "${{ inputs.primary_internal_run_id }}" --repo "${{ github.repository }}" --name "internal-test-seed${{ inputs.seed }}" --dir primary_internal
+
+      - name: Acquire immutable OpenCEM data
+        run: |
+          mkdir -p .tmp/opencem .tmp/verification outputs
+          python tools/opencem_ingest.py \
+            --manifest reproducibility/manifests/opencem_git_tree_manifest_v2.csv \
+            --raw-root .tmp/opencem \
+            --result-csv .tmp/verification/opencem_full.csv \
+            --result-json .tmp/verification/opencem_full.json
+
+      - name: Run all predeclared site and temporal sensitivities
+        run: |
+          python tools/opencem_sensitivity_suite.py \
+            --raw-root .tmp/opencem \
+            --verification-csv .tmp/verification/opencem_full.csv \
+            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \
+            --selection-dir selection \
+            --primary-internal-dir primary_internal \
+            --output-dir "outputs/sensitivity_seed${{ inputs.seed }}"
+
+      - name: Upload sensitivity artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "sensitivity-seed${{ inputs.seed }}"
+          path: "outputs/sensitivity_seed${{ inputs.seed }}/"
+          if-no-files-found: error
+          retention-days: 90
