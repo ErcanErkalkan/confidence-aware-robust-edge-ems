@@ -1,1 +1,73 @@
-name: Confirmatory OpenCEM TRAIN optimization\n\non:\n  workflow_dispatch:\n    inputs:\n      method:\n        description: "Optimizer method"\n        required: true\n        type: choice\n        options:\n          - SOBOL\n          - NSGAII\n          - MOPSO\n          - MODE\n          - CRMT\n      seed:\n        description: "Frozen optimizer seed (1001-1030)"\n        required: true\n        default: "1001"\n        type: string\n\npermissions:\n  contents: read\n\njobs:\n  confirmatory-train:\n    runs-on: ubuntu-24.04\n    timeout-minutes: 180\n    steps:\n      - uses: actions/checkout@v4\n\n      - uses: actions/setup-python@v5\n        with:\n          python-version: "3.11"\n          cache: pip\n\n      - name: Validate frozen seed\n        shell: bash\n        run: |\n          python - <<'PY'\n          seed = int("${{ inputs.seed }}")\n          assert 1001 <= seed <= 1030, seed\n          PY\n\n      - name: Install project\n        run: python -m pip install -U pip && python -m pip install -e .\n\n      - name: Acquire immutable OpenCEM data\n        run: |\n          mkdir -p .tmp/opencem .tmp/verification outputs\n          python tools/opencem_ingest.py \\\n            --manifest reproducibility/manifests/opencem_git_tree_manifest_v2.csv \\\n            --raw-root .tmp/opencem \\\n            --result-csv .tmp/verification/opencem_full.csv \\\n            --result-json .tmp/verification/opencem_full.json\n\n      - name: Run frozen TRAIN optimization\n        run: |\n          python tools/opencem_confirmatory_train.py \\\n            --method "${{ inputs.method }}" \\\n            --seed "${{ inputs.seed }}" \\\n            --raw-root .tmp/opencem \\\n            --verification-csv .tmp/verification/opencem_full.csv \\\n            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \\\n            --output-dir "outputs/${{ inputs.method }}_seed${{ inputs.seed }}"\n\n      - name: Upload confirmatory TRAIN artifact\n        uses: actions/upload-artifact@v4\n        with:\n          name: "confirmatory-train-${{ inputs.method }}-seed${{ inputs.seed }}"\n          path: "outputs/${{ inputs.method }}_seed${{ inputs.seed }}/"\n          if-no-files-found: error\n          retention-days: 90\n
+name: Confirmatory OpenCEM TRAIN optimization
+
+on:
+  workflow_dispatch:
+    inputs:
+      method:
+        description: "Optimizer method"
+        required: true
+        type: choice
+        options:
+          - SOBOL
+          - NSGAII
+          - MOPSO
+          - MODE
+          - CRMT
+      seed:
+        description: "Frozen optimizer seed (1001-1030)"
+        required: true
+        default: "1001"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  confirmatory-train:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Validate frozen seed
+        shell: bash
+        run: |
+          python - <<'PY'
+          seed = int("${{ inputs.seed }}")
+          assert 1001 <= seed <= 1030, seed
+          PY
+
+      - name: Install project
+        run: python -m pip install -U pip && python -m pip install -e .
+
+      - name: Acquire immutable OpenCEM data
+        run: |
+          mkdir -p .tmp/opencem .tmp/verification outputs
+          python tools/opencem_ingest.py \\
+            --manifest reproducibility/manifests/opencem_git_tree_manifest_v2.csv \\
+            --raw-root .tmp/opencem \\
+            --result-csv .tmp/verification/opencem_full.csv \\
+            --result-json .tmp/verification/opencem_full.json
+
+      - name: Run frozen TRAIN optimization
+        run: |
+          python tools/opencem_confirmatory_train.py \\
+            --method "${{ inputs.method }}" \\
+            --seed "${{ inputs.seed }}" \\
+            --raw-root .tmp/opencem \\
+            --verification-csv .tmp/verification/opencem_full.csv \\
+            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \\
+            --output-dir "outputs/${{ inputs.method }}_seed${{ inputs.seed }}"
+
+      - name: Upload confirmatory TRAIN artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "confirmatory-train-${{ inputs.method }}-seed${{ inputs.seed }}"
+          path: "outputs/${{ inputs.method }}_seed${{ inputs.seed }}/"
+          if-no-files-found: error
+          retention-days: 90
