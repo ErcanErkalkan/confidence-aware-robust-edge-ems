@@ -126,6 +126,21 @@ def select_train_cadence_minutes(
     }
 
 
+def _json_safe(value):
+    """Recursively normalize QA output to standard JSON-serializable Python types."""
+    if isinstance(value, dict):
+        return {str(k): _json_safe(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_safe(v) for v in value]
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, pd.Timestamp):
+        return value.isoformat()
+    if isinstance(value, Path):
+        return str(value)
+    return value
+
+
 def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = None) -> dict:
     frames = []
     per_file = []
@@ -149,7 +164,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         frames.append(df)
     raw = pd.concat(frames, ignore_index=True)
     ts = pd.to_datetime(pd.to_numeric(raw["read_ts"], errors="coerce"), unit="s", utc=True, errors="coerce")
-    ids = tuple(sorted(pd.to_numeric(raw["inverter"], errors="coerce").dropna().astype(int).unique()))
+    ids = tuple(int(x) for x in sorted(pd.to_numeric(raw["inverter"], errors="coerce").dropna().astype(int).unique()))
     if expected_inverters is not None and tuple(sorted(expected_inverters)) != ids:
         raise ValueError(f"Unexpected inverter IDs: observed={ids}, expected={expected_inverters}")
 
@@ -211,7 +226,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         "complete_days_by_split": split_counts,
         "neutral_peak_flag_verified": all(int(p["peak_flag"].sum()) == 0 for p in profiles.values()),
     }
-    return report
+    return _json_safe(report)
 
 
 def main() -> int:
