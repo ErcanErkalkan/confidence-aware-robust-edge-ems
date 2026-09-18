@@ -163,8 +163,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
             pd.to_numeric(g["read_ts"], errors="coerce"), unit="s", utc=True, errors="coerce"
         )
         finite_ts = gts.dropna().drop_duplicates().sort_values()
-        gaps = finite_ts.astype("int64").to_numpy() / 1e9
-        gaps = np.diff(gaps) if len(gaps) > 1 else np.array([], dtype=float)
+        gaps = finite_ts.diff().dt.total_seconds().dropna().to_numpy(dtype=float)
         gaps = gaps[gaps > 0]
         per_inverter_raw[str(inv)] = {
             "rows": int(len(g)),
