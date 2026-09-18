@@ -34,14 +34,50 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _resolve_seed_dir(
+    root: Path,
+    *,
+    name: str,
+    required_files: tuple[str, ...],
+) -> Path:
+    """Resolve a direct or downloaded-batch evidence directory exactly once."""
+    direct = root / name
+    if all((direct / f).is_file() for f in required_files):
+        return direct
+    matches = sorted(
+        p for p in root.rglob(name)
+        if p.is_dir() and all((p / f).is_file() for f in required_files)
+    )
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"expected exactly one evidence directory {name!r}, found {len(matches)}"
+        )
+    return matches[0]
+
+
 def _load_seed_evidence(
     seed: int,
     *,
     validation_root: Path,
     internal_root: Path,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    validation_dir = validation_root / f"validation_selection_seed{seed}"
-    internal_dir = internal_root / f"internal_test_seed{seed}"
+    validation_dir = _resolve_seed_dir(
+        validation_root,
+        name=f"validation_selection_seed{seed}",
+        required_files=(
+            "selection_lock.json",
+            "validation_candidate_scores.csv",
+            "selected_candidates.csv",
+        ),
+    )
+    internal_dir = _resolve_seed_dir(
+        internal_root,
+        name=f"internal_test_seed{seed}",
+        required_files=(
+            "internal_test_run_summary.json",
+            "internal_test_risk_summary.csv",
+        ),
+    )
 
     selection_lock_path = validation_dir / "selection_lock.json"
     validation_scores_path = validation_dir / "validation_candidate_scores.csv"
