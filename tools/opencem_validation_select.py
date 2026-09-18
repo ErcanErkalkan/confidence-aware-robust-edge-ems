@@ -91,6 +91,30 @@ def _read_train_front(
     }
 
 
+def _resolve_train_run_dir(
+    train_run_root: Path,
+    *,
+    method: str,
+    seed: int,
+) -> Path:
+    """Locate exactly one TRAIN run directory in direct or downloaded-batch layouts."""
+    name = f"{method}_seed{int(seed)}"
+    direct = train_run_root / name
+    if (direct / "run_summary.json").is_file() and (direct / "optimizer_front.csv").is_file():
+        return direct
+    matches = sorted(
+        p for p in train_run_root.rglob(name)
+        if p.is_dir()
+        and (p / "run_summary.json").is_file()
+        and (p / "optimizer_front.csv").is_file()
+    )
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"expected exactly one TRAIN run directory {name!r}, found {len(matches)}"
+        )
+    return matches[0]
+
+
 def _evaluate_front(
     front: pd.DataFrame,
     validation_blocks,
@@ -130,28 +154,27 @@ def _write_csv(df: pd.DataFrame, path: Path) -> str:
     return _sha256(path)
 
 
-def execute_validation_selection(
+def execute_validation_selection_on_blocks(
     seed: int,
-    paths: list[Path],
+    validation_blocks,
     *,
-    lock: dict,
+    context: dict,
+    expected_manifest_sha: str,
     train_run_root: Path,
     output_dir: Path,
 ) -> dict:
     seed = int(seed)
     if seed not in OPTIMIZER_SEEDS:
         raise ValueError("seed is outside the frozen optimizer seed registry")
-    validation_blocks, context = build_locked_split_blocks(
-        paths, lock=lock, split_name="validation"
-    )
     if len(validation_blocks) != VALIDATION_BLOCK_COUNT:
         raise RuntimeError("frozen validation block count mismatch")
-    expected_manifest_sha = str(lock["canonical_csv_sha256"])
 
     fronts = []
     train_sources = {}
     for method in METHOD_IDS:
-        run_dir = train_run_root / f"{method}_seed{seed}"
+        run_dir = _resolve_train_run_dir(
+            train_run_root, method=method, seed=seed
+        )
         front, evidence = _read_train_front(
             run_dir,
             method=method,
@@ -194,7 +217,7 @@ def execute_validation_selection(
         "selection_rule_id": SELECTION_RULE_ID,
         "seed": seed,
         "method_ids": list(METHOD_IDS),
-        "data_context": context,
+        "data_context": dict(context),
         "risk": {
             "q": float(CRMT_HYPERPARAMETERS["risk_q"]),
             "tail_weight": float(CRMT_HYPERPARAMETERS["tail_weight"]),
@@ -208,6 +231,27 @@ def execute_validation_selection(
     lock_path = output_dir / "selection_lock.json"
     lock_path.write_text(json.dumps(selection_lock, indent=2), encoding="utf-8")
     return selection_lock
+
+
+def execute_validation_selection(
+    seed: int,
+    paths: list[Path],
+    *,
+    lock: dict,
+    train_run_root: Path,
+    output_dir: Path,
+) -> dict:
+    validation_blocks, context = build_locked_split_blocks(
+        paths, lock=lock, split_name="validation"
+    )
+    return execute_validation_selection_on_blocks(
+        seed,
+        validation_blocks,
+        context=context,
+        expected_manifest_sha=str(lock["canonical_csv_sha256"]),
+        train_run_root=train_run_root,
+        output_dir=output_dir,
+    )
 
 
 def main() -> int:
