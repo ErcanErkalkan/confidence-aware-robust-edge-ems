@@ -7,6 +7,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from crmt_edge_ems.site_model import calibrate_train_grid_caps
+
 from data_adapters.opencem import (
     DEFAULT_CONFIRMATORY_SPLIT,
     audit_raw_measurements,
@@ -292,9 +294,35 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         profiles, expected_frequency_minutes=selected_minutes, min_coverage=0.95
     )
     split_counts = {}
+    train_cap_calibration = {}
     for inv, inv_blocks in blocks.items():
         assigned = assign_confirmatory_split(inv_blocks, split=DEFAULT_CONFIRMATORY_SPLIT)
         split_counts[str(inv)] = {k: len(v) for k, v in assigned.items()}
+        try:
+            cap = calibrate_train_grid_caps(
+                list(assigned["train"].values()),
+                import_quantile=0.90,
+                export_quantile=0.90,
+                min_samples_each_direction=100,
+            )
+            train_cap_calibration[str(inv)] = {
+                "status": "CALIBRATED",
+                "source_split": "TRAIN_ONLY",
+                "import_quantile": cap.import_quantile,
+                "export_quantile": cap.export_quantile,
+                "import_cap_kw": cap.import_cap_kw,
+                "export_cap_kw": cap.export_cap_kw,
+                "n_import_samples": cap.n_import_samples,
+                "n_export_samples": cap.n_export_samples,
+            }
+        except ValueError as exc:
+            train_cap_calibration[str(inv)] = {
+                "status": "INSUFFICIENT_DIRECTIONAL_SAMPLES",
+                "source_split": "TRAIN_ONLY",
+                "import_quantile": 0.90,
+                "export_quantile": 0.90,
+                "error": str(exc),
+            }
 
     power_columns = [c for c in KEY_COLS if c in raw.columns and c not in {"read_ts", "inverter"}]
     report = {
@@ -314,6 +342,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         "train_only_cadence_selection": cadence,
         "complete_days_95pct_per_inverter": {str(k): len(v) for k, v in blocks.items()},
         "complete_days_by_split": split_counts,
+        "train_only_grid_cap_calibration": train_cap_calibration,
         "neutral_peak_flag_verified": all(int(p["peak_flag"].sum()) == 0 for p in profiles.values()),
     }
     return _json_safe(report)
