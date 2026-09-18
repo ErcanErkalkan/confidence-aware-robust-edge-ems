@@ -128,3 +128,22 @@ def test_opencem_primary_per_inverter_replay_preserves_independent_subsystems():
     assert int(profiles[2].loc[0, 'source_inverter']) == 2
     assert profiles[1]['peak_flag'].sum() == 0
     assert profiles[2]['peak_flag'].sum() == 0
+
+
+def test_opencem_timestamp_collapse_is_order_independent_and_prevents_duplicate_weighting():
+    from data_adapters.opencem import collapse_same_timestamp_replay_signals, reconstruct_per_inverter_profiles
+    raw = pd.DataFrame([
+        {"read_ts": 0, "inverter": 1, "outsumw": 0.0, "pv1power": 0.0},
+        {"read_ts": 0, "inverter": 1, "outsumw": 2000.0, "pv1power": 0.0},
+        {"read_ts": 60, "inverter": 1, "outsumw": 10000.0, "pv1power": 0.0},
+    ])
+    c1 = collapse_same_timestamp_replay_signals(raw)
+    c2 = collapse_same_timestamp_replay_signals(raw.sample(frac=1.0, random_state=7))
+    pd.testing.assert_frame_equal(c1.reset_index(drop=True), c2.reset_index(drop=True))
+    assert len(c1) == 2
+    first = c1[c1["read_ts"] == 0].iloc[0]
+    assert first["outsumw"] == 1000.0
+    # At a 2-minute replay cadence, unique timestamps (1 kW and 10 kW) must be
+    # equally weighted: 5.5 kW, not the raw-row-weighted 4.0 kW.
+    p = reconstruct_per_inverter_profiles(raw, frequency="2min", expected_inverters=(1,))[1]
+    assert np.isclose(float(p.iloc[0]["load_kw"]), 5.5)
