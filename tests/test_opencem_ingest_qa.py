@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import json
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -136,6 +137,10 @@ def test_run_qa_reports_per_inverter_availability_and_missingness(tmp_path: Path
     assert report['per_inverter_raw']['1']['raw_gap_seconds']['median']==300.0
     assert report['per_inverter_raw']['1']['raw_gap_seconds']['p95']==300.0
     assert report['neutral_peak_flag_verified'] is True
+    assert report['inverter_ids'] == [1, 2]
+    assert all(type(x) is int for x in report['inverter_ids'])
+    # QA reports are persisted as JSON artifacts; serialization is part of the contract.
+    json.dumps(report)
 
 
 def test_run_qa_rejects_unexpected_inverter_ids(tmp_path: Path):
