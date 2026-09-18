@@ -153,6 +153,10 @@ class MultiSiteReplayEvaluator:
         block_list = list(blocks)
         if not block_list:
             return pd.DataFrame()
+        # Structural/site routing errors are preflight failures and must be
+        # detected before any expensive-evaluation budget is reserved.
+        for block in block_list:
+            self._site_for(block)
         if self.ledger is not None:
             self.ledger.reserve(
                 self.method_id,
