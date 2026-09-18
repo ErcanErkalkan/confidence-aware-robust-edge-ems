@@ -209,6 +209,9 @@ def run_crmt(
     budget: int = CONFIRMATORY_CONTROLLER_BLOCK_BUDGET,
     candidate_pool_size: int = CRMT_CANDIDATE_POOL_SIZE,
     hyperparameters: Mapping | None = None,
+    allocation_mode: str = "adaptive",
+    archive_mode: str = "confidence",
+    risk_override: RiskConfig | None = None,
 ):
     hp = dict(
         CRMT_HYPERPARAMETERS if hyperparameters is None else hyperparameters
@@ -222,7 +225,7 @@ def run_crmt(
         f"CRMT-c{i + 1:04d}": p for i, p in enumerate(pool)
     }
 
-    risk = RiskConfig(
+    risk = risk_override or RiskConfig(
         q=float(hp["risk_q"]),
         tail_weight=float(hp["tail_weight"]),
     )
@@ -233,6 +236,8 @@ def run_crmt(
         allocation_batch=int(hp["allocation_batch"]),
         alpha=float(hp["alpha"]),
         n_boot=int(hp["n_boot"]),
+        allocation_mode=allocation_mode,
+        archive_mode=archive_mode,
     )
     result = study.run(
         candidates,

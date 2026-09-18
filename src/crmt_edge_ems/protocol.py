@@ -55,6 +55,25 @@ BASELINE_HYPERPARAMETERS: dict[str, dict[str, Any]] = {
     },
     "MODE": {"pop_size": 20, "differential_weight": 0.50, "crossover_rate": 0.90},
 }
+ABLATION_IDS = ("NO_CVAR", "NO_CONFIDENCE", "NO_ADAPTIVE")
+ABLATION_SETTINGS: dict[str, dict[str, Any]] = {
+    "NO_CVAR": {
+        "risk_tail_weight": 0.0,
+        "archive_mode": "confidence",
+        "allocation_mode": "adaptive",
+    },
+    "NO_CONFIDENCE": {
+        "risk_tail_weight": 0.50,
+        "archive_mode": "risk_pareto",
+        "allocation_mode": "adaptive",
+    },
+    "NO_ADAPTIVE": {
+        "risk_tail_weight": 0.50,
+        "archive_mode": "confidence",
+        "allocation_mode": "round_robin",
+    },
+}
+
 CRMT_HYPERPARAMETERS: dict[str, Any] = {
     "candidate_pool_size": CRMT_CANDIDATE_POOL_SIZE,
     "initial_blocks": 4,

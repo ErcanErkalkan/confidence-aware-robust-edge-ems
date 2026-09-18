@@ -260,3 +260,23 @@ def test_crmt_allocation_skips_exhausted_candidates_and_uses_exact_budget():
     assert result.budget_used == 8
     ledger.assert_exact()
     assert all(len(df) == 4 for df in result.candidate_metrics.values())
+
+
+def test_crmt_ablation_registry_changes_exactly_one_mechanism():
+    from crmt_edge_ems.protocol import ABLATION_IDS, ABLATION_SETTINGS
+    assert ABLATION_IDS == ("NO_CVAR", "NO_CONFIDENCE", "NO_ADAPTIVE")
+    assert ABLATION_SETTINGS["NO_CVAR"] == {
+        "risk_tail_weight": 0.0,
+        "archive_mode": "confidence",
+        "allocation_mode": "adaptive",
+    }
+    assert ABLATION_SETTINGS["NO_CONFIDENCE"] == {
+        "risk_tail_weight": 0.50,
+        "archive_mode": "risk_pareto",
+        "allocation_mode": "adaptive",
+    }
+    assert ABLATION_SETTINGS["NO_ADAPTIVE"] == {
+        "risk_tail_weight": 0.50,
+        "archive_mode": "confidence",
+        "allocation_mode": "round_robin",
+    }
