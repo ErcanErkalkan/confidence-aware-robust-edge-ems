@@ -165,6 +165,22 @@ def replay_signal_duplicate_diagnostics(df: pd.DataFrame) -> dict:
     exact_extra = int(dup.duplicated(keys + signal_cols, keep="first").sum())
     conflicts = int((distinct_signal_count > 1).sum())
 
+    signal_delta_summary = {}
+    for col in signal_cols:
+        tmp = dup[keys].copy()
+        tmp["_v"] = pd.to_numeric(dup[col], errors="coerce")
+        ext = tmp.groupby(keys, sort=False)["_v"].agg(["min", "max"])
+        delta = (ext["max"] - ext["min"]).replace([np.inf, -np.inf], np.nan).dropna()
+        positive = delta[delta > 0.0]
+        signal_delta_summary[col] = {
+            "groups_with_numeric_delta": int(delta.size),
+            "conflicting_groups": int(positive.size),
+            "median_abs_delta": float(positive.median()) if positive.size else 0.0,
+            "p95_abs_delta": float(positive.quantile(0.95)) if positive.size else 0.0,
+            "p99_abs_delta": float(positive.quantile(0.99)) if positive.size else 0.0,
+            "max_abs_delta": float(positive.max()) if positive.size else 0.0,
+        }
+
     per_inv = {}
     for inv, g in dup.groupby("inverter", sort=True):
         gs = g.groupby(keys, sort=False).size()
@@ -190,6 +206,7 @@ def replay_signal_duplicate_diagnostics(df: pd.DataFrame) -> dict:
         },
         "per_inverter": per_inv,
         "signal_columns": signal_cols,
+        "conflicting_signal_abs_delta": signal_delta_summary,
     }
 
 
