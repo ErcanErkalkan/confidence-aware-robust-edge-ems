@@ -57,7 +57,7 @@ def audit_raw_measurements(df: pd.DataFrame) -> OpenCEMSchemaAudit:
     cols = tuple(map(str, df.columns))
     missing = tuple(c for c in MIN_SCHEMA if c not in df.columns)
     inv = (
-        tuple(sorted(pd.to_numeric(df["inverter"], errors="coerce").dropna().astype(int).unique()))
+        tuple(int(x) for x in sorted(pd.to_numeric(df["inverter"], errors="coerce").dropna().astype(int).unique()))
         if "inverter" in df else ()
     )
     return OpenCEMSchemaAudit(
