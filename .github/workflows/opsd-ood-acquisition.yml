@@ -1,0 +1,57 @@
+name: OPSD OOD artifact acquisition v1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "reproducibility/launch/OPSD_OOD_ACQUISITION_V1.token"
+
+permissions:
+  contents: read
+
+jobs:
+  acquire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify acquisition token
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          vals = {}
+          for line in Path("reproducibility/launch/OPSD_OOD_ACQUISITION_V1.token").read_text().splitlines():
+              if "=" in line:
+                  k, v = line.split("=", 1)
+                  vals[k.strip()] = v.strip()
+          assert vals["package_version"] == "2020-04-15"
+          assert vals["scope"] == "ACQUISITION_ONLY_NO_OOD_RESULTS"
+          PY
+
+      - name: Download fixed OPSD Household Data package
+        run: |
+          mkdir -p .tmp/opsd outputs
+          curl --fail --location --retry 5 --retry-delay 5 \
+            --output .tmp/opsd/opsd-household_data-2020-04-15.zip \
+            https://data.open-power-system-data.org/household_data/opsd-household_data-2020-04-15.zip
+
+      - name: Hash and validate OPSD package metadata/schema
+        run: |
+          python tools/opsd_ood_acquire.py \
+            --zip .tmp/opsd/opsd-household_data-2020-04-15.zip \
+            --output-json outputs/opsd_ood_acquisition_manifest_v1.json
+
+      - name: Upload provenance manifest only
+        uses: actions/upload-artifact@v4
+        with:
+          name: opsd-ood-acquisition-manifest-v1
+          path: outputs/opsd_ood_acquisition_manifest_v1.json
+          if-no-files-found: error
+          retention-days: 90
