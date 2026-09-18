@@ -166,4 +166,7 @@ def test_replay_signal_duplicate_diagnostics_distinguishes_exact_and_conflicting
     assert d["conflicting_replay_signal_groups"] == 1
     assert d["max_key_multiplicity"] == 2
     assert d["per_inverter"]["1"]["conflicting_replay_signal_groups"] == 1
+    assert d["conflicting_signal_abs_delta"]["outsumw"]["conflicting_groups"] == 1
+    assert d["conflicting_signal_abs_delta"]["outsumw"]["max_abs_delta"] == 100.0
+    assert d["conflicting_signal_abs_delta"]["pv1power"]["conflicting_groups"] == 0
     json.dumps(d)
