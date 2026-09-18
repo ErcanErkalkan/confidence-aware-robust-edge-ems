@@ -172,3 +172,22 @@ def test_replay_signal_duplicate_diagnostics_distinguishes_exact_and_conflicting
     assert d["conflicting_signal_abs_delta"]["outsumw"]["max_abs_delta"] == 100.0
     assert d["conflicting_signal_abs_delta"]["pv1power"]["conflicting_groups"] == 0
     json.dumps(d)
+
+
+def test_complete_day_block_manifest_is_unique_and_split_labeled():
+    ts = pd.date_range("2025-07-14T00:00:00Z", periods=720, freq="2min")
+    frame = pd.DataFrame({
+        "timestamp": ts,
+        "base_kw": 1.0,
+        "peak_flag": 0,
+    })
+    blocks = {
+        1: {"2025-07-14": frame},
+        2: {"2026-03-02": frame.assign(timestamp=pd.date_range("2026-03-02T00:00:00Z", periods=720, freq="2min"))},
+    }
+    out = qa.complete_day_block_manifest(blocks, cadence_minutes=2)
+    assert len(out) == 2
+    assert out["block_id"].is_unique
+    assert set(out["split"]) == {"train", "internal_test"}
+    assert set(out["cadence_minutes"]) == {2}
+    assert set(out["n_ticks"]) == {720}

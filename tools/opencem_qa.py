@@ -343,9 +343,45 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         "complete_days_95pct_per_inverter": {str(k): len(v) for k, v in blocks.items()},
         "complete_days_by_split": split_counts,
         "train_only_grid_cap_calibration": train_cap_calibration,
+        "complete_day_block_manifest": complete_day_block_manifest(blocks, cadence_minutes=selected_minutes).to_dict(orient="records"),
         "neutral_peak_flag_verified": all(int(p["peak_flag"].sum()) == 0 for p in profiles.values()),
     }
     return _json_safe(report)
+
+
+def complete_day_block_manifest(
+    blocks: dict[int, dict[str, pd.DataFrame]],
+    *,
+    cadence_minutes: int,
+) -> pd.DataFrame:
+    """Create the machine-readable frozen block inventory from complete-day blocks."""
+    rows = []
+    for inv, inv_blocks in sorted(blocks.items()):
+        assigned = assign_confirmatory_split(inv_blocks, split=DEFAULT_CONFIRMATORY_SPLIT)
+        for split_name, split_blocks in assigned.items():
+            for local_date, frame in sorted(split_blocks.items()):
+                ts = pd.to_datetime(frame["timestamp"], utc=True, errors="coerce")
+                if ts.isna().any():
+                    raise ValueError(f"Invalid timestamp in block inv={inv}, date={local_date}")
+                rows.append({
+                    "block_id": f"opencem:inv{int(inv)}:{local_date}",
+                    "inverter_id": int(inv),
+                    "local_date": str(local_date),
+                    "split": str(split_name),
+                    "cadence_minutes": int(cadence_minutes),
+                    "n_ticks": int(len(frame)),
+                    "timestamp_utc_min": ts.min().isoformat(),
+                    "timestamp_utc_max": ts.max().isoformat(),
+                    "source_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+                })
+    columns = [
+        "block_id", "inverter_id", "local_date", "split", "cadence_minutes",
+        "n_ticks", "timestamp_utc_min", "timestamp_utc_max", "source_commit",
+    ]
+    out = pd.DataFrame(rows, columns=columns)
+    if not out.empty and out["block_id"].duplicated().any():
+        raise RuntimeError("Duplicate OpenCEM block IDs in manifest")
+    return out.sort_values(["split", "inverter_id", "local_date"]).reset_index(drop=True)
 
 
 def main() -> int:
@@ -353,6 +389,7 @@ def main() -> int:
     p.add_argument("--raw-root", type=Path, required=True)
     p.add_argument("--verification-csv", type=Path, required=True)
     p.add_argument("--output-json", type=Path, required=True)
+    p.add_argument("--block-manifest-csv", type=Path, default=None)
     p.add_argument("--expected-inverters", default="", help="comma-separated integer IDs")
     args = p.parse_args()
     expected = tuple(int(x) for x in args.expected_inverters.split(",") if x.strip()) or None
@@ -360,6 +397,9 @@ def main() -> int:
     report = run_qa(paths, expected_inverters=expected)
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
     args.output_json.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    if args.block_manifest_csv is not None:
+        args.block_manifest_csv.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(report["complete_day_block_manifest"]).to_csv(args.block_manifest_csv, index=False)
     print(json.dumps({
         "files": report["files"], "rows": report["rows"],
         "inverters": report["inverter_ids"],

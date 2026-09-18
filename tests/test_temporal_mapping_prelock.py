@@ -70,3 +70,21 @@ def test_invalid_cadence_fails_closed():
         derive_temporal_mapping(0)
     with pytest.raises(ValueError):
         derive_temporal_mapping(3)
+
+
+def test_two_minute_floor_quantization_brackets_short_integer_windows():
+    m = derive_temporal_mapping(2, duration_quantization="floor")
+    assert m.duration_quantization == "floor"
+    assert m.t_min_ticks == 1       # 3 min target -> 2 min achieved
+    assert m.cap_fix_hold_ticks == 1
+    assert m.prep_hold_ticks == 2   # 5 min target -> 4 min achieved
+    assert m.w_f_ticks == 2
+    assert m.horizon_k_ticks == 5   # 10 min remains exact
+    assert m.near_cap_window_ticks == 1
+    assert math.isclose(m.ema_beta, 1 - 0.75**2)
+    assert math.isclose(m.hold_decay_per_tick, 0.60**2)
+
+
+def test_invalid_duration_quantization_fails_closed():
+    with pytest.raises(ValueError):
+        derive_temporal_mapping(2, duration_quantization="nearest")

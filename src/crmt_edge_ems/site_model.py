@@ -87,12 +87,14 @@ def build_opencem_subsystem_site(
     assumptions: OpenCEMSubsystemAssumptions,
     *,
     cadence_minutes: int = 1,
+    duration_quantization: str = "ceil",
 ) -> SiteConfig:
     """Build a per-subsystem SiteConfig with cadence-aware temporal semantics."""
     assumptions.validate()
     temporal = derive_temporal_mapping(
         cadence_minutes,
         base_r_max_kw_per_tick=float(assumptions.command_ramp_kw_per_min),
+        duration_quantization=duration_quantization,
     )
     return SiteConfig(
         ts_hours=temporal.ts_hours,

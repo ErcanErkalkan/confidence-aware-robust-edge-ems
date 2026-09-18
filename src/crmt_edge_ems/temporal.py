@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from math import ceil
+from math import ceil, floor
 
 ALLOWED_CADENCE_MINUTES = (1, 2, 5, 10, 15, 30)
 BASE_CADENCE_MINUTES = 1.0
@@ -10,6 +10,7 @@ BASE_CADENCE_MINUTES = 1.0
 @dataclass(frozen=True)
 class TemporalMapping:
     cadence_minutes: float
+    duration_quantization: str
     ts_hours: float
     r_max_kw_per_tick: float
     t_min_ticks: int
@@ -40,14 +41,24 @@ class TemporalMapping:
         return asdict(self)
 
 
-def _ceil_ticks(duration_minutes: float, cadence_minutes: float, *, allow_zero: bool = False) -> int:
+def _quantize_ticks(
+    duration_minutes: float,
+    cadence_minutes: float,
+    *,
+    policy: str = "ceil",
+    allow_zero: bool = False,
+) -> int:
     if cadence_minutes <= 0:
         raise ValueError("cadence_minutes must be > 0")
     if duration_minutes < 0:
         raise ValueError("duration_minutes must be >= 0")
     if duration_minutes == 0 and allow_zero:
         return 0
-    return max(1, int(ceil(duration_minutes / cadence_minutes)))
+    if policy not in {"ceil", "floor"}:
+        raise ValueError("duration quantization policy must be 'ceil' or 'floor'")
+    raw = duration_minutes / cadence_minutes
+    ticks = ceil(raw) if policy == "ceil" else floor(raw)
+    return max(1, int(ticks))
 
 
 def derive_temporal_mapping(
@@ -63,12 +74,15 @@ def derive_temporal_mapping(
     base_prep_hold_extra_ticks: int = 2,
     base_near_cap_window_ticks: int = 3,
     base_hold_decay_per_tick: float = 0.60,
+    duration_quantization: str = "ceil",
     enforce_allowed: bool = True,
 ) -> TemporalMapping:
     """Map the frozen 1-minute controller's temporal semantics to a new cadence.
 
-    Durations are preserved in physical minutes and quantized upward to whole replay
-    ticks. Rate-like per-tick limits are scaled by cadence. Exponential per-tick
+    Durations are preserved in physical minutes and quantized to whole replay ticks.
+    The primary protocol uses upward (ceil) quantization; a predeclared floor policy
+    is available only for temporal-resolution sensitivity analysis. Rate-like per-tick
+    limits are scaled by cadence. Exponential per-tick
     decay is mapped by equal physical-time decay. The FBRL EMA is mapped by equal
     exponential retention rather than by naively rounding its span.
 
@@ -85,6 +99,8 @@ def derive_temporal_mapping(
         raise ValueError("base_w_ema_span_ticks must be > 0")
     if not (0.0 < base_hold_decay_per_tick <= 1.0):
         raise ValueError("base_hold_decay_per_tick must be in (0, 1]")
+    if duration_quantization not in {"ceil", "floor"}:
+        raise ValueError("duration_quantization must be 'ceil' or 'floor'")
 
     ratio = c / BASE_CADENCE_MINUTES
 
@@ -97,12 +113,12 @@ def derive_temporal_mapping(
     target_horizon = float(base_horizon_k_ticks) * BASE_CADENCE_MINUTES
     target_near = float(base_near_cap_window_ticks) * BASE_CADENCE_MINUTES
 
-    t_min_ticks = _ceil_ticks(target_t_min, c, allow_zero=True)
-    cap_ticks = _ceil_ticks(target_cap, c)
-    prep_ticks = _ceil_ticks(target_prep, c)
-    wf_ticks = _ceil_ticks(target_wf, c)
-    horizon_ticks = _ceil_ticks(target_horizon, c)
-    near_ticks = _ceil_ticks(target_near, c)
+    t_min_ticks = _quantize_ticks(target_t_min, c, policy=duration_quantization, allow_zero=True)
+    cap_ticks = _quantize_ticks(target_cap, c, policy=duration_quantization)
+    prep_ticks = _quantize_ticks(target_prep, c, policy=duration_quantization)
+    wf_ticks = _quantize_ticks(target_wf, c, policy=duration_quantization)
+    horizon_ticks = _quantize_ticks(target_horizon, c, policy=duration_quantization)
+    near_ticks = _quantize_ticks(target_near, c, policy=duration_quantization)
 
     # Frozen FBRL source: beta_1 = 2/(span+1), retention_1 = 1-beta_1.
     beta_1 = 2.0 / (float(base_w_ema_span_ticks) + 1.0)
@@ -128,6 +144,7 @@ def derive_temporal_mapping(
 
     return TemporalMapping(
         cadence_minutes=c,
+        duration_quantization=duration_quantization,
         ts_hours=c / 60.0,
         r_max_kw_per_tick=float(base_r_max_kw_per_tick) * ratio,
         t_min_ticks=t_min_ticks,

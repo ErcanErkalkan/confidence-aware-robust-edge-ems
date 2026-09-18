@@ -8,6 +8,7 @@ from .replay import ReplayBlock, ReplayEvaluator
 from .risk import DEFAULT_OBJECTIVES, RiskConfig
 from .site_model import OpenCEMSubsystemAssumptions, build_opencem_subsystem_site, build_primary_opencem_site, primary_opencem_assumptions, calibrate_train_grid_caps
 from .study import CRMTStudy, StudyResult
+from .protocol import BASELINE_HYPERPARAMETERS, CRMT_HYPERPARAMETERS, SITE_SENSITIVITY_VARIANTS, build_opencem_sensitivity_site
 from .temporal import TemporalMapping, derive_temporal_mapping
 
 __all__ = [
@@ -32,6 +33,10 @@ __all__ = [
     "calibrate_train_grid_caps",
     "CRMTStudy",
     "StudyResult",
+    "BASELINE_HYPERPARAMETERS",
+    "CRMT_HYPERPARAMETERS",
+    "SITE_SENSITIVITY_VARIANTS",
+    "build_opencem_sensitivity_site",
     "TemporalMapping",
     "derive_temporal_mapping",
 ]

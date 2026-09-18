@@ -159,3 +159,38 @@ def test_primary_opencem_site_factory_is_frozen_and_inverter_specific():
     assert not np.isclose(s1.p_imp_peakcap, s2.p_imp_peakcap)
     with pytest.raises(KeyError):
         primary_opencem_assumptions(3)
+
+
+def test_predeclared_site_sensitivities_change_only_locked_model_axes():
+    from crmt_edge_ems.protocol import (
+        BASELINE_HYPERPARAMETERS,
+        CRMT_HYPERPARAMETERS,
+        SITE_SENSITIVITY_VARIANTS,
+        build_opencem_sensitivity_site,
+    )
+    ids = {v.variant_id for v in SITE_SENSITIVITY_VARIANTS}
+    assert ids == {
+        "ETA_LOW_090", "ETA_IDEAL_100", "SOC_CONSERVATIVE_15_95",
+        "RAMP_HALF", "RAMP_QUARTER", "TEMPORAL_FLOOR",
+    }
+    assert BASELINE_HYPERPARAMETERS["NSGAII"]["pop_size"] == 20
+    assert BASELINE_HYPERPARAMETERS["MOPSO"]["swarm_size"] == 20
+    assert BASELINE_HYPERPARAMETERS["MODE"]["pop_size"] == 20
+    assert CRMT_HYPERPARAMETERS["risk_q"] == 0.90
+    assert CRMT_HYPERPARAMETERS["tail_weight"] == 0.50
+
+    low = build_opencem_sensitivity_site(1, "ETA_LOW_090")
+    ideal = build_opencem_sensitivity_site(1, "ETA_IDEAL_100")
+    conservative = build_opencem_sensitivity_site(1, "SOC_CONSERVATIVE_15_95")
+    half = build_opencem_sensitivity_site(1, "RAMP_HALF")
+    quarter = build_opencem_sensitivity_site(1, "RAMP_QUARTER")
+    floor_site = build_opencem_sensitivity_site(1, "TEMPORAL_FLOOR")
+    assert np.isclose(low.eta_ch, 0.90) and np.isclose(low.eta_dis, 0.90)
+    assert np.isclose(ideal.eta_ch, 1.00) and np.isclose(ideal.eta_dis, 1.00)
+    assert np.isclose(conservative.soc_min, 0.15) and np.isclose(conservative.soc_max, 0.95)
+    assert np.isclose(half.r_max_kw_per_tick, 6.84)
+    assert np.isclose(quarter.r_max_kw_per_tick, 3.42)
+    assert floor_site.t_min_ticks == 1
+    assert floor_site.proposed_prep_hold_ticks_override == 2
+    assert floor_site.w_f == 2
+    assert floor_site.horizon_k == 5
