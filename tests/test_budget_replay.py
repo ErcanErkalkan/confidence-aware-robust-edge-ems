@@ -254,7 +254,7 @@ def test_crmt_allocation_skips_exhausted_candidates_and_uses_exact_budget():
     ev = LedgeredSyntheticEvaluator(ledger=ledger, method_id="CRMT")
     candidates = {f"c{i}": p for i, p in enumerate(sobol_candidates(2, seed=9))}
     blocks = [ScenarioBlock("mixed", i) for i in range(4)]
-    result = CRMTStudy(ev, initial_blocks=2, allocation_batch=1, n_boot=50).run(
+    result = CRMTStudy(ev, initial_blocks=2, allocation_batch=1, n_boot=200).run(
         candidates, blocks, max_evaluations=8
     )
     assert result.budget_used == 8
