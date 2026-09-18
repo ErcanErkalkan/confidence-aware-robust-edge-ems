@@ -158,7 +158,8 @@ def reconstruct_counterfactual_profile(
     With expected_inverters supplied, only bins in which every expected inverter
     has both load and PV observations survive.
     """
-    audit = audit_raw_measurements(raw)
+    replay_raw = collapse_same_timestamp_replay_signals(raw)
+    audit = audit_raw_measurements(replay_raw)
     if not audit.minimum_schema_ok:
         raise ValueError(
             f"OpenCEM minimum schema failed: missing={audit.missing_minimum}, "
@@ -169,11 +170,11 @@ def reconstruct_counterfactual_profile(
 
     x = pd.DataFrame({
         "timestamp": pd.to_datetime(
-            pd.to_numeric(raw["read_ts"], errors="coerce"), unit="s", utc=True, errors="coerce"
+            pd.to_numeric(replay_raw["read_ts"], errors="coerce"), unit="s", utc=True, errors="coerce"
         ),
-        "inverter": pd.to_numeric(raw["inverter"], errors="coerce"),
-        "load_kw": _load_w(raw) / 1000.0,
-        "pv_kw": _pv_w(raw) / 1000.0,
+        "inverter": pd.to_numeric(replay_raw["inverter"], errors="coerce"),
+        "load_kw": _load_w(replay_raw) / 1000.0,
+        "pv_kw": _pv_w(replay_raw) / 1000.0,
     }).dropna(subset=["timestamp", "inverter"])
     x["inverter"] = x["inverter"].astype(int)
 
@@ -333,7 +334,8 @@ def reconstruct_per_inverter_profiles(
     block domain. Cross-inverter aggregation remains available through
     `reconstruct_counterfactual_profile` only for secondary sensitivity work.
     """
-    audit = audit_raw_measurements(raw)
+    replay_raw = collapse_same_timestamp_replay_signals(raw)
+    audit = audit_raw_measurements(replay_raw)
     if not audit.minimum_schema_ok:
         raise ValueError(
             f"OpenCEM minimum schema failed: missing={audit.missing_minimum}, "
@@ -344,11 +346,11 @@ def reconstruct_per_inverter_profiles(
 
     x = pd.DataFrame({
         "timestamp": pd.to_datetime(
-            pd.to_numeric(raw["read_ts"], errors="coerce"), unit="s", utc=True, errors="coerce"
+            pd.to_numeric(replay_raw["read_ts"], errors="coerce"), unit="s", utc=True, errors="coerce"
         ),
-        "inverter": pd.to_numeric(raw["inverter"], errors="coerce"),
-        "load_kw": _load_w(raw) / 1000.0,
-        "pv_kw": _pv_w(raw) / 1000.0,
+        "inverter": pd.to_numeric(replay_raw["inverter"], errors="coerce"),
+        "load_kw": _load_w(replay_raw) / 1000.0,
+        "pv_kw": _pv_w(replay_raw) / 1000.0,
     }).dropna(subset=["timestamp", "inverter"])
     x["inverter"] = x["inverter"].astype(int)
 
