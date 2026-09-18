@@ -191,3 +191,17 @@ def test_complete_day_block_manifest_is_unique_and_split_labeled():
     assert set(out["split"]) == {"train", "internal_test"}
     assert set(out["cadence_minutes"]) == {2}
     assert set(out["n_ticks"]) == {720}
+
+
+def test_block_manifest_canonical_bytes_are_order_independent_after_builder_sort():
+    ts = pd.date_range("2025-07-14T00:00:00Z", periods=720, freq="2min")
+    a = pd.DataFrame({"timestamp": ts, "base_kw": 1.0, "peak_flag": 0})
+    b = pd.DataFrame({
+        "timestamp": pd.date_range("2026-03-02T00:00:00Z", periods=720, freq="2min"),
+        "base_kw": 1.0,
+        "peak_flag": 0,
+    })
+    m1 = qa.complete_day_block_manifest({2: {"2026-03-02": b}, 1: {"2025-07-14": a}}, cadence_minutes=2)
+    m2 = qa.complete_day_block_manifest({1: {"2025-07-14": a}, 2: {"2026-03-02": b}}, cadence_minutes=2)
+    assert qa.canonical_block_manifest_bytes(m1) == qa.canonical_block_manifest_bytes(m2)
+    assert qa.block_manifest_sha256(m1) == qa.block_manifest_sha256(m2)

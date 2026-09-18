@@ -83,6 +83,7 @@ jobs:
               "train_only_grid_cap_calibration": q["train_only_grid_cap_calibration"],
               "neutral_peak_flag_verified": q["neutral_peak_flag_verified"],
               "block_manifest_rows": len(q["complete_day_block_manifest"]),
+              "block_manifest_sha256": q["complete_day_block_manifest_sha256"],
           }
           print(json.dumps(summary, indent=2))
           PY

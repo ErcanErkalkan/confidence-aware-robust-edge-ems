@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -324,6 +325,9 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
                 "error": str(exc),
             }
 
+    block_manifest = complete_day_block_manifest(blocks, cadence_minutes=selected_minutes)
+    block_manifest_hash = block_manifest_sha256(block_manifest)
+
     power_columns = [c for c in KEY_COLS if c in raw.columns and c not in {"read_ts", "inverter"}]
     report = {
         "files": len(paths),
@@ -343,7 +347,8 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         "complete_days_95pct_per_inverter": {str(k): len(v) for k, v in blocks.items()},
         "complete_days_by_split": split_counts,
         "train_only_grid_cap_calibration": train_cap_calibration,
-        "complete_day_block_manifest": complete_day_block_manifest(blocks, cadence_minutes=selected_minutes).to_dict(orient="records"),
+        "complete_day_block_manifest": block_manifest.to_dict(orient="records"),
+        "complete_day_block_manifest_sha256": block_manifest_hash,
         "neutral_peak_flag_verified": all(int(p["peak_flag"].sum()) == 0 for p in profiles.values()),
     }
     return _json_safe(report)
@@ -384,6 +389,15 @@ def complete_day_block_manifest(
     return out.sort_values(["split", "inverter_id", "local_date"]).reset_index(drop=True)
 
 
+def canonical_block_manifest_bytes(manifest: pd.DataFrame) -> bytes:
+    """Canonical UTF-8/LF CSV bytes used for cryptographic manifest locking."""
+    return manifest.to_csv(index=False, lineterminator="\n").encode("utf-8")
+
+
+def block_manifest_sha256(manifest: pd.DataFrame) -> str:
+    return hashlib.sha256(canonical_block_manifest_bytes(manifest)).hexdigest()
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description="OpenCEM verified-partition QA")
     p.add_argument("--raw-root", type=Path, required=True)
@@ -399,7 +413,8 @@ def main() -> int:
     args.output_json.write_text(json.dumps(report, indent=2), encoding="utf-8")
     if args.block_manifest_csv is not None:
         args.block_manifest_csv.parent.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(report["complete_day_block_manifest"]).to_csv(args.block_manifest_csv, index=False)
+        manifest_df = pd.DataFrame(report["complete_day_block_manifest"])
+        args.block_manifest_csv.write_bytes(canonical_block_manifest_bytes(manifest_df))
     print(json.dumps({
         "files": report["files"], "rows": report["rows"],
         "inverters": report["inverter_ids"],

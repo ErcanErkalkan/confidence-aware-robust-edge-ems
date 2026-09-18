@@ -1,0 +1,23 @@
+{
+  "lock_version": "opencem-complete-day-blocks-v1",
+  "source_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+  "cadence_minutes": 2,
+  "min_daily_coverage": 0.95,
+  "canonical_csv_encoding": "UTF-8",
+  "canonical_csv_line_ending": "LF",
+  "canonical_csv_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+  "row_count": 406,
+  "split_counts": {
+    "train": 210,
+    "validation": 118,
+    "internal_test": 78
+  },
+  "per_inverter_split_counts": {
+    "1": {"train": 104, "validation": 59, "internal_test": 41},
+    "2": {"train": 106, "validation": 59, "internal_test": 37}
+  },
+  "generator": "tools/opencem_qa.py::complete_day_block_manifest",
+  "evidence_workflow_run_id": 35359768275,
+  "evidence_artifact_id": 10554387232,
+  "claim_boundary": "Protocol/data-partition evidence only; no controller-performance result."
+}
