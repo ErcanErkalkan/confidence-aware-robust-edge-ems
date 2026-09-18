@@ -1,0 +1,107 @@
+name: Sensitivity batch v1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "reproducibility/launch/SENSITIVITY_BATCH_V1.token"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  sensitivity-batch:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - seed_start: 1001
+            seed_end: 1006
+            shard: 01
+          - seed_start: 1007
+            seed_end: 1012
+            shard: 02
+          - seed_start: 1013
+            seed_end: 1018
+            shard: 03
+          - seed_start: 1019
+            seed_end: 1024
+            shard: 04
+          - seed_start: 1025
+            seed_end: 1030
+            shard: 05
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      GH_TOKEN: "${{ github.token }}"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: python -m pip install -U pip && python -m pip install -e .
+
+      - name: Read launch dependencies
+        id: launch
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          from pathlib import Path
+          vals = {}
+          for line in Path("reproducibility/launch/SENSITIVITY_BATCH_V1.token").read_text().splitlines():
+              if "=" in line:
+                  k, v = line.split("=", 1)
+                  vals[k.strip()] = v.strip()
+          assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
+          assert vals["validation_batch_conclusion"] == "success"
+          assert vals["internal_batch_conclusion"] == "success"
+          print(f"validation_run_id={int(vals['validation_batch_run_id'])}")
+          print(f"internal_run_id={int(vals['internal_batch_run_id'])}")
+          PY
+
+      - name: Download selection and primary internal-test evidence
+        shell: bash
+        run: |
+          mkdir -p validation_batch_artifacts internal_batch_artifacts
+          gh run download "${{ steps.launch.outputs.validation_run_id }}" \
+            --repo "${{ github.repository }}" \
+            --dir validation_batch_artifacts
+          gh run download "${{ steps.launch.outputs.internal_run_id }}" \
+            --repo "${{ github.repository }}" \
+            --dir internal_batch_artifacts
+
+      - name: Acquire immutable OpenCEM data once for this shard
+        run: |
+          mkdir -p .tmp/opencem .tmp/verification outputs
+          python tools/opencem_ingest.py \
+            --manifest reproducibility/manifests/opencem_git_tree_manifest_v2.csv \
+            --raw-root .tmp/opencem \
+            --result-csv .tmp/verification/opencem_full.csv \
+            --result-json .tmp/verification/opencem_full.json
+
+      - name: Execute six predeclared sensitivities
+        run: |
+          python tools/opencem_sensitivity_batch.py \
+            --seed-start "${{ matrix.seed_start }}" \
+            --seed-end "${{ matrix.seed_end }}" \
+            --raw-root .tmp/opencem \
+            --verification-csv .tmp/verification/opencem_full.csv \
+            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \
+            --selection-root validation_batch_artifacts \
+            --primary-internal-root internal_batch_artifacts \
+            --output-root outputs
+
+      - name: Upload sensitivity evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: "sensitivity-batch-${{ matrix.shard }}"
+          path: outputs/
+          if-no-files-found: error
+          retention-days: 90

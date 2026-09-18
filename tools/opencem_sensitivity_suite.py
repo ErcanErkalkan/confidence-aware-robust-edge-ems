@@ -70,6 +70,23 @@ def verify_primary_internal_test(
     return summary
 
 
+def _resolve_primary_internal_dir(root: Path, *, seed: int) -> Path:
+    """Locate exactly one primary internal-test evidence directory for a seed."""
+    name = f"internal_test_seed{int(seed)}"
+    direct = root / name
+    if (direct / "internal_test_run_summary.json").is_file():
+        return direct
+    matches = sorted(
+        p for p in root.rglob(name)
+        if p.is_dir() and (p / "internal_test_run_summary.json").is_file()
+    )
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"expected exactly one primary internal-test directory {name!r}, found {len(matches)}"
+        )
+    return matches[0]
+
+
 def _sites_for_variant(variant_id: str):
     return {
         1: build_opencem_sensitivity_site(1, variant_id),
@@ -123,15 +140,15 @@ def evaluate_variant(
     )
 
 
-def execute_sensitivity_suite(
-    paths: list[Path],
+def execute_sensitivity_suite_on_blocks(
+    blocks,
     *,
-    block_lock: dict,
+    context: dict,
+    expected_manifest_sha: str,
     selection_dir: Path,
     primary_internal_dir: Path,
     output_dir: Path,
 ) -> dict:
-    expected_manifest_sha = str(block_lock["canonical_csv_sha256"])
     selected, selection_lock = load_locked_selection(
         selection_dir,
         expected_manifest_sha256=expected_manifest_sha,
@@ -140,11 +157,6 @@ def execute_sensitivity_suite(
         primary_internal_dir,
         selection_dir=selection_dir,
         expected_manifest_sha256=expected_manifest_sha,
-    )
-    blocks, context = build_locked_split_blocks(
-        paths,
-        lock=block_lock,
-        split_name="internal_test",
     )
     if len(blocks) != INTERNAL_TEST_BLOCK_COUNT:
         raise RuntimeError("frozen internal-test block count mismatch")
@@ -187,7 +199,7 @@ def execute_sensitivity_suite(
             primary_internal_dir / "internal_test_run_summary.json"
         ),
         "primary_internal_test_stage": primary_summary["stage"],
-        "data_context": context,
+        "data_context": dict(context),
         "risk": {
             "q": float(CRMT_HYPERPARAMETERS["risk_q"]),
             "tail_weight": float(CRMT_HYPERPARAMETERS["tail_weight"]),
@@ -203,6 +215,29 @@ def execute_sensitivity_suite(
         encoding="utf-8",
     )
     return run_summary
+
+
+def execute_sensitivity_suite(
+    paths: list[Path],
+    *,
+    block_lock: dict,
+    selection_dir: Path,
+    primary_internal_dir: Path,
+    output_dir: Path,
+) -> dict:
+    blocks, context = build_locked_split_blocks(
+        paths,
+        lock=block_lock,
+        split_name="internal_test",
+    )
+    return execute_sensitivity_suite_on_blocks(
+        blocks,
+        context=context,
+        expected_manifest_sha=str(block_lock["canonical_csv_sha256"]),
+        selection_dir=selection_dir,
+        primary_internal_dir=primary_internal_dir,
+        output_dir=output_dir,
+    )
 
 
 def main() -> int:
