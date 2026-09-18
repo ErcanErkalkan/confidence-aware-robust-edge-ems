@@ -63,3 +63,25 @@ def test_opsd_acquisition_fails_closed_on_version_drift(tmp_path):
     _make_zip(path, _metadata(version="2099-01-01"))
     with pytest.raises(RuntimeError, match="version mismatch"):
         acquire.inspect_opsd_package(path)
+
+
+def test_locked_identity_fails_closed_on_hash_or_size_drift(tmp_path):
+    path = tmp_path / acquire.PACKAGE_FILENAME
+    _make_zip(path, _metadata())
+    observed = acquire.inspect_opsd_package(path)
+    good = {
+        "byte_size": observed["byte_size"],
+        "sha256": observed["sha256"],
+        "package_version": observed["package_version"],
+    }
+    assert acquire.verify_locked_identity(path, good)["sha256"] == observed["sha256"]
+
+    bad_size = dict(good)
+    bad_size["byte_size"] += 1
+    with pytest.raises(RuntimeError, match="byte-size mismatch"):
+        acquire.verify_locked_identity(path, bad_size)
+
+    bad_hash = dict(good)
+    bad_hash["sha256"] = "0" * 64
+    with pytest.raises(RuntimeError, match="SHA-256 mismatch"):
+        acquire.verify_locked_identity(path, bad_hash)

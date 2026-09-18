@@ -1,7 +1,7 @@
 # OPSD_EXTERNAL_OOD_PRELOCK_v1
 
 Date: 2026-09-18  
-Status: ACQUISITION/PROVENANCE GATE PREPARED — PERFORMANCE NOT RUN
+Status: ARTIFACT IDENTITY LOCKED — PERFORMANCE NOT RUN
 
 ## Why OPSD is the primary external OOD candidate
 
@@ -21,8 +21,10 @@ external-domain test than the Ausgrid half-hour dataset.
 - fixed URL:
   `https://data.open-power-system-data.org/household_data/opsd-household_data-2020-04-15.zip`
 - license expected from datapackage: CC-BY-4.0
-- byte size and SHA-256: **must be obtained by acquisition-only workflow before
-  any OOD controller result is computed**
+- byte size: **156,642,459 bytes**
+- SHA-256: `17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3`
+- acquisition-only GitHub Actions run: `35375814588`
+- immutable machine-readable lock: `reproducibility/manifests/opsd_household_2020-04-15_lock_v1.json`
 
 ## Frozen OOD cohort candidate
 
@@ -90,6 +92,4 @@ external validation.
 
 ## Next gate
 
-Run the acquisition-only workflow, record the exact byte size/SHA-256, then
-commit that immutable identity before implementing/executing any OPSD OOD
-performance run.
+Generate the interpolation-aware eligible-day inventory from this exact locked package, hash-lock that inventory, and only then implement/execute OPSD OOD performance evaluation.

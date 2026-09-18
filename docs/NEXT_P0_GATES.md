@@ -88,10 +88,27 @@ Still to execute:
 Internal-test outcomes must not alter parameter bounds, budget, hyperparameters,
 objectives, cadence, block membership, duplicate policy or method selection.
 
-## OPEN — P0-OOD-01 — External-domain validation
+## PARTIALLY CLOSED — P0-OOD-01 — External-domain validation
 
-Ausgrid remains separate. Its artifact/customer aggregation/site-scaling lock
-must be completed before the first external-OOD result is viewed.
+Primary external OOD source is now OPSD Household Data version 2020-04-15.
+
+Closed before any OOD result:
+- fixed official package URL/version;
+- exact artifact byte size = 156,642,459;
+- exact SHA-256 =
+  `17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3`;
+- cohort = residential3/residential4/residential6;
+- required import/export/PV channels;
+- cumulative-energy differencing/reset/interpolation policy;
+- deterministic 1-minute → 2-minute downsampling;
+- no battery/site rescaling from OOD data.
+
+Still open:
+- generate and hash-lock the eligible OPSD day inventory;
+- execute external OOD only after that inventory lock.
+
+Ausgrid is retained only as a secondary coarse-cadence stress dataset, not
+mechanism-equivalent validation, because its native cadence is 30 minutes.
 
 ## OPEN — P0-CLAIM-01 — Scientific-claim promotion
 

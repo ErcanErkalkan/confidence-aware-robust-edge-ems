@@ -1,0 +1,38 @@
+{
+  "lock_version": "opsd-household-ood-artifact-v1",
+  "created_date": "2026-09-18",
+  "package_name": "Household Data",
+  "package_version": "2020-04-15",
+  "package_filename": "opsd-household_data-2020-04-15.zip",
+  "package_url": "https://data.open-power-system-data.org/household_data/opsd-household_data-2020-04-15.zip",
+  "byte_size": 156642459,
+  "sha256": "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3",
+  "license_ids": [
+    "CC-BY-4.0"
+  ],
+  "geographical_scope": "11 households in southern Germany",
+  "cohort": [
+    "residential3",
+    "residential4",
+    "residential6"
+  ],
+  "required_channels": [
+    "DE_KN_residential3_grid_import",
+    "DE_KN_residential3_grid_export",
+    "DE_KN_residential3_pv",
+    "DE_KN_residential4_grid_import",
+    "DE_KN_residential4_grid_export",
+    "DE_KN_residential4_pv",
+    "DE_KN_residential6_grid_import",
+    "DE_KN_residential6_grid_export",
+    "DE_KN_residential6_pv"
+  ],
+  "acquisition_evidence": {
+    "github_actions_run_id": 35375814588,
+    "artifact_id": 10560655716,
+    "artifact_name": "opsd-ood-acquisition-manifest-v1",
+    "artifact_digest": "sha256:6ae80d93d0b0d0c735b366d201e5553bda5286d65a128c724287f04e9a895a3e",
+    "head_sha": "40f5b7ca054d9900bbb1f741c4625bf6eef4b9f3"
+  },
+  "claim_boundary": "Artifact/schema provenance only; no OOD performance result."
+}

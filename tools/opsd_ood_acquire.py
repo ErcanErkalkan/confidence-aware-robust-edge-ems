@@ -40,6 +40,24 @@ def _find_unique_basename(names: list[str], basename: str) -> str:
     return matches[0]
 
 
+def verify_locked_identity(zip_path: Path, lock: dict) -> dict:
+    """Verify the downloaded package against the committed immutable identity."""
+    observed = inspect_opsd_package(zip_path)
+    expected_bytes = int(lock["byte_size"])
+    expected_sha = str(lock["sha256"])
+    if int(observed["byte_size"]) != expected_bytes:
+        raise RuntimeError(
+            f"OPSD byte-size mismatch: {observed['byte_size']} != {expected_bytes}"
+        )
+    if str(observed["sha256"]) != expected_sha:
+        raise RuntimeError(
+            f"OPSD SHA-256 mismatch: {observed['sha256']} != {expected_sha}"
+        )
+    if str(observed["package_version"]) != str(lock["package_version"]):
+        raise RuntimeError("OPSD package version differs from committed lock")
+    return observed
+
+
 def inspect_opsd_package(zip_path: Path) -> dict:
     if not zip_path.is_file():
         raise FileNotFoundError(zip_path)
