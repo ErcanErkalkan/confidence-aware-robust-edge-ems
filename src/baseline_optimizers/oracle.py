@@ -45,11 +45,14 @@ class FunctionOracle:
     def can_evaluate(self) -> bool:
         return self._used < self.max_evaluations
 
+    def prepare(self, unit: np.ndarray) -> np.ndarray:
+        x = np.asarray(unit, dtype=float)
+        return self.repair(x) if self.repair is not None else np.clip(x, 0.0, 1.0)
+
     def evaluate(self, unit: np.ndarray, candidate_id: str) -> np.ndarray:
         if not self.can_evaluate():
             raise RuntimeError('candidate-evaluation budget exhausted')
-        x = np.asarray(unit, dtype=float)
-        x = self.repair(x) if self.repair is not None else np.clip(x, 0.0, 1.0)
+        x = self.prepare(unit)
         y = np.asarray(self.func(x), dtype=float)
         if y.shape != (self.n_obj,) or not np.isfinite(y).all():
             raise ValueError(f'oracle returned invalid objective vector shape/value: {y}')
@@ -73,6 +76,7 @@ class BlockRiskOracle:
         self.dim = 9
         self.n_obj = len(risk.objectives)
         self._candidate_calls = 0
+        self.evaluation_records: list[dict] = []
 
     @property
     def evaluations_used(self) -> int:
@@ -92,11 +96,16 @@ class BlockRiskOracle:
         ledger = getattr(self.evaluator, 'ledger', None)
         return True if ledger is None else ledger.remaining >= len(self.blocks)
 
+    def prepare(self, unit: np.ndarray) -> np.ndarray:
+        site = getattr(self.evaluator, 'site', None)
+        if site is None:
+            site = getattr(self.evaluator, 'repair_site', None)
+        return repair_unit_vector(unit, site=site)
+
     def evaluate(self, unit: np.ndarray, candidate_id: str) -> np.ndarray:
         if not self.can_evaluate():
             raise RuntimeError('insufficient controller-block budget for a complete candidate evaluation')
-        site = getattr(self.evaluator, 'site', None)
-        repaired = repair_unit_vector(unit, site=site)
+        repaired = self.prepare(unit)
         params = decode_unit_vector(repaired)
         df = self.evaluator.evaluate(params, self.blocks, candidate_id=str(candidate_id))
         agg = self.evaluator.aggregate(df, self.risk)
@@ -104,4 +113,10 @@ class BlockRiskOracle:
         if objective.shape != (self.n_obj,) or not np.isfinite(objective).all():
             raise ValueError(f'evaluator returned invalid objective vector shape/value: {objective}')
         self._candidate_calls += 1
+        self.evaluation_records.append({
+            "candidate_id": str(candidate_id),
+            "unit": repaired.copy(),
+            "params": dict(params),
+            "objective": objective.copy(),
+        })
         return objective

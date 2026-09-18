@@ -4,7 +4,7 @@ from .budget import EvaluationBudgetExceeded, EvaluationLedger
 from .evaluator import LedgeredSyntheticEvaluator, ScenarioBlock, SyntheticEvaluator
 from .generator import sobol_candidates
 from .parameter_space import PARAM_NAMES, PARAM_SPECS, build_tuned_controller, fixed_controller_parameters
-from .replay import ReplayBlock, ReplayEvaluator
+from .replay import MultiSiteReplayEvaluator, ReplayBlock, ReplayEvaluator
 from .risk import DEFAULT_OBJECTIVES, RiskConfig
 from .site_model import OpenCEMSubsystemAssumptions, build_opencem_subsystem_site, build_primary_opencem_site, primary_opencem_assumptions, calibrate_train_grid_caps
 from .study import CRMTStudy, StudyResult
@@ -19,6 +19,7 @@ __all__ = [
     "SyntheticEvaluator",
     "ReplayBlock",
     "ReplayEvaluator",
+    "MultiSiteReplayEvaluator",
     "sobol_candidates",
     "PARAM_NAMES",
     "PARAM_SPECS",

@@ -23,6 +23,7 @@ class ReplayBlock:
     profile: pd.DataFrame
     source: str = "public_replay"
     split: str = "unspecified"
+    site_id: str | int | None = None
 
     def validated_profile(self) -> pd.DataFrame:
         missing = [c for c in _REQUIRED_PROFILE_COLUMNS if c not in self.profile.columns]
@@ -83,6 +84,95 @@ class ReplayEvaluator:
                 self.ledger = ledger
         else:
             rows = [self.evaluate_block(params, b, candidate_id=candidate_id) for b in block_list]
+        return pd.DataFrame(rows)
+
+    @staticmethod
+    def aggregate(metrics: pd.DataFrame, risk: RiskConfig = RiskConfig()) -> dict[str, float]:
+        return aggregate_objectives(metrics, risk)
+
+
+class MultiSiteReplayEvaluator:
+    """Replay evaluator for multiple independent physical/site domains.
+
+    Each ReplayBlock must carry a site_id. The same normalized controller
+    parameterization is decoded separately against that site's SiteConfig.
+    """
+
+    def __init__(
+        self,
+        sites: Mapping[str | int, SiteConfig],
+        *,
+        ledger: EvaluationLedger | None = None,
+        method_id: str = "CRMT",
+    ):
+        if not sites:
+            raise ValueError("at least one site is required")
+        self.sites = {str(k): v for k, v in sites.items()}
+        self.repair_site = next(iter(self.sites.values()))
+        self.ledger = ledger
+        self.method_id = str(method_id)
+
+    def _site_for(self, block: ReplayBlock) -> SiteConfig:
+        if block.site_id is None:
+            raise ValueError(f"Replay block {block.block_id!r} is missing site_id")
+        key = str(block.site_id)
+        if key not in self.sites:
+            raise KeyError(f"Unknown site_id {block.site_id!r} for block {block.block_id!r}")
+        return self.sites[key]
+
+    def evaluate_block(
+        self,
+        params: Mapping[str, float],
+        block: ReplayBlock,
+        *,
+        candidate_id: str,
+    ) -> dict[str, float | int | str]:
+        profile = block.validated_profile()
+        site = self._site_for(block)
+        if self.ledger is not None:
+            self.ledger.reserve(self.method_id, str(candidate_id), [block.block_id])
+        controller = build_tuned_controller(site, params)
+        sim = simulate_controller(profile, controller, site)
+        metrics = compute_metrics(sim.series, site)
+        return {
+            "block_id": str(block.block_id),
+            "site_id": str(block.site_id),
+            "source": str(block.source),
+            "split": str(block.split),
+            "n_ticks": int(len(profile)),
+            **metrics,
+        }
+
+    def evaluate(
+        self,
+        params: Mapping[str, float],
+        blocks: Iterable[ReplayBlock],
+        *,
+        candidate_id: str,
+    ) -> pd.DataFrame:
+        block_list = list(blocks)
+        if not block_list:
+            return pd.DataFrame()
+        if self.ledger is not None:
+            self.ledger.reserve(
+                self.method_id,
+                str(candidate_id),
+                [b.block_id for b in block_list],
+            )
+            ledger = self.ledger
+            self.ledger = None
+            try:
+                rows = [
+                    self.evaluate_block(params, b, candidate_id=candidate_id)
+                    for b in block_list
+                ]
+            finally:
+                self.ledger = ledger
+        else:
+            rows = [
+                self.evaluate_block(params, b, candidate_id=candidate_id)
+                for b in block_list
+            ]
         return pd.DataFrame(rows)
 
     @staticmethod

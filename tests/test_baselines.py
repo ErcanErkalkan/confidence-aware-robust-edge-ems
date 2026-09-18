@@ -51,3 +51,13 @@ def test_sobol_and_mode_seed_reproducibility():
         b = _run(name, seed=31, budget=40)
         assert np.allclose(a.positions, b.positions)
         assert np.allclose(a.objectives, b.objectives)
+
+
+def test_function_oracle_optimizer_positions_are_prepared_positions():
+    def repair(x):
+        y = np.asarray(x, float).copy()
+        y[0] = 0.123
+        return np.clip(y, 0.0, 1.0)
+    o = FunctionOracle(zdt1, dim=9, n_obj=2, max_evaluations=8, repair=repair)
+    r = run_sobol(o, seed=4, batch_size=4)
+    assert np.allclose(r.positions[:, 0], 0.123)

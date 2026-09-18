@@ -31,8 +31,10 @@ def evaluate_population(oracle, x: np.ndarray, method_id: str, start_index: int 
         if not oracle.can_evaluate():
             break
         cid = f'{method_id}-e{start_index + i + 1:06d}'
-        f = oracle.evaluate(row, cid)
-        xs.append(np.asarray(row, dtype=float))
+        prepare = getattr(oracle, "prepare", None)
+        prepared = prepare(row) if callable(prepare) else np.asarray(row, dtype=float)
+        f = oracle.evaluate(prepared, cid)
+        xs.append(np.asarray(prepared, dtype=float))
         fs.append(np.asarray(f, dtype=float))
     if not xs:
         return np.empty((0, x.shape[1])), np.empty((0, oracle.n_obj))

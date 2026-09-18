@@ -27,14 +27,38 @@ class CRMTStudy:
         metrics={}; used_blocks={}; budget=0; initial=block_list[:self.initial_blocks]
         for cid,params in candidates.items():
             df=self.evaluator.evaluate(params,initial,candidate_id=cid); metrics[cid]=df; used_blocks[cid]=list(initial); budget+=len(initial)
-        while budget<max_evaluations:
-            records=self._records(candidates,metrics); selected=select_for_more_evaluation(records,min(self.allocation_batch,len(candidates))); progressed=False
+        while budget < max_evaluations:
+            records = self._records(candidates, metrics)
+            available = {
+                cid: record
+                for cid, record in records.items()
+                if len(set(metrics[cid]["block_id"].astype(str))) < len(block_list)
+            }
+            if not available:
+                break
+            selected = select_for_more_evaluation(
+                available, min(self.allocation_batch, len(available))
+            )
+            progressed = False
             for cid in selected:
-                if budget>=max_evaluations: break
-                evaluated_ids=set(metrics[cid]["block_id"].astype(str)); next_block=next((b for b in block_list if b.block_id not in evaluated_ids),None)
-                if next_block is None: continue
-                new=self.evaluator.evaluate(candidates[cid],[next_block],candidate_id=cid); metrics[cid]=pd.concat([metrics[cid],new],ignore_index=True); used_blocks[cid].append(next_block); budget+=1; progressed=True
-            if not progressed: break
+                if budget >= max_evaluations:
+                    break
+                evaluated_ids = set(metrics[cid]["block_id"].astype(str))
+                next_block = next(
+                    (b for b in block_list if b.block_id not in evaluated_ids),
+                    None,
+                )
+                if next_block is None:
+                    continue
+                new = self.evaluator.evaluate(
+                    candidates[cid], [next_block], candidate_id=cid
+                )
+                metrics[cid] = pd.concat([metrics[cid], new], ignore_index=True)
+                used_blocks[cid].append(next_block)
+                budget += 1
+                progressed = True
+            if not progressed:
+                break
         records=self._records(candidates,metrics); archive=ConfidenceArchive(risk=self.risk,alpha=self.alpha,n_boot=self.n_boot)
         for record in records.values(): archive.add(record)
         return StudyResult(metrics,archive.confidently_nondominated_ids(),budget)

@@ -224,3 +224,39 @@ def test_confirmatory_optimizer_budget_is_exact_and_population_aligned():
     assert PER_METHOD_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET == 378_000
     assert len(METHOD_IDS) == 5
     assert ALL_METHODS_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET == 1_890_000
+
+
+def test_multisite_replay_uses_site_specific_limits_and_atomic_ledger():
+    from crmt_edge_ems.replay import MultiSiteReplayEvaluator
+    s1 = SiteConfig(p_ch_max=2.0, p_dis_max=2.0, p_imp_contr=4.0, p_exp_phys=4.0,
+                    p_imp_peakcap=4.0, p_imp_offcap=4.0, p_exp_peakcap=4.0, p_exp_offcap=4.0)
+    s2 = SiteConfig(p_ch_max=7.0, p_dis_max=6.0, p_imp_contr=8.0, p_exp_phys=8.0,
+                    p_imp_peakcap=8.0, p_imp_offcap=8.0, p_exp_peakcap=8.0, p_exp_offcap=8.0)
+    ledger = EvaluationLedger(2)
+    ev = MultiSiteReplayEvaluator({1: s1, 2: s2}, ledger=ledger, method_id="CRMT")
+    params = fixed_controller_parameters()
+    blocks = [
+        ReplayBlock("inv1-day", _profile(), source="unit", split="train", site_id=1),
+        ReplayBlock("inv2-day", _profile(), source="unit", split="train", site_id=2),
+    ]
+    out = ev.evaluate(params, blocks, candidate_id="c1")
+    assert ledger.used == 2
+    assert set(out["site_id"]) == {"1", "2"}
+    with pytest.raises(ValueError, match="missing site_id"):
+        ev.evaluate(params, [ReplayBlock("bad", _profile())], candidate_id="bad")
+
+
+def test_crmt_allocation_skips_exhausted_candidates_and_uses_exact_budget():
+    from crmt_edge_ems.evaluator import LedgeredSyntheticEvaluator, ScenarioBlock
+    from crmt_edge_ems.study import CRMTStudy
+    from crmt_edge_ems.generator import sobol_candidates
+    ledger = EvaluationLedger(8)
+    ev = LedgeredSyntheticEvaluator(ledger=ledger, method_id="CRMT")
+    candidates = {f"c{i}": p for i, p in enumerate(sobol_candidates(2, seed=9))}
+    blocks = [ScenarioBlock("mixed", i) for i in range(4)]
+    result = CRMTStudy(ev, initial_blocks=2, allocation_batch=1, n_boot=50).run(
+        candidates, blocks, max_evaluations=8
+    )
+    assert result.budget_used == 8
+    ledger.assert_exact()
+    assert all(len(df) == 4 for df in result.candidate_metrics.values())
