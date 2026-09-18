@@ -149,3 +149,21 @@ def test_run_qa_rejects_unexpected_inverter_ids(tmp_path: Path):
     p=tmp_path/'x.csv'; raw.to_csv(p,index=False)
     with pytest.raises(ValueError, match='Unexpected inverter IDs'):
         qa.run_qa([p],expected_inverters=(1,2))
+
+
+def test_replay_signal_duplicate_diagnostics_distinguishes_exact_and_conflicting():
+    raw = pd.DataFrame([
+        {"read_ts": 1, "inverter": 1, "outsumw": 1000, "pv1power": 200},
+        {"read_ts": 1, "inverter": 1, "outsumw": 1000, "pv1power": 200},  # exact replay duplicate
+        {"read_ts": 2, "inverter": 1, "outsumw": 1000, "pv1power": 200},
+        {"read_ts": 2, "inverter": 1, "outsumw": 1100, "pv1power": 200},  # conflicting load
+        {"read_ts": 3, "inverter": 2, "outsumw": 900, "pv1power": 100},
+    ])
+    d = qa.replay_signal_duplicate_diagnostics(raw)
+    assert d["duplicate_key_groups"] == 2
+    assert d["key_duplicate_extra_rows"] == 2
+    assert d["exact_replay_signal_duplicate_extra_rows"] == 1
+    assert d["conflicting_replay_signal_groups"] == 1
+    assert d["max_key_multiplicity"] == 2
+    assert d["per_inverter"]["1"]["conflicting_replay_signal_groups"] == 1
+    json.dumps(d)
