@@ -1,0 +1,26 @@
+{
+  "lock_version": "opsd-ood-full-regular-replay-v1",
+  "created_date": "2026-09-18",
+  "package_sha256": "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3",
+  "base_inventory_sha256": "740028dbc0be6ec1c9dca1c1e44541c4380044ac86108c8e819e31f24a363ced",
+  "manifest_rows": 1656,
+  "manifest_sha256": "7e6137adf98a4b5c604fd047891297458b0a2dc606e32f2e8b9e3dba562bea1d",
+  "expected_bins_per_day": 720,
+  "coverage": 1,
+  "per_household_full_days": {
+    "residential3": 458,
+    "residential4": 505,
+    "residential6": 693
+  },
+  "time_basis": "UTC",
+  "replay_cadence_minutes": 2,
+  "subset_rule": "exactly all 720 unique 2-minute UTC bins from 00:00 through 23:58",
+  "evidence": {
+    "github_actions_run_id": 35376830942,
+    "artifact_id": 10559814800,
+    "artifact_name": "opsd-ood-full-regular-replay-inventory-v1",
+    "artifact_digest": "sha256:0be8f053855dc9e144974b2504d1cd9359c15877986bd0b4b47a02b59013d2ef",
+    "head_sha": "05962a36eda71d488d5f2b44c55080e60a44284c"
+  },
+  "claim_boundary": "Replay-safety inventory only; no controller or OOD performance outcome."
+}

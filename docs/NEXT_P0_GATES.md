@@ -109,6 +109,12 @@ Also closed:
 - inventory SHA-256 =
   `740028dbc0be6ec1c9dca1c1e44541c4380044ac86108c8e819e31f24a363ced`.
 
+Also closed:
+- controller-safe full-regular OPSD replay subset;
+- exactly 1,656 household-days with 720/720 two-minute bins;
+- full-regular manifest SHA-256 =
+  `7e6137adf98a4b5c604fd047891297458b0a2dc606e32f2e8b9e3dba562bea1d`.
+
 Still open:
 - execute external OOD only from hash-frozen validation selections after the
   confirmatory selection pipeline completes.
