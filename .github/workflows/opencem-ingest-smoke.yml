@@ -1,0 +1,57 @@
+name: OpenCEM immutable ingest smoke
+
+on:
+  push:
+    paths:
+      - ".github/workflows/opencem-ingest-smoke.yml"
+      - "tools/opencem_ingest.py"
+      - "reproducibility/manifests/opencem_git_tree_manifest_v2.csv"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-first-partition:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download and verify first immutable partition
+        run: |
+          mkdir -p .tmp/opencem .tmp/verification
+          python tools/opencem_ingest.py \
+            --manifest reproducibility/manifests/opencem_git_tree_manifest_v2.csv \
+            --raw-root .tmp/opencem \
+            --result-csv .tmp/verification/opencem_smoke.csv \
+            --result-json .tmp/verification/opencem_smoke.json \
+            --limit 1
+
+      - name: Assert fail-closed verification result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path(".tmp/verification/opencem_smoke.json")
+          data = json.loads(p.read_text(encoding="utf-8"))
+          assert data["files"] == 1, data
+          assert data["verified"] == 1, data
+          assert data["all_verified"] is True, data
+          result = data["results"][0]
+          assert result["status"] in {"DOWNLOADED_AND_VERIFIED", "VERIFIED_EXISTING"}, result
+          assert result["path"] == "data/measurements/2025-07-a.csv", result
+          print(json.dumps(data, indent=2))
+          PY
+
+      - name: Upload verification metadata only
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencem-first-partition-verification
+          path: .tmp/verification/
+          if-no-files-found: error
+          retention-days: 7
