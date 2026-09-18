@@ -1,0 +1,320 @@
+{
+  "generated_date": "2026-09-17",
+  "files": [
+    {
+      "path": ".github/workflows/tests.yml",
+      "size_bytes": 388,
+      "sha256": "efe8f563270108feccd6fedaba9b2485eea75c4a7a19d73a894cc79d9d227446"
+    },
+    {
+      "path": ".gitignore",
+      "size_bytes": 409,
+      "sha256": "add7a28ac813c121317fd03e987a65c192af727f004eea426d160c4095afe4f2"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 3515,
+      "sha256": "fb5eb0dd8f69ec93351973432374bfecf5a0f47f494da20beee2b353a6740c85"
+    },
+    {
+      "path": "docs/GITHUB_PACKAGE_TEST_REPORT_2026-09-17.md",
+      "size_bytes": 676,
+      "sha256": "579aa8080face992d1f99a1ac41468d3dab4ec532baf9213878899fd0e049681"
+    },
+    {
+      "path": "docs/IMPLEMENTATION_STATUS_P0_v6.md",
+      "size_bytes": 5657,
+      "sha256": "9fe2e017db805895fb90db124ac5927cb22ade21b8fbcbc963d6c9a53a6c176e"
+    },
+    {
+      "path": "docs/RAW_INGEST_BLOCKER_NOTE_v1.md",
+      "size_bytes": 2547,
+      "sha256": "2076305f7b77c502ce31e2c1f64bfbded1ad8074a831d3e1fa5805e37978aae1"
+    },
+    {
+      "path": "docs/TEMPORAL_PARAMETER_MAPPING_PRELOCK_v1.md",
+      "size_bytes": 6664,
+      "sha256": "4049e4a9a02eb4ca5bc4ef48a1e30d4e008b5ffc1b1b576de3a7a457028c0bb2"
+    },
+    {
+      "path": "docs/TEST_REPORT_2026-09-17_v6.md",
+      "size_bytes": 2018,
+      "sha256": "6b8ace6577de33e2e5dafbbf17edcb8577c02df0f528a124c775685a29339661"
+    },
+    {
+      "path": "pyproject.toml",
+      "size_bytes": 594,
+      "sha256": "eb7d38a28c3554a6aef48d1b426c4d90bdae87718d3d88b5217c920f23e1af6f"
+    },
+    {
+      "path": "reproducibility/manifests/opencem_git_tree_manifest_v2.csv",
+      "size_bytes": 3752,
+      "sha256": "20cc88ea0e96966bf36a7017e0c80710632f9017efa174d1fcff7a0e1238cd32"
+    },
+    {
+      "path": "reproducibility/seeds/optimizer_seeds_30.csv",
+      "size_bytes": 284,
+      "sha256": "2ecea1bc140238d121de60133d124f2d03635186262f578e5446b806d6929158"
+    },
+    {
+      "path": "reproducibility/seeds/synthetic_dev_seeds.csv",
+      "size_bytes": 1422,
+      "sha256": "b8671e5951fb48501d4313e5e798ad7f2484decdc1461c66d5a4be54fee4eccc"
+    },
+    {
+      "path": "src/baseline_optimizers/__init__.py",
+      "size_bytes": 315,
+      "sha256": "b9b2eafb27d9bc8d2edfa42a31e22905cdeb552f5094ac41a7072ef34defce5d"
+    },
+    {
+      "path": "src/baseline_optimizers/common.py",
+      "size_bytes": 1186,
+      "sha256": "f8e184b0df6a069c4e9187017fbed25f0972e77f7629ad07249880126121671a"
+    },
+    {
+      "path": "src/baseline_optimizers/mo_utils.py",
+      "size_bytes": 3235,
+      "sha256": "f304e04981e38274209a53bde6fc50d7c8d42a53fa779e7dab3b04f53739500f"
+    },
+    {
+      "path": "src/baseline_optimizers/mode.py",
+      "size_bytes": 1623,
+      "sha256": "cb34aa96b9d1cdf7526578d7f08358c3f506ed7b0a78fabecb48c6fd49c195e2"
+    },
+    {
+      "path": "src/baseline_optimizers/mopso.py",
+      "size_bytes": 2698,
+      "sha256": "c59da44daf6a82f4e23a759450ef3a414bce1a151d7b91f9d9df8d2647bbd589"
+    },
+    {
+      "path": "src/baseline_optimizers/nsga2.py",
+      "size_bytes": 3342,
+      "sha256": "7ffa96055f72808fe548d3d25f410947515cd7ba24f1f4f0d8c3b2200fef493e"
+    },
+    {
+      "path": "src/baseline_optimizers/oracle.py",
+      "size_bytes": 3947,
+      "sha256": "9432fdd4cf25066d3246e86a0b6cb1e3c7ad9471f9d9ba775f94505b84d4b415"
+    },
+    {
+      "path": "src/baseline_optimizers/sobol.py",
+      "size_bytes": 2603,
+      "sha256": "c87a4a871ffad39de56b362ae45c5d81dafabc5650757c675fd405ae25c28817"
+    },
+    {
+      "path": "src/crmt_edge_ems/__init__.py",
+      "size_bytes": 1120,
+      "sha256": "5a2df479d78fe682d38a6de265dd8d12686ca909e35eff40252ba91c67bdc27c"
+    },
+    {
+      "path": "src/crmt_edge_ems/allocation.py",
+      "size_bytes": 1791,
+      "sha256": "3a0106441e13ca02a8f282a3ac978a89307c2adab8c4805a5f39b2b592fce8b9"
+    },
+    {
+      "path": "src/crmt_edge_ems/archive.py",
+      "size_bytes": 2740,
+      "sha256": "a91ce017f213623d15790cda5b2df8e4d9dcf6ec1740953e42ce940c6473e7eb"
+    },
+    {
+      "path": "src/crmt_edge_ems/budget.py",
+      "size_bytes": 2920,
+      "sha256": "4819b569abe2236f7d4e6afee1ceee5647a3ef0b69361dd22e0510588570e79b"
+    },
+    {
+      "path": "src/crmt_edge_ems/dominance.py",
+      "size_bytes": 6412,
+      "sha256": "2128eb2997ad9367aa25774599b5634e95531df613f8708eddc78e3581b25c71"
+    },
+    {
+      "path": "src/crmt_edge_ems/evaluator.py",
+      "size_bytes": 3619,
+      "sha256": "d2698a2da3395050dfc4f0c9e3ade57bf7c05d30473209578d04174c1022bdb7"
+    },
+    {
+      "path": "src/crmt_edge_ems/generator.py",
+      "size_bytes": 1007,
+      "sha256": "1f8966a55e524f756742dce6ea7a5dce493034869a9218546ba6d9426a8d9ee1"
+    },
+    {
+      "path": "src/crmt_edge_ems/parameter_space.py",
+      "size_bytes": 6999,
+      "sha256": "424e1b43402bd214b01ec4eea1e276c77101ba6766b23df2e9ea830c684f95ca"
+    },
+    {
+      "path": "src/crmt_edge_ems/replay.py",
+      "size_bytes": 3905,
+      "sha256": "32712eac4f8ec87e2271ea8dd422ad6aedc8a6233ce5a1e09756f4ba77fef0df"
+    },
+    {
+      "path": "src/crmt_edge_ems/risk.py",
+      "size_bytes": 2357,
+      "sha256": "fab841ef3fe07a2e1893dd985abc6ff247b04e86f3651d0d3f3bc9316b7b7e5d"
+    },
+    {
+      "path": "src/crmt_edge_ems/site_model.py",
+      "size_bytes": 4993,
+      "sha256": "ea21802f864e36d4f71e39fa3a4648521809b5ef4f436ad97bab5cf2f76ce203"
+    },
+    {
+      "path": "src/crmt_edge_ems/study.py",
+      "size_bytes": 4252,
+      "sha256": "b2cfcd689d598892236e973277e149f294da02ee2a95f2b8ad67af6dc93281b1"
+    },
+    {
+      "path": "src/data_adapters/__init__.py",
+      "size_bytes": 84,
+      "sha256": "b993d8b59184638f59b69db1bc17ade66f4015f1d4ebb7a541ef7521040c9461"
+    },
+    {
+      "path": "src/data_adapters/ausgrid.py",
+      "size_bytes": 3967,
+      "sha256": "abbce9f1019af01f39e04a79cdd872b40811ba2d7adeb893b0f879f98a5f9562"
+    },
+    {
+      "path": "src/data_adapters/common.py",
+      "size_bytes": 2736,
+      "sha256": "8e8670eef03fe85cae181cdd2ca2c8e923b2ac3bf27d92836f00ec7251509224"
+    },
+    {
+      "path": "src/data_adapters/opencem.py",
+      "size_bytes": 14394,
+      "sha256": "a8b0d623e539b8b414948277c2adefae49d6523881e200c7dee749989cc73ab5"
+    },
+    {
+      "path": "src/jer_microgrid/__init__.py",
+      "size_bytes": 175,
+      "sha256": "0c74de87098e183747f94653e4205bfd6d51752e4e71518a2bd727d2a6835ced"
+    },
+    {
+      "path": "src/jer_microgrid/config.py",
+      "size_bytes": 3896,
+      "sha256": "c54cb75d454fb99ead7bd19a7b7c9da3b9a13bca30b9ff72b54b873c9bf63efb"
+    },
+    {
+      "path": "src/jer_microgrid/controllers.py",
+      "size_bytes": 19234,
+      "sha256": "0fe615f10dd12ce2ed69fc876142d17b3bbcfc5b6507f5fdf2ea6e093b372a82"
+    },
+    {
+      "path": "src/jer_microgrid/edge_profiler.py",
+      "size_bytes": 688,
+      "sha256": "b9ca26247513c3eaf05411613ddf525a8c0685f840786edcc3d2df01bbec9bee"
+    },
+    {
+      "path": "src/jer_microgrid/metrics.py",
+      "size_bytes": 6399,
+      "sha256": "fea9a667a28637c3d17db3cdf5e3929090cf9ffea71b4bac7ba12064a4f32dee"
+    },
+    {
+      "path": "src/jer_microgrid/network_sim.py",
+      "size_bytes": 1232,
+      "sha256": "b1b530b643ed20be6ce6581d0a5b161a5f623fbd963ca953560961d8ba2e9048"
+    },
+    {
+      "path": "src/jer_microgrid/optimization_refs.py",
+      "size_bytes": 9507,
+      "sha256": "8fe1580e328be88a271b377d2ae2538ea2ec9f41a394461a5b4375d93577f3f1"
+    },
+    {
+      "path": "src/jer_microgrid/pipeline.py",
+      "size_bytes": 20514,
+      "sha256": "6cb8775851e705f6d258a1e8eda5024f4ebf8443e4ffc739ad72c3a0db13241c"
+    },
+    {
+      "path": "src/jer_microgrid/plotting.py",
+      "size_bytes": 10542,
+      "sha256": "3e054e4b5ef6a67a54f7b5e2aeed89ad10d3d2af8910a2c4693c9cdd80098a5e"
+    },
+    {
+      "path": "src/jer_microgrid/reporting.py",
+      "size_bytes": 9217,
+      "sha256": "6218f3d5a11ad76928986d490e84410ecb849017b0962976ce4a2a2a9b433e4f"
+    },
+    {
+      "path": "src/jer_microgrid/simulation.py",
+      "size_bytes": 5654,
+      "sha256": "a67be540b089336d63b2d4001c076048a6aff464dc52a2cb9f94e2ebf20353fa"
+    },
+    {
+      "path": "src/jer_microgrid/stats_utils.py",
+      "size_bytes": 4312,
+      "sha256": "757e4edac302f1610f7ba3869b9e7c2b139ea0e87e8fa0fe4e54e00c08446725"
+    },
+    {
+      "path": "src/jer_microgrid/synth.py",
+      "size_bytes": 5532,
+      "sha256": "54ab30d8f2608d453013ae602e385d3d6f6b4e7670a9a4aa7a95d5b11d62541a"
+    },
+    {
+      "path": "src/jer_microgrid/utils.py",
+      "size_bytes": 3516,
+      "sha256": "5d7d20d56d9cf20b4d3cdd544df79b499f61c5430a708699d2e11cc867b69b5f"
+    },
+    {
+      "path": "tests/test_baselines.py",
+      "size_bytes": 1891,
+      "sha256": "2a837fff35c80f01dd4fe94c57a777a8a6958c32e27121625c0f7ccad427e9c6"
+    },
+    {
+      "path": "tests/test_budget_replay.py",
+      "size_bytes": 4461,
+      "sha256": "a75adde111192dad4d0e770ad74fc64a4ad5bc260a43810228511191be8dd126"
+    },
+    {
+      "path": "tests/test_crmt_core.py",
+      "size_bytes": 4186,
+      "sha256": "817e34df0a55c8eb71acd41ae4893de11063e18cb3df84253e6cbe1c6228d7e7"
+    },
+    {
+      "path": "tests/test_data_adapters.py",
+      "size_bytes": 5430,
+      "sha256": "963456bdfecdeb21192530004960e8b3d976943406eb1f7cafea565f3410314f"
+    },
+    {
+      "path": "tests/test_jer_microgrid_core.py",
+      "size_bytes": 2767,
+      "sha256": "d0d5dd38dc71fe16df920d0db7fcef8f5e386a38e82dd25a0b5ae5fbf14931fd"
+    },
+    {
+      "path": "tests/test_microgrid_integration.py",
+      "size_bytes": 2506,
+      "sha256": "0be35ea34b7e3ef4d136ea2296499d9a8696e4eb9a181023cc518439ee52138d"
+    },
+    {
+      "path": "tests/test_opencem_ingest_qa.py",
+      "size_bytes": 5971,
+      "sha256": "b53d54140f6fb4de5380f85fa0a7f36a46991ca5dd2c24d91f977c34d4f4c4b2"
+    },
+    {
+      "path": "tests/test_smoke_study.py",
+      "size_bytes": 967,
+      "sha256": "fefe45fe059d7a04c78141057070e7229803d37aef98b50ae4a5ceaf1aadd958"
+    },
+    {
+      "path": "tests/test_temporal_mapping_prelock.py",
+      "size_bytes": 2667,
+      "sha256": "408dd957563bdf5cd5db11117779061fb223c14879efb35ea89a465f0b4d66a5"
+    },
+    {
+      "path": "tools/opencem_ingest.py",
+      "size_bytes": 8159,
+      "sha256": "bde610f80ea4706658780c6baa7b1ea1886964c34bc675f4eb41f3e8c7965ce0"
+    },
+    {
+      "path": "tools/opencem_qa.py",
+      "size_bytes": 10460,
+      "sha256": "a9c89474ebcf35ba9187180fe4d72a0f34cd3ceaa377a281180afd6b9002b6b3"
+    },
+    {
+      "path": "tools/run_opencem_ingest_windows.ps1",
+      "size_bytes": 2056,
+      "sha256": "a103bb06dc1f386f1f83d4147b4504801d2332f228f9a400aa0474920d44a7ef"
+    },
+    {
+      "path": "tools/temporal_mapping_prelock.py",
+      "size_bytes": 5990,
+      "sha256": "de7c79c8164beb3cd2dc57b244d1cc3ea6bf4f9a51eea522f3b4adbb44d651b4"
+    }
+  ]
+}
