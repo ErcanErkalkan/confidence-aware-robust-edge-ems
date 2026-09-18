@@ -121,3 +121,64 @@ def test_cadence_aware_controller_hooks_preserve_default_and_map_two_minute_beha
     fbrl.step(0, np.array([0.0]), 0.5, 0)
     fbrl.step(1, np.array([0.0, 10.0]), 0.5, 0)
     assert np.isclose(fbrl.ema_ref, 4.375)
+
+
+def test_vectorized_risk_bootstrap_matches_reference_loop():
+    from crmt_edge_ems.dominance import (
+        _bootstrap_risk_differences,
+        confidence_risk_dominance,
+    )
+    from crmt_edge_ems.risk import RiskConfig, risk_calibrated_score
+
+    rng = np.random.default_rng(123)
+    a = rng.normal(loc=1.0, scale=0.7, size=(23, 4))
+    b = rng.normal(loc=1.2, scale=0.9, size=(23, 4))
+    risk = RiskConfig(q=0.90, tail_weight=0.50)
+    seed = 77
+    n_boot = 400
+
+    ref_rng = np.random.default_rng(seed)
+    idx = ref_rng.integers(0, len(a), size=(n_boot, len(a)))
+    reference = np.empty((n_boot, 4), dtype=float)
+    for r in range(n_boot):
+        ai = a[idx[r]]
+        bi = b[idx[r]]
+        for j in range(4):
+            reference[r, j] = (
+                risk_calibrated_score(
+                    ai[:, j], q=risk.q, tail_weight=risk.tail_weight
+                )
+                - risk_calibrated_score(
+                    bi[:, j], q=risk.q, tail_weight=risk.tail_weight
+                )
+            )
+
+    vectorized = _bootstrap_risk_differences(
+        a,
+        b,
+        risk=risk,
+        n_boot=n_boot,
+        rng=np.random.default_rng(seed),
+    )
+    assert np.allclose(vectorized, reference, rtol=0.0, atol=1e-12)
+
+    # Public decision remains deterministic under the optimized implementation.
+    d1 = confidence_risk_dominance(
+        a, b, risk=risk, n_boot=n_boot, seed=seed
+    )
+    d2 = confidence_risk_dominance(
+        a, b, risk=risk, n_boot=n_boot, seed=seed
+    )
+    assert d1.relation == d2.relation
+    assert np.allclose(
+        d1.upper_diff_a_minus_b,
+        d2.upper_diff_a_minus_b,
+        rtol=0.0,
+        atol=0.0,
+    )
+    assert np.allclose(
+        d1.upper_diff_b_minus_a,
+        d2.upper_diff_b_minus_a,
+        rtol=0.0,
+        atol=0.0,
+    )

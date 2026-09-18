@@ -91,21 +91,28 @@ def _bootstrap_risk_differences(
 ) -> np.ndarray:
     """Paired bootstrap of CRMT risk-functional differences A - B.
 
-    Each resample uses the same block indices for A and B, preserving the paired
-    experimental design. For every objective, the statistic is exactly the
-    mean + tail_weight * empirical-CVaR functional used by CRMT.
+    The statistical functional is unchanged from the reference loop:
+    mean + tail_weight * empirical-CVaR on the same paired bootstrap indices.
+    This implementation vectorizes resample/objective evaluation only.
     """
     n, m = a.shape
     idx = rng.integers(0, n, size=(n_boot, n))
-    out = np.empty((n_boot, m), dtype=float)
-    for r in range(n_boot):
-        ai = a[idx[r]]
-        bi = b[idx[r]]
-        for j in range(m):
-            out[r, j] = risk_calibrated_score(ai[:, j], q=risk.q, tail_weight=risk.tail_weight) - risk_calibrated_score(
-                bi[:, j], q=risk.q, tail_weight=risk.tail_weight
-            )
-    return out
+    ai = a[idx]  # [bootstrap, block, objective]
+    bi = b[idx]
+
+    mean_a = np.mean(ai, axis=1)
+    mean_b = np.mean(bi, axis=1)
+
+    k = max(1, int(np.ceil((1.0 - risk.q) * n)))
+    tail_a = np.partition(ai, n - k, axis=1)[:, n - k :, :].mean(axis=1)
+    tail_b = np.partition(bi, n - k, axis=1)[:, n - k :, :].mean(axis=1)
+
+    risk_a = mean_a + float(risk.tail_weight) * tail_a
+    risk_b = mean_b + float(risk.tail_weight) * tail_b
+    out = risk_a - risk_b
+    if out.shape != (n_boot, m):
+        raise RuntimeError("vectorized bootstrap produced an unexpected shape")
+    return np.asarray(out, dtype=float)
 
 
 def confidence_risk_dominance(
