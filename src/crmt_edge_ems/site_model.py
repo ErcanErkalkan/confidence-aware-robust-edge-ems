@@ -13,6 +13,9 @@ OPENCEM_INVERTER_RATED_KW = 8.0
 OPENCEM_BATTERY_AH = 200.0
 OPENCEM_BATTERY_NOMINAL_V = 51.2
 OPENCEM_BATTERY_NOMINAL_KWH = OPENCEM_BATTERY_AH * OPENCEM_BATTERY_NOMINAL_V / 1000.0
+OPENCEM_BATTERY_MAX_OUTPUT_KW = 6.0
+OPENCEM_BATTERY_MAX_CHARGE_A = 150.0
+OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL = OPENCEM_BATTERY_MAX_CHARGE_A * OPENCEM_BATTERY_NOMINAL_V / 1000.0
 OPENCEM_PV_PANELS = 26
 OPENCEM_PV_PANEL_W = 480.0
 OPENCEM_PV_NAMEPLATE_KWP = OPENCEM_PV_PANELS * OPENCEM_PV_PANEL_W / 1000.0
@@ -28,7 +31,6 @@ class GridCapCalibration:
 
 @dataclass(frozen=True)
 class OpenCEMSubsystemAssumptions:
-    battery_power_limit_kw: float
     eta_ch: float
     eta_dis: float
     soc_min: float
@@ -37,12 +39,24 @@ class OpenCEMSubsystemAssumptions:
     command_ramp_kw_per_min: float
     import_cap_kw: float
     export_cap_kw: float
-    def validate(self)->None:
-        if not (0.0 < self.battery_power_limit_kw <= OPENCEM_INVERTER_RATED_KW): raise ValueError("battery_power_limit_kw must be in (0, inverter rated kW]")
-        if not (0.0 < self.eta_ch <= 1.0 and 0.0 < self.eta_dis <= 1.0): raise ValueError("eta_ch and eta_dis must be in (0,1]")
-        if not (0.0 <= self.soc_min < self.soc_init < self.soc_max <= 1.0): raise ValueError("Require 0 <= soc_min < soc_init < soc_max <= 1")
-        if self.command_ramp_kw_per_min <= 0.0: raise ValueError("command_ramp_kw_per_min must be > 0")
-        if self.import_cap_kw <= 0.0 or self.export_cap_kw <= 0.0: raise ValueError("import/export caps must be > 0")
+    # Source-derived interface limits may be reduced in sensitivity runs but
+    # must not exceed the published OpenCEM installation limits.
+    battery_discharge_limit_kw: float = OPENCEM_BATTERY_MAX_OUTPUT_KW
+    battery_charge_limit_kw: float = OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL
+
+    def validate(self) -> None:
+        if not (0.0 < self.battery_discharge_limit_kw <= OPENCEM_BATTERY_MAX_OUTPUT_KW):
+            raise ValueError("battery_discharge_limit_kw must be in (0, published max output]")
+        if not (0.0 < self.battery_charge_limit_kw <= min(OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL, OPENCEM_INVERTER_RATED_KW)):
+            raise ValueError("battery_charge_limit_kw must be in (0, published nominal-current/inverter bound]")
+        if not (0.0 < self.eta_ch <= 1.0 and 0.0 < self.eta_dis <= 1.0):
+            raise ValueError("eta_ch and eta_dis must be in (0,1]")
+        if not (0.0 <= self.soc_min < self.soc_init < self.soc_max <= 1.0):
+            raise ValueError("Require 0 <= soc_min < soc_init < soc_max <= 1")
+        if self.command_ramp_kw_per_min <= 0.0:
+            raise ValueError("command_ramp_kw_per_min must be > 0")
+        if self.import_cap_kw <= 0.0 or self.export_cap_kw <= 0.0:
+            raise ValueError("import/export caps must be > 0")
 
 def build_opencem_subsystem_site(
     assumptions: OpenCEMSubsystemAssumptions,
@@ -57,8 +71,8 @@ def build_opencem_subsystem_site(
     )
     return SiteConfig(
         ts_hours=temporal.ts_hours,
-        p_dis_max=float(assumptions.battery_power_limit_kw),
-        p_ch_max=float(assumptions.battery_power_limit_kw),
+        p_dis_max=float(assumptions.battery_discharge_limit_kw),
+        p_ch_max=float(assumptions.battery_charge_limit_kw),
         e_nom_kwh=float(OPENCEM_BATTERY_NOMINAL_KWH),
         eta_ch=float(assumptions.eta_ch),
         eta_dis=float(assumptions.eta_dis),

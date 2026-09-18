@@ -78,11 +78,12 @@ def test_crmt_study_and_ledger_share_the_same_budget_unit():
 def test_opencem_strict_site_model_requires_explicit_assumptions_and_uses_readme_energy():
     from crmt_edge_ems.site_model import (
         OPENCEM_BATTERY_NOMINAL_KWH,
+        OPENCEM_BATTERY_MAX_OUTPUT_KW,
+        OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL,
         OpenCEMSubsystemAssumptions,
         build_opencem_subsystem_site,
     )
     a = OpenCEMSubsystemAssumptions(
-        battery_power_limit_kw=8.0,
         eta_ch=0.95,
         eta_dis=0.95,
         soc_min=0.2,
@@ -94,8 +95,11 @@ def test_opencem_strict_site_model_requires_explicit_assumptions_and_uses_readme
     )
     site = build_opencem_subsystem_site(a, cadence_minutes=2)
     assert np.isclose(OPENCEM_BATTERY_NOMINAL_KWH, 10.24)
+    assert OPENCEM_BATTERY_MAX_OUTPUT_KW == 6.0
+    assert np.isclose(OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL, 7.68)
     assert np.isclose(site.e_nom_kwh, 10.24)
-    assert site.p_ch_max == 8.0 and site.p_dis_max == 8.0
+    assert site.p_dis_max == 6.0
+    assert np.isclose(site.p_ch_max, 7.68)
     assert site.p_imp_peakcap == site.p_imp_offcap == 4.0
     assert site.p_exp_peakcap == site.p_exp_offcap == 3.0
     assert np.isclose(site.ts_hours, 2.0 / 60.0)

@@ -106,7 +106,7 @@ def test_cadence_aware_controller_hooks_preserve_default_and_map_two_minute_beha
     assert np.isclose(default.hold_decay, 0.60)
 
     assumptions = OpenCEMSubsystemAssumptions(
-        battery_power_limit_kw=8.0, eta_ch=0.95, eta_dis=0.95,
+        eta_ch=0.95, eta_dis=0.95,
         soc_min=0.2, soc_max=0.8, soc_init=0.5,
         command_ramp_kw_per_min=2.0, import_cap_kw=4.0, export_cap_kw=3.0,
     )
