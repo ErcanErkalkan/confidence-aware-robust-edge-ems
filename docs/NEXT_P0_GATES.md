@@ -103,9 +103,15 @@ Closed before any OOD result:
 - deterministic 1-minute → 2-minute downsampling;
 - no battery/site rescaling from OOD data.
 
+Also closed:
+- strict interpolation-aware eligible-day inventory;
+- 1,786 locked household-days;
+- inventory SHA-256 =
+  `740028dbc0be6ec1c9dca1c1e44541c4380044ac86108c8e819e31f24a363ced`.
+
 Still open:
-- generate and hash-lock the eligible OPSD day inventory;
-- execute external OOD only after that inventory lock.
+- execute external OOD only from hash-frozen validation selections after the
+  confirmatory selection pipeline completes.
 
 Ausgrid is retained only as a secondary coarse-cadence stress dataset, not
 mechanism-equivalent validation, because its native cadence is 30 minutes.

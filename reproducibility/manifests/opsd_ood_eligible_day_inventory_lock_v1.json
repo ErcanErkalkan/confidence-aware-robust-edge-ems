@@ -1,0 +1,51 @@
+{
+  "lock_version": "opsd-ood-eligible-day-inventory-v1",
+  "created_date": "2026-09-18",
+  "package_sha256": "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3",
+  "package_byte_size": 156642459,
+  "package_version": "2020-04-15",
+  "cohort": [
+    "residential3",
+    "residential4",
+    "residential6"
+  ],
+  "native_cadence_minutes": 1,
+  "replay_cadence_minutes": 2,
+  "min_daily_coverage": 0.95,
+  "manifest_rows": 1786,
+  "manifest_sha256": "740028dbc0be6ec1c9dca1c1e44541c4380044ac86108c8e819e31f24a363ced",
+  "per_household": {
+    "residential3": {
+      "raw_rows": 2307133,
+      "valid_native_intervals": 673593,
+      "replay_bins": 336742,
+      "eligible_days": 460
+    },
+    "residential4": {
+      "raw_rows": 2307133,
+      "valid_native_intervals": 1181553,
+      "replay_bins": 589774,
+      "eligible_days": 632
+    },
+    "residential6": {
+      "raw_rows": 2307133,
+      "valid_native_intervals": 1001286,
+      "replay_bins": 500642,
+      "eligible_days": 694
+    }
+  },
+  "acquisition_policy": {
+    "interpolation_endpoints": "exclude if either endpoint marks any required channel",
+    "cumulative_reset_tolerance_kwh": 1e-9,
+    "two_minute_bin_requirement": "exactly two clean one-minute power intervals",
+    "day_time_basis": "UTC"
+  },
+  "evidence": {
+    "github_actions_run_id": 35376222952,
+    "artifact_id": 10559764058,
+    "artifact_name": "opsd-ood-eligible-day-inventory-v1",
+    "artifact_digest": "sha256:621df950a9de904ca83c90f88e6993cbdc72a8829964a03f1d4b97228b4947d3",
+    "head_sha": "afae0537c671e1f2db3a229f5f20bc7cf6185e3f"
+  },
+  "claim_boundary": "Eligibility/QA evidence only; no controller or OOD performance outcome."
+}
