@@ -334,14 +334,15 @@ def _write_csv(df: pd.DataFrame, path: Path) -> str:
     return _sha256(path)
 
 
-def execute_confirmatory_train(
+def execute_confirmatory_train_on_blocks(
     method: str,
     seed: int,
-    paths: list[Path],
+    blocks: list[ReplayBlock],
     *,
-    lock: Mapping,
+    context: Mapping,
     output_dir: Path,
 ) -> dict:
+    """Execute one frozen TRAIN optimizer run on already verified TRAIN blocks."""
     method = str(method).upper()
     seed = int(seed)
     if method not in METHOD_IDS:
@@ -350,8 +351,10 @@ def execute_confirmatory_train(
         raise ValueError(
             f"seed must be one of {OPTIMIZER_SEEDS[0]}..{OPTIMIZER_SEEDS[-1]}"
         )
-
-    blocks, context = build_locked_train_blocks(paths, lock=lock)
+    if len(blocks) != TRAIN_BLOCK_COUNT:
+        raise RuntimeError(
+            f"TRAIN block count mismatch: {len(blocks)} != {TRAIN_BLOCK_COUNT}"
+        )
     if any(b.split != "train" for b in blocks):
         raise RuntimeError("non-TRAIN block entered confirmatory optimization")
 
@@ -417,7 +420,7 @@ def execute_confirmatory_train(
             "tail_weight": float(CRMT_HYPERPARAMETERS["tail_weight"]),
             "objectives": list(objective_names),
         },
-        "data_context": context,
+        "data_context": dict(context),
         "git_sha": os.environ.get("GITHUB_SHA"),
         "files_sha256": files,
     }
@@ -427,6 +430,25 @@ def execute_confirmatory_train(
         encoding="utf-8",
     )
     return summary
+
+
+def execute_confirmatory_train(
+    method: str,
+    seed: int,
+    paths: list[Path],
+    *,
+    lock: Mapping,
+    output_dir: Path,
+) -> dict:
+    """Reconstruct/verify frozen TRAIN blocks, then execute one optimizer run."""
+    blocks, context = build_locked_train_blocks(paths, lock=lock)
+    return execute_confirmatory_train_on_blocks(
+        method,
+        seed,
+        blocks,
+        context=context,
+        output_dir=output_dir,
+    )
 
 
 def main() -> int:
