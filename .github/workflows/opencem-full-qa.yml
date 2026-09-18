@@ -79,6 +79,7 @@ jobs:
               "train_only_cadence_selection": q["train_only_cadence_selection"],
               "complete_days_95pct_per_inverter": q["complete_days_95pct_per_inverter"],
               "complete_days_by_split": q["complete_days_by_split"],
+              "train_only_grid_cap_calibration": q["train_only_grid_cap_calibration"],
               "neutral_peak_flag_verified": q["neutral_peak_flag_verified"],
           }
           print(json.dumps(summary, indent=2))
