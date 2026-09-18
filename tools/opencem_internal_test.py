@@ -75,20 +75,36 @@ def load_locked_selection(
     return selected, lock
 
 
-def execute_internal_test(
-    paths: list[Path],
+def _resolve_selection_dir(selection_root: Path, *, seed: int) -> Path:
+    """Locate exactly one hash-locked validation selection bundle for a seed."""
+    name = f"validation_selection_seed{int(seed)}"
+    direct = selection_root / name
+    if (direct / "selection_lock.json").is_file() and (direct / "selected_candidates.csv").is_file():
+        return direct
+    matches = sorted(
+        p for p in selection_root.rglob(name)
+        if p.is_dir()
+        and (p / "selection_lock.json").is_file()
+        and (p / "selected_candidates.csv").is_file()
+    )
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"expected exactly one selection directory {name!r}, found {len(matches)}"
+        )
+    return matches[0]
+
+
+def execute_internal_test_on_blocks(
+    blocks,
     *,
-    block_lock: dict,
+    context: dict,
+    expected_manifest_sha: str,
     selection_dir: Path,
     output_dir: Path,
 ) -> dict:
-    expected_manifest_sha = str(block_lock["canonical_csv_sha256"])
     selected, selection_lock = load_locked_selection(
         selection_dir,
         expected_manifest_sha256=expected_manifest_sha,
-    )
-    blocks, context = build_locked_split_blocks(
-        paths, lock=block_lock, split_name="internal_test"
     )
     if len(blocks) != INTERNAL_TEST_BLOCK_COUNT:
         raise RuntimeError("frozen internal-test block count mismatch")
@@ -139,7 +155,7 @@ def execute_internal_test(
         "seed": int(selection_lock["seed"]),
         "selection_lock_sha256": _sha256(selection_dir / "selection_lock.json"),
         "selected_candidates_sha256": selection_lock["selected_candidates_sha256"],
-        "data_context": context,
+        "data_context": dict(context),
         "risk": {
             "q": float(CRMT_HYPERPARAMETERS["risk_q"]),
             "tail_weight": float(CRMT_HYPERPARAMETERS["tail_weight"]),
@@ -153,6 +169,25 @@ def execute_internal_test(
     out = output_dir / "internal_test_run_summary.json"
     out.write_text(json.dumps(run_summary, indent=2), encoding="utf-8")
     return run_summary
+
+
+def execute_internal_test(
+    paths: list[Path],
+    *,
+    block_lock: dict,
+    selection_dir: Path,
+    output_dir: Path,
+) -> dict:
+    blocks, context = build_locked_split_blocks(
+        paths, lock=block_lock, split_name="internal_test"
+    )
+    return execute_internal_test_on_blocks(
+        blocks,
+        context=context,
+        expected_manifest_sha=str(block_lock["canonical_csv_sha256"]),
+        selection_dir=selection_dir,
+        output_dir=output_dir,
+    )
 
 
 def main() -> int:
