@@ -126,6 +126,73 @@ def select_train_cadence_minutes(
     }
 
 
+def replay_signal_duplicate_diagnostics(df: pd.DataFrame) -> dict:
+    """Characterize duplicate (read_ts, inverter) keys for replay-driving signals.
+
+    The diagnostic intentionally uses only load/PV channels that can affect the
+    reconstructed exogenous replay trace. Battery/grid telemetry differences do
+    not turn otherwise identical replay inputs into distinct exogenous samples.
+    No deduplication policy is applied here; this function is diagnostic only.
+    """
+    keys = ["read_ts", "inverter"]
+    missing_keys = [c for c in keys if c not in df.columns]
+    if missing_keys:
+        raise KeyError(f"Missing duplicate-diagnostic key columns: {missing_keys}")
+    signal_cols = [
+        c for c in ("outsumw", "outw_a", "outw_b", "outw_c", "pv1power", "pv2power", "pv3power")
+        if c in df.columns
+    ]
+    if not signal_cols:
+        raise KeyError("No replay-driving load/PV columns available for duplicate diagnostics")
+
+    dup_mask = df.duplicated(keys, keep=False)
+    dup = df.loc[dup_mask, keys + signal_cols].copy()
+    if dup.empty:
+        return {
+            "key_duplicate_extra_rows": 0,
+            "duplicate_key_groups": 0,
+            "exact_replay_signal_duplicate_extra_rows": 0,
+            "conflicting_replay_signal_groups": 0,
+            "max_key_multiplicity": 1,
+            "key_multiplicity_quantiles": {"p50": 1.0, "p90": 1.0, "p95": 1.0, "p99": 1.0},
+            "per_inverter": {},
+            "signal_columns": signal_cols,
+        }
+
+    sizes = dup.groupby(keys, sort=False).size()
+    unique_signal_rows = dup.drop_duplicates(keys + signal_cols, keep="first")
+    distinct_signal_count = unique_signal_rows.groupby(keys, sort=False).size()
+    exact_extra = int(dup.duplicated(keys + signal_cols, keep="first").sum())
+    conflicts = int((distinct_signal_count > 1).sum())
+
+    per_inv = {}
+    for inv, g in dup.groupby("inverter", sort=True):
+        gs = g.groupby(keys, sort=False).size()
+        gu = g.drop_duplicates(keys + signal_cols, keep="first").groupby(keys, sort=False).size()
+        per_inv[str(int(inv))] = {
+            "duplicate_key_groups": int(gs.size),
+            "key_duplicate_extra_rows": int((gs - 1).sum()),
+            "conflicting_replay_signal_groups": int((gu > 1).sum()),
+            "max_key_multiplicity": int(gs.max()),
+        }
+
+    return {
+        "key_duplicate_extra_rows": int((sizes - 1).sum()),
+        "duplicate_key_groups": int(sizes.size),
+        "exact_replay_signal_duplicate_extra_rows": exact_extra,
+        "conflicting_replay_signal_groups": conflicts,
+        "max_key_multiplicity": int(sizes.max()),
+        "key_multiplicity_quantiles": {
+            "p50": float(sizes.quantile(0.50)),
+            "p90": float(sizes.quantile(0.90)),
+            "p95": float(sizes.quantile(0.95)),
+            "p99": float(sizes.quantile(0.99)),
+        },
+        "per_inverter": per_inv,
+        "signal_columns": signal_cols,
+    }
+
+
 def _json_safe(value):
     """Recursively normalize QA output to standard JSON-serializable Python types."""
     if isinstance(value, dict):
@@ -168,6 +235,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
     if expected_inverters is not None and tuple(sorted(expected_inverters)) != ids:
         raise ValueError(f"Unexpected inverter IDs: observed={ids}, expected={expected_inverters}")
 
+    duplicate_diagnostics = replay_signal_duplicate_diagnostics(raw)
     cadence = select_train_cadence_minutes(raw, expected_inverters=expected_inverters or ids)
     selected_minutes = int(cadence["selected_minutes"])
 
@@ -218,6 +286,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         "timestamp_utc_max": ts.max().isoformat() if ts.notna().any() else None,
         "invalid_timestamp_count": int(ts.isna().sum()),
         "duplicate_read_ts_inverter": int(raw.duplicated(["read_ts", "inverter"]).sum()),
+        "replay_signal_duplicate_diagnostics": duplicate_diagnostics,
         "per_file": per_file,
         "per_inverter_raw": per_inverter_raw,
         "power_summary_w": {c: _finite_summary(raw[c]) for c in power_columns},
