@@ -90,8 +90,12 @@ def select_train_cadence_minutes(
     worst_q_min = 0.0
     cutoff = float(max_gap_minutes) * 60.0
     for i in expected:
-        x = np.sort(train.loc[train["inv"].astype(int) == i, "ts"].drop_duplicates().astype("int64").to_numpy() / 1e9)
-        gaps = np.diff(x)
+        # Use timedelta arithmetic rather than datetime integer storage units.
+        # Pandas 3 may store timezone-aware datetimes at microsecond resolution,
+        # while older versions commonly used nanoseconds; assuming 1e9 units
+        # therefore makes cadence selection version-dependent.
+        x = train.loc[train["inv"].astype(int) == i, "ts"].drop_duplicates().sort_values()
+        gaps = x.diff().dt.total_seconds().dropna().to_numpy(dtype=float)
         gaps = gaps[(gaps > 0) & (gaps <= cutoff)]
         if gaps.size < 100:
             raise ValueError(f"Insufficient within-train cadence samples for inverter {i}: {gaps.size}")
