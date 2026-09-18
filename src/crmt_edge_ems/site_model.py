@@ -20,6 +20,27 @@ OPENCEM_PV_PANELS = 26
 OPENCEM_PV_PANEL_W = 480.0
 OPENCEM_PV_NAMEPLATE_KWP = OPENCEM_PV_PANELS * OPENCEM_PV_PANEL_W / 1000.0
 
+# Protocol values below are not claimed as measured hardware facts.
+# They are frozen before confirmatory optimization and must be sensitivity-tested.
+PRIMARY_OPENCEM_CADENCE_MINUTES = 2
+PRIMARY_MODEL_ETA_CH = 0.95
+PRIMARY_MODEL_ETA_DIS = 0.95
+PRIMARY_HARD_SOC_MIN = 0.10
+PRIMARY_HARD_SOC_MAX = 1.00
+PRIMARY_INITIAL_SOC = 0.50
+PRIMARY_SOC_LOW_STRESS = 0.20
+PRIMARY_SOC_HIGH_STRESS = 0.80
+# Non-binding at the selected cadence: full -charge to +discharge reversal is
+# possible within one 2-minute replay tick.
+PRIMARY_COMMAND_RAMP_KW_PER_MIN = (
+    OPENCEM_BATTERY_MAX_OUTPUT_KW + OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL
+) / PRIMARY_OPENCEM_CADENCE_MINUTES
+# TRAIN-only q=0.90 directional thresholds from the immutable verified-data QA.
+PRIMARY_TRAIN_Q90_CAPS_KW = {
+    1: (0.07188675000000001, 0.16017178571428578),
+    2: (0.5999499999999999, 0.3675908653846169),
+}
+
 @dataclass(frozen=True)
 class GridCapCalibration:
     import_quantile: float
@@ -43,6 +64,8 @@ class OpenCEMSubsystemAssumptions:
     # must not exceed the published OpenCEM installation limits.
     battery_discharge_limit_kw: float = OPENCEM_BATTERY_MAX_OUTPUT_KW
     battery_charge_limit_kw: float = OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL
+    soc_low_stress: float = PRIMARY_SOC_LOW_STRESS
+    soc_high_stress: float = PRIMARY_SOC_HIGH_STRESS
 
     def validate(self) -> None:
         if not (0.0 < self.battery_discharge_limit_kw <= OPENCEM_BATTERY_MAX_OUTPUT_KW):
@@ -53,6 +76,8 @@ class OpenCEMSubsystemAssumptions:
             raise ValueError("eta_ch and eta_dis must be in (0,1]")
         if not (0.0 <= self.soc_min < self.soc_init < self.soc_max <= 1.0):
             raise ValueError("Require 0 <= soc_min < soc_init < soc_max <= 1")
+        if not (self.soc_min <= self.soc_low_stress < self.soc_high_stress <= self.soc_max):
+            raise ValueError("SOC stress thresholds must lie inside the hard SOC envelope")
         if self.command_ramp_kw_per_min <= 0.0:
             raise ValueError("command_ramp_kw_per_min must be > 0")
         if self.import_cap_kw <= 0.0 or self.export_cap_kw <= 0.0:
@@ -89,14 +114,51 @@ def build_opencem_subsystem_site(
         proposed_prep_hold_ticks_override=temporal.prep_hold_ticks,
         proposed_near_cap_window_ticks_override=temporal.near_cap_window_ticks,
         proposed_hold_decay_override=temporal.hold_decay_per_tick,
-        soc_low_thresh=float(assumptions.soc_min),
-        soc_high_thresh=float(assumptions.soc_max),
+        soc_low_thresh=float(assumptions.soc_low_stress),
+        soc_high_thresh=float(assumptions.soc_high_stress),
         p_imp_contr=float(assumptions.import_cap_kw),
         p_exp_phys=float(assumptions.export_cap_kw),
         p_imp_peakcap=float(assumptions.import_cap_kw),
         p_imp_offcap=float(assumptions.import_cap_kw),
         p_exp_peakcap=float(assumptions.export_cap_kw),
         p_exp_offcap=float(assumptions.export_cap_kw),
+    )
+
+
+def primary_opencem_assumptions(inverter_id: int) -> OpenCEMSubsystemAssumptions:
+    """Return the frozen primary real-data protocol for one OpenCEM subsystem.
+
+    Source-derived hardware limits are separated from modeling assumptions.
+    Grid-cap values are TRAIN-only q=0.90 benchmark thresholds, not claims about
+    the physical campus grid connection rating.
+    """
+    inv = int(inverter_id)
+    if inv not in PRIMARY_TRAIN_Q90_CAPS_KW:
+        raise KeyError(f"No frozen TRAIN-q90 cap calibration for inverter {inv}")
+    import_cap_kw, export_cap_kw = PRIMARY_TRAIN_Q90_CAPS_KW[inv]
+    assumptions = OpenCEMSubsystemAssumptions(
+        eta_ch=PRIMARY_MODEL_ETA_CH,
+        eta_dis=PRIMARY_MODEL_ETA_DIS,
+        soc_min=PRIMARY_HARD_SOC_MIN,
+        soc_max=PRIMARY_HARD_SOC_MAX,
+        soc_init=PRIMARY_INITIAL_SOC,
+        command_ramp_kw_per_min=PRIMARY_COMMAND_RAMP_KW_PER_MIN,
+        import_cap_kw=float(import_cap_kw),
+        export_cap_kw=float(export_cap_kw),
+        battery_discharge_limit_kw=OPENCEM_BATTERY_MAX_OUTPUT_KW,
+        battery_charge_limit_kw=OPENCEM_BATTERY_MAX_CHARGE_KW_NOMINAL,
+        soc_low_stress=PRIMARY_SOC_LOW_STRESS,
+        soc_high_stress=PRIMARY_SOC_HIGH_STRESS,
+    )
+    assumptions.validate()
+    return assumptions
+
+
+def build_primary_opencem_site(inverter_id: int) -> SiteConfig:
+    """Build the frozen primary SiteConfig for the selected 2-minute replay."""
+    return build_opencem_subsystem_site(
+        primary_opencem_assumptions(inverter_id),
+        cadence_minutes=PRIMARY_OPENCEM_CADENCE_MINUTES,
     )
 
 

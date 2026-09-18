@@ -124,3 +124,38 @@ def test_train_only_grid_cap_rule_uses_directional_quantiles_and_rejects_sparse_
     assert np.isclose(c.export_cap_kw, np.quantile(np.arange(1, 201), 0.8))
     with pytest.raises(ValueError):
         calibrate_train_grid_caps([pd.DataFrame({'base_kw': np.arange(1, 500)})])
+
+
+def test_primary_opencem_site_factory_is_frozen_and_inverter_specific():
+    from crmt_edge_ems.site_model import (
+        PRIMARY_COMMAND_RAMP_KW_PER_MIN,
+        PRIMARY_OPENCEM_CADENCE_MINUTES,
+        build_primary_opencem_site,
+        primary_opencem_assumptions,
+    )
+    a1 = primary_opencem_assumptions(1)
+    a2 = primary_opencem_assumptions(2)
+    assert PRIMARY_OPENCEM_CADENCE_MINUTES == 2
+    assert np.isclose(PRIMARY_COMMAND_RAMP_KW_PER_MIN, 6.84)
+    assert np.isclose(a1.import_cap_kw, 0.07188675000000001)
+    assert np.isclose(a1.export_cap_kw, 0.16017178571428578)
+    assert np.isclose(a2.import_cap_kw, 0.5999499999999999)
+    assert np.isclose(a2.export_cap_kw, 0.3675908653846169)
+    s1 = build_primary_opencem_site(1)
+    s2 = build_primary_opencem_site(2)
+    for s in (s1, s2):
+        assert np.isclose(s.e_nom_kwh, 10.24)
+        assert np.isclose(s.p_dis_max, 6.0)
+        assert np.isclose(s.p_ch_max, 7.68)
+        assert np.isclose(s.eta_ch, 0.95)
+        assert np.isclose(s.eta_dis, 0.95)
+        assert np.isclose(s.soc_min, 0.10)
+        assert np.isclose(s.soc_max, 1.00)
+        assert np.isclose(s.soc_init, 0.50)
+        assert np.isclose(s.soc_low_thresh, 0.20)
+        assert np.isclose(s.soc_high_thresh, 0.80)
+        assert np.isclose(s.r_max_kw_per_tick, 13.68)
+        assert np.isclose(s.ts_hours, 2.0 / 60.0)
+    assert not np.isclose(s1.p_imp_peakcap, s2.p_imp_peakcap)
+    with pytest.raises(KeyError):
+        primary_opencem_assumptions(3)
