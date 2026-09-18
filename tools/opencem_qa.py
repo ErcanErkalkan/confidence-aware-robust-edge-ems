@@ -13,6 +13,7 @@ from data_adapters.opencem import (
     reconstruct_per_inverter_profiles,
     per_inverter_daily_blocks,
     assign_confirmatory_split,
+    collapse_same_timestamp_replay_signals,
 )
 
 KEY_COLS = [
@@ -253,6 +254,7 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         raise ValueError(f"Unexpected inverter IDs: observed={ids}, expected={expected_inverters}")
 
     duplicate_diagnostics = replay_signal_duplicate_diagnostics(raw)
+    collapsed_replay = collapse_same_timestamp_replay_signals(raw)
     cadence = select_train_cadence_minutes(raw, expected_inverters=expected_inverters or ids)
     selected_minutes = int(cadence["selected_minutes"])
 
@@ -304,6 +306,8 @@ def run_qa(paths: list[Path], *, expected_inverters: tuple[int, ...] | None = No
         "invalid_timestamp_count": int(ts.isna().sum()),
         "duplicate_read_ts_inverter": int(raw.duplicated(["read_ts", "inverter"]).sum()),
         "replay_signal_duplicate_diagnostics": duplicate_diagnostics,
+        "replay_timestamp_collapse_policy": "mean replay-driving channels per (read_ts, inverter) before temporal resampling",
+        "replay_rows_after_timestamp_collapse": int(len(collapsed_replay)),
         "per_file": per_file,
         "per_inverter_raw": per_inverter_raw,
         "power_summary_w": {c: _finite_summary(raw[c]) for c in power_columns},
