@@ -78,8 +78,9 @@ the hash differs.
 Still to execute:
 
 - 30-seed Sobol/NSGA-II/MOPSO/MODE/CRMT optimization under exact budget;
-- selection using TRAIN/validation only;
-- one-shot internal-test evaluation after selection is frozen;
+- execute the implemented TRAIN-front validation selection protocol;
+- freeze each seed's `selected_candidates.csv` via `selection_lock.json`;
+- execute the implemented one-shot internal-test runner only after selection lock;
 - ablations: no CVaR, no confidence-aware dominance, no adaptive allocation;
 - predeclared site/temporal sensitivities;
 - statistical and optimizer-quality reports from raw outputs.

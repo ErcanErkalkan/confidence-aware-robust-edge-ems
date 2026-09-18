@@ -58,12 +58,21 @@ def _load_raw(paths: list[Path]) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)
 
 
-def build_locked_train_blocks(
+def build_locked_split_blocks(
     paths: list[Path],
     *,
     lock: Mapping,
+    split_name: str,
 ) -> tuple[list[ReplayBlock], dict[str, object]]:
-    """Reconstruct and hash-verify the frozen block inventory, then expose TRAIN only."""
+    """Reconstruct/hash-verify the frozen inventory and expose one named split."""
+    expected_counts = {
+        "train": TRAIN_BLOCK_COUNT,
+        "validation": int(lock["split_counts"]["validation"]),
+        "internal_test": int(lock["split_counts"]["internal_test"]),
+    }
+    if split_name not in expected_counts:
+        raise ValueError(f"split_name must be one of {tuple(expected_counts)}")
+
     cadence = int(lock["cadence_minutes"])
     if cadence != PRIMARY_OPENCEM_CADENCE_MINUTES:
         raise RuntimeError("block lock cadence disagrees with primary protocol")
@@ -95,39 +104,51 @@ def build_locked_train_blocks(
         assigned = assign_confirmatory_split(
             all_blocks[inv], split=DEFAULT_CONFIRMATORY_SPLIT
         )
-        for date, frame in assigned["train"].items():
+        for date, frame in assigned[split_name].items():
             rows.append((str(date), int(inv), frame))
 
-    # Interleave the two physical subsystems by date. This prevents the first
-    # CRMT paired-design blocks from all coming from a single inverter/site.
     rows.sort(key=lambda z: (z[0], z[1]))
     blocks = [
         ReplayBlock(
             block_id=f"opencem:inv{inv}:{date}",
             profile=frame,
             source="OpenCEM",
-            split="train",
+            split=split_name,
             site_id=inv,
         )
         for date, inv, frame in rows
     ]
-
-    if len(blocks) != TRAIN_BLOCK_COUNT:
+    expected = int(expected_counts[split_name])
+    if len(blocks) != expected:
         raise RuntimeError(
-            f"TRAIN block count mismatch: {len(blocks)} != {TRAIN_BLOCK_COUNT}"
-        )
-    if {str(b.site_id) for b in blocks[:4]} != {"1", "2"}:
-        raise RuntimeError(
-            "first four CRMT blocks do not cover both OpenCEM physical subsystems"
+            f"{split_name} block count mismatch: {len(blocks)} != {expected}"
         )
 
     context = {
         "manifest_sha256": observed_hash,
         "manifest_rows": int(len(manifest)),
-        "train_block_count": int(len(blocks)),
-        "train_block_order": "local_date_then_inverter",
-        "first_four_block_ids": [b.block_id for b in blocks[:4]],
+        "split": split_name,
+        "split_block_count": int(len(blocks)),
+        "block_order": "local_date_then_inverter",
+        "first_block_ids": [b.block_id for b in blocks[:4]],
     }
+    return blocks, context
+
+
+def build_locked_train_blocks(
+    paths: list[Path],
+    *,
+    lock: Mapping,
+) -> tuple[list[ReplayBlock], dict[str, object]]:
+    """Backward-compatible TRAIN-only wrapper with paired-design safeguard."""
+    blocks, context = build_locked_split_blocks(
+        paths, lock=lock, split_name="train"
+    )
+    if {str(b.site_id) for b in blocks[:4]} != {"1", "2"}:
+        raise RuntimeError(
+            "first four CRMT blocks do not cover both OpenCEM physical subsystems"
+        )
+    context["first_four_block_ids"] = [b.block_id for b in blocks[:4]]
     return blocks, context
 
 
