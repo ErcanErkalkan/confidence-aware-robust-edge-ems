@@ -105,6 +105,36 @@ def _pv_w(df: pd.DataFrame) -> pd.Series:
     return pv.where(pv >= 0.0)
 
 
+def collapse_same_timestamp_replay_signals(raw: pd.DataFrame) -> pd.DataFrame:
+    """Collapse repeated (read_ts, inverter) replay samples before resampling.
+
+    OpenCEM contains many duplicate timestamp/inverter keys. Because the replay
+    reconstruction uses load/PV telemetry as exogenous inputs, duplicated rows
+    must not receive extra statistical weight inside a later time bin. For each
+    key, available replay-driving channels are therefore averaged once. The rule
+    is deterministic and independent of CSV row ordering; exact duplicates are
+    unchanged and conflicting pairs contribute their arithmetic midpoint.
+    """
+    keys = ["read_ts", "inverter"]
+    missing = [c for c in keys if c not in raw.columns]
+    if missing:
+        raise KeyError(f"Missing collapse key columns: {missing}")
+    signal_cols = [
+        c for c in (_LOAD_TOTAL_CANDIDATE, *_LOAD_PHASES, *_PV_PHASES)
+        if c in raw.columns
+    ]
+    if not signal_cols:
+        raise KeyError("No replay-driving load/PV columns available for timestamp collapse")
+    work = raw[keys + signal_cols].copy()
+    work["read_ts"] = pd.to_numeric(work["read_ts"], errors="coerce")
+    work["inverter"] = pd.to_numeric(work["inverter"], errors="coerce")
+    for c in signal_cols:
+        work[c] = pd.to_numeric(work[c], errors="coerce")
+    work = work.dropna(subset=keys)
+    collapsed = work.groupby(keys, as_index=False, sort=True, dropna=False)[signal_cols].mean()
+    return collapsed
+
+
 def reconstruct_counterfactual_profile(
     raw: pd.DataFrame,
     *,
