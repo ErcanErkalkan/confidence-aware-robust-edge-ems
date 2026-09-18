@@ -194,3 +194,33 @@ def test_predeclared_site_sensitivities_change_only_locked_model_axes():
     assert floor_site.proposed_prep_hold_ticks_override == 2
     assert floor_site.w_f == 2
     assert floor_site.horizon_k == 5
+
+
+def test_confirmatory_optimizer_budget_is_exact_and_population_aligned():
+    from crmt_edge_ems.protocol import (
+        ALL_METHODS_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET,
+        BASELINE_FULL_CANDIDATE_CAPACITY,
+        BASELINE_HYPERPARAMETERS,
+        CONFIRMATORY_CONTROLLER_BLOCK_BUDGET,
+        CRMT_CANDIDATE_POOL_SIZE,
+        CRMT_HYPERPARAMETERS,
+        FULL_TRAIN_CANDIDATE_COST,
+        METHOD_IDS,
+        OPTIMIZER_SEEDS,
+        PER_METHOD_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET,
+        TRAIN_BLOCK_COUNT,
+    )
+    assert TRAIN_BLOCK_COUNT == 210
+    assert FULL_TRAIN_CANDIDATE_COST == 210
+    assert CONFIRMATORY_CONTROLLER_BLOCK_BUDGET == 12_600
+    assert CONFIRMATORY_CONTROLLER_BLOCK_BUDGET % TRAIN_BLOCK_COUNT == 0
+    assert BASELINE_FULL_CANDIDATE_CAPACITY == 60
+    assert BASELINE_FULL_CANDIDATE_CAPACITY % BASELINE_HYPERPARAMETERS["NSGAII"]["pop_size"] == 0
+    assert BASELINE_FULL_CANDIDATE_CAPACITY % BASELINE_HYPERPARAMETERS["MOPSO"]["swarm_size"] == 0
+    assert BASELINE_FULL_CANDIDATE_CAPACITY % BASELINE_HYPERPARAMETERS["MODE"]["pop_size"] == 0
+    assert CRMT_CANDIDATE_POOL_SIZE == 256
+    assert CRMT_HYPERPARAMETERS["initial_blocks"] * CRMT_CANDIDATE_POOL_SIZE < CONFIRMATORY_CONTROLLER_BLOCK_BUDGET
+    assert len(OPTIMIZER_SEEDS) == 30
+    assert PER_METHOD_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET == 378_000
+    assert len(METHOD_IDS) == 5
+    assert ALL_METHODS_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET == 1_890_000

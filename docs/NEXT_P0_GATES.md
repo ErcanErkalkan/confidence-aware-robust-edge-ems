@@ -1,74 +1,99 @@
 # Next P0 Gates
 
-The repository is software-regression clean and the OpenCEM data/QA path is now locked.
-Confirmatory scientific experiments must still not start until the remaining open gates are closed.
+The internal OpenCEM pre-run protocol gates are now closed. Confirmatory
+optimization may proceed only through the frozen protocol; scientific claims
+remain blocked until the confirmatory analyses themselves are completed.
 
 ## CLOSED — P0-REALDATA-01 — Immutable OpenCEM acquisition
-
-**Closed 2026-09-18.**
 
 - 19/19 immutable measurement partitions verified.
 - upstream commit: `5884d253a5267fb240b7a8df6fa9e4d49a905167`
 - total verified bytes: `883,382,698`
-- expected byte size, Git blob SHA-1 and local SHA-256 are all enforced.
+- expected byte size, Git blob SHA-1 and local SHA-256 are enforced.
 
 See `docs/OPENCEM_QA_LOCK_v1.md`.
 
-## CLOSED / PARTIAL — P0-REALDATA-02 — QA and cadence lock
+## CLOSED — P0-REALDATA-02 — QA, cadence and temporal semantics
 
-Completed:
+- verified-data QA complete;
+- duplicate timestamp policy frozen;
+- TRAIN-only cadence = **2 minutes**;
+- >=95% complete-day gate frozen;
+- cadence-aware controller mapping wired and regression-tested;
+- primary integer-duration mapping = ceil;
+- temporal-resolution sensitivity = predeclared floor bracketing.
 
-- verified-data QA;
-- per-inverter availability/missingness review;
-- duplicate timestamp diagnostics and deterministic order-independent collapse;
-- TRAIN-only replay cadence frozen at **2 minutes**;
-- 95% complete-day gate;
-- chronological block counts frozen;
-- cadence-to-physical-time controller mapping wired and regression-tested.
+The ceil/floor sensitivity must still be executed as part of the confirmatory
+sensitivity analysis, but the pre-run selection rule is no longer open.
 
-Still open before confirmatory claims:
+## CLOSED — P0-SITE-01 — Physical/model-assumption lock
 
-- explicit sensitivity/validity treatment for upward temporal quantization
-  (e.g. 3 min -> 4 min and 5 min -> 6 min at the 2-minute cadence).
+Source-derived OpenCEM facts used by the model include:
 
-## OPEN — P0-SITE-01 — Physical-assumption lock
+- 10.24 kWh nominal battery energy from 200 Ah × 51.2 V;
+- 6.0 kW published battery maximum output;
+- 7.68 kW nominal-current charging bound from 150 A × 51.2 V;
+- 8 kW inverter rating as an interface upper bound.
 
-OpenCEM variables not established by public source documentation must remain explicit assumptions, not inherited silently from the synthetic benchmark.
+Protocol/model assumptions are explicit rather than presented as measured facts:
 
-Freeze, with provenance/rationale:
+- eta_ch = eta_dis = 0.95 primary, with 0.90 and 1.00 sensitivities;
+- hard SOC envelope [0.10, 1.00], initial SOC 0.50;
+- conservative SOC sensitivity [0.15, 0.95];
+- primary command ramp is non-binding at the 2-minute cadence, with half/quarter sensitivities;
+- grid stress thresholds are TRAIN-only directional q=0.90 values per inverter;
+- raw primary replay uses no inferred tariff/peak window (`peak_flag=0`).
 
-- battery power limit;
-- charge/discharge efficiency;
-- SOC limits and initial SOC;
-- command-ramp physical assumption;
-- import/export cap construction;
-- any explicit peak/stress window.
+See `docs/EXPERIMENT_PROTOCOL_PRELOCK_v1.md`.
 
-Do not infer these from obviously invalid/sentinel-like raw telemetry.
+## CLOSED — P0-OPT-01 — Confirmatory optimizer fairness/budget
 
-## OPEN — P0-OPT-01 — Confirmatory optimizer budget
+Frozen before confirmatory results:
 
-Already locked:
+- unit = `1 controller configuration × 1 frozen block`;
+- seeds = 1001–1030;
+- baseline hyperparameters;
+- CRMT hyperparameters and 256-candidate proposal pool;
+- numeric budget = **12,600 controller-block evaluations per seed per method**;
+- exact central `EvaluationLedger` accounting.
 
-- expensive evaluation unit = `1 controller configuration × 1 predeclared block`;
-- optimizer seeds = 1001–1030;
-- central `EvaluationLedger` audit implementation.
+See `docs/OPTIMIZER_BUDGET_LOCK_v1.md`.
 
-Still required:
+## CLOSED — P0-EXP-01A — Split/block-manifest lock
 
-- freeze one numeric total controller-block evaluation budget for Sobol, NSGA-II, MOPSO, MODE and CRMT;
-- freeze final baseline hyperparameters before viewing confirmatory results.
+The complete-day manifest is cryptographically frozen:
 
-## OPEN — P0-EXP-01 — Confirmatory split and holdout discipline
+- rows: 406;
+- TRAIN: 210;
+- validation: 118;
+- internal test: 78;
+- SHA-256:
+  `3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1`.
 
-Chronological split definitions and available block counts are locked, but final machine-readable block manifests must be generated and frozen.
+Runtime and confirmatory tools must regenerate this manifest and fail closed if
+the hash differs.
 
-Test data must not be used to alter parameter bounds, optimizer settings, objectives, cadence, duplicate policy or method selection.
+## OPEN — P0-EXP-01B — Confirmatory execution
+
+Still to execute:
+
+- 30-seed Sobol/NSGA-II/MOPSO/MODE/CRMT optimization under exact budget;
+- selection using TRAIN/validation only;
+- one-shot internal-test evaluation after selection is frozen;
+- ablations: no CVaR, no confidence-aware dominance, no adaptive allocation;
+- predeclared site/temporal sensitivities;
+- statistical and optimizer-quality reports from raw outputs.
+
+Internal-test outcomes must not alter parameter bounds, budget, hyperparameters,
+objectives, cadence, block membership, duplicate policy or method selection.
 
 ## OPEN — P0-OOD-01 — External-domain validation
 
-External OOD evaluation (planned Ausgrid adapter) must be treated separately from OpenCEM internal testing. Site scaling and physical assumptions must be explicit.
+Ausgrid remains separate. Its artifact/customer aggregation/site-scaling lock
+must be completed before the first external-OOD result is viewed.
 
-## OPEN — P0-CLAIM-01 — No premature scientific claims
+## OPEN — P0-CLAIM-01 — Scientific-claim promotion
 
-Pilot, smoke, unit-test, CI, QA, or synthetic-development results are engineering evidence only. Manuscript claims may be promoted only after their corresponding confirmatory evidence gates are closed.
+CI, QA, runtime preflight, smoke tests and synthetic development remain
+engineering evidence only. Scientific claims may be promoted only after the
+corresponding confirmatory and external-domain evidence is available.

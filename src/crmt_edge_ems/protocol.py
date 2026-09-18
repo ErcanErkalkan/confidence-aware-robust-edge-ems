@@ -17,9 +17,23 @@ PROTOCOL_VERSION = "opencem-confirmatory-prelock-v1"
 TRAIN_BLOCK_COUNT = 210
 OPTIMIZER_SEEDS = tuple(range(1001, 1031))
 
-# Hyperparameters are frozen before confirmatory optimizer results are viewed.
-# The numeric controller-block budget is intentionally NOT frozen here; it is
-# locked only after the real-data runtime preflight.
+METHOD_IDS = ("SOBOL", "NSGAII", "MOPSO", "MODE", "CRMT")
+CONFIRMATORY_CONTROLLER_BLOCK_BUDGET = 12_600  # per seed, per method
+FULL_TRAIN_CANDIDATE_COST = TRAIN_BLOCK_COUNT
+BASELINE_FULL_CANDIDATE_CAPACITY = (
+    CONFIRMATORY_CONTROLLER_BLOCK_BUDGET // FULL_TRAIN_CANDIDATE_COST
+)
+CRMT_CANDIDATE_POOL_SIZE = 256
+PER_METHOD_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET = (
+    CONFIRMATORY_CONTROLLER_BLOCK_BUDGET * len(OPTIMIZER_SEEDS)
+)
+ALL_METHODS_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET = (
+    PER_METHOD_ALL_SEEDS_CONTROLLER_BLOCK_BUDGET * len(METHOD_IDS)
+)
+
+# Hyperparameters and the numeric controller-block budget are frozen before
+# confirmatory optimizer results are viewed. The budget was selected only after
+# the real-data runtime preflight and is equal across all methods/seeds.
 BASELINE_HYPERPARAMETERS: dict[str, dict[str, Any]] = {
     "SOBOL": {"batch_size": 20},
     "NSGAII": {"pop_size": 20, "crossover_prob": 0.90, "eta_c": 15.0, "eta_m": 20.0},
@@ -34,6 +48,7 @@ BASELINE_HYPERPARAMETERS: dict[str, dict[str, Any]] = {
     "MODE": {"pop_size": 20, "differential_weight": 0.50, "crossover_rate": 0.90},
 }
 CRMT_HYPERPARAMETERS: dict[str, Any] = {
+    "candidate_pool_size": CRMT_CANDIDATE_POOL_SIZE,
     "initial_blocks": 4,
     "allocation_batch": 2,
     "alpha": 0.05,

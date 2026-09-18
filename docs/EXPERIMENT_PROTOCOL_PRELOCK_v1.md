@@ -54,16 +54,18 @@ Frozen values:
 
 Optimizer seeds remain 1001 through 1030.
 
-## Budget status
+## Budget lock
 
 The fairness unit remains exactly:
 
 `1 controller configuration × 1 predeclared replay block`.
 
-The numeric per-run controller-block budget is intentionally not frozen in this
-document. It must be selected only after the real-data runtime preflight has
-measured the actual cost of replay evaluation. This prevents choosing a budget
-that is computationally infeasible while preserving pre-result locking.
+After the real-data runtime preflight, the per-seed, per-method budget is frozen
+at **12,600 controller-block evaluations**. With 210 TRAIN blocks this equals 60
+complete TRAIN-candidate evaluations for full-block baselines. CRMT receives the
+same controller-block budget with a frozen 256-candidate Sobol proposal pool.
+
+See `docs/OPTIMIZER_BUDGET_LOCK_v1.md`.
 
 ## Block-manifest rule
 
@@ -74,8 +76,7 @@ manifest. A block ID has the form:
 
 and records inverter ID, local date, split, cadence, tick count, UTC start/end,
 and immutable source commit. Only >=95% complete-day blocks can enter this
-manifest. The generated manifest must be frozen in `reproducibility/manifests`
-before confirmatory optimization begins.
+manifest. The canonical generated manifest is now hash-locked in `reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json`. Confirmatory/runtime tools must regenerate it and fail closed on any SHA-256 mismatch.
 
 ## Claim boundary
 
