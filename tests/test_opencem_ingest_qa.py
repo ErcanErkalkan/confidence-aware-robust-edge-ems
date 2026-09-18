@@ -137,6 +137,8 @@ def test_run_qa_reports_per_inverter_availability_and_missingness(tmp_path: Path
     assert report['per_inverter_raw']['1']['raw_gap_seconds']['median']==300.0
     assert report['per_inverter_raw']['1']['raw_gap_seconds']['p95']==300.0
     assert report['neutral_peak_flag_verified'] is True
+    assert report['train_only_grid_cap_calibration']['1']['status'] == 'INSUFFICIENT_DIRECTIONAL_SAMPLES'
+    assert report['train_only_grid_cap_calibration']['2']['status'] == 'INSUFFICIENT_DIRECTIONAL_SAMPLES'
     assert report['inverter_ids'] == [1, 2]
     assert all(type(x) is int for x in report['inverter_ids'])
     # QA reports are persisted as JSON artifacts; serialization is part of the contract.
