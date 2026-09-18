@@ -41,7 +41,7 @@ class OpenCEMSubsystemAssumptions:
         if not (0.0 < self.battery_power_limit_kw <= OPENCEM_INVERTER_RATED_KW): raise ValueError("battery_power_limit_kw must be in (0, inverter rated kW]")
         if not (0.0 < self.eta_ch <= 1.0 and 0.0 < self.eta_dis <= 1.0): raise ValueError("eta_ch and eta_dis must be in (0,1]")
         if not (0.0 <= self.soc_min < self.soc_init < self.soc_max <= 1.0): raise ValueError("Require 0 <= soc_min < soc_init < soc_max <= 1")
-        if self.command_ramp_kw_per_tick <= 0.0: raise ValueError("command_ramp_kw_per_tick must be > 0")
+        if self.command_ramp_kw_per_min <= 0.0: raise ValueError("command_ramp_kw_per_min must be > 0")
         if self.import_cap_kw <= 0.0 or self.export_cap_kw <= 0.0: raise ValueError("import/export caps must be > 0")
 
 def build_opencem_subsystem_site(
