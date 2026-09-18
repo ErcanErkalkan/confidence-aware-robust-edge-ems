@@ -1,0 +1,95 @@
+name: CRMT ablation batch v1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "reproducibility/launch/CRMT_ABLATION_BATCH_V1.token"
+
+permissions:
+  contents: read
+
+jobs:
+  ablation-batch:
+    strategy:
+      fail-fast: false
+      matrix:
+        ablation:
+          - NO_CVAR
+          - NO_CONFIDENCE
+          - NO_ADAPTIVE
+        shard:
+          - "01"
+          - "02"
+          - "03"
+          - "04"
+          - "05"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: python -m pip install -U pip && python -m pip install -e .
+
+      - name: Verify launch token
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          vals = {}
+          for line in Path("reproducibility/launch/CRMT_ABLATION_BATCH_V1.token").read_text().splitlines():
+              if "=" in line:
+                  k, v = line.split("=", 1)
+                  vals[k.strip()] = v.strip()
+          assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
+          assert vals["primary_train_batch_conclusion"] == "success"
+          assert vals["ablations"] == "NO_CVAR,NO_CONFIDENCE,NO_ADAPTIVE"
+          PY
+
+      - name: Map shard to frozen seed range
+        id: shard
+        shell: bash
+        run: |
+          case "${{ matrix.shard }}" in
+            01) echo "start=1001" >> "$GITHUB_OUTPUT"; echo "end=1006" >> "$GITHUB_OUTPUT" ;;
+            02) echo "start=1007" >> "$GITHUB_OUTPUT"; echo "end=1012" >> "$GITHUB_OUTPUT" ;;
+            03) echo "start=1013" >> "$GITHUB_OUTPUT"; echo "end=1018" >> "$GITHUB_OUTPUT" ;;
+            04) echo "start=1019" >> "$GITHUB_OUTPUT"; echo "end=1024" >> "$GITHUB_OUTPUT" ;;
+            05) echo "start=1025" >> "$GITHUB_OUTPUT"; echo "end=1030" >> "$GITHUB_OUTPUT" ;;
+            *) exit 2 ;;
+          esac
+
+      - name: Acquire immutable OpenCEM data once for this shard
+        run: |
+          mkdir -p .tmp/opencem .tmp/verification outputs
+          python tools/opencem_ingest.py \
+            --manifest reproducibility/manifests/opencem_git_tree_manifest_v2.csv \
+            --raw-root .tmp/opencem \
+            --result-csv .tmp/verification/opencem_full.csv \
+            --result-json .tmp/verification/opencem_full.json
+
+      - name: Execute frozen ablation shard
+        run: |
+          python tools/opencem_ablation_batch.py \
+            --ablation "${{ matrix.ablation }}" \
+            --seed-start "${{ steps.shard.outputs.start }}" \
+            --seed-end "${{ steps.shard.outputs.end }}" \
+            --raw-root .tmp/opencem \
+            --verification-csv .tmp/verification/opencem_full.csv \
+            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \
+            --output-root outputs
+
+      - name: Upload ablation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: "crmt-ablation-batch-${{ matrix.ablation }}-${{ matrix.shard }}"
+          path: outputs/
+          if-no-files-found: error
+          retention-days: 90

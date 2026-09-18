@@ -25,12 +25,12 @@ from opencem_confirmatory_train import (
 from opencem_qa import load_verified_csvs
 
 
-def execute_ablation_train(
+def execute_ablation_train_on_blocks(
     ablation_id: str,
     seed: int,
-    paths: list[Path],
+    blocks,
     *,
-    lock: dict,
+    context: dict,
     output_dir: Path,
     budget: int = CONFIRMATORY_CONTROLLER_BLOCK_BUDGET,
     candidate_pool_size: int = CRMT_CANDIDATE_POOL_SIZE,
@@ -43,7 +43,6 @@ def execute_ablation_train(
     if seed not in OPTIMIZER_SEEDS:
         raise ValueError("seed is outside the frozen optimizer seed registry")
 
-    blocks, context = build_locked_train_blocks(paths, lock=lock)
     setting = dict(ABLATION_SETTINGS[ablation_id])
     hp = dict(CRMT_HYPERPARAMETERS if hyperparameters is None else hyperparameters)
     risk = RiskConfig(
@@ -96,7 +95,7 @@ def execute_ablation_train(
             "tail_weight": float(risk.tail_weight),
             "objectives": list(risk.objectives),
         },
-        "data_context": context,
+        "data_context": dict(context),
         "archive_size": int(len(result.archive_ids)),
         "git_sha": os.environ.get("GITHUB_SHA"),
         "files_sha256": files,
@@ -106,6 +105,30 @@ def execute_ablation_train(
         encoding="utf-8",
     )
     return summary
+
+
+def execute_ablation_train(
+    ablation_id: str,
+    seed: int,
+    paths: list[Path],
+    *,
+    lock: dict,
+    output_dir: Path,
+    budget: int = CONFIRMATORY_CONTROLLER_BLOCK_BUDGET,
+    candidate_pool_size: int = CRMT_CANDIDATE_POOL_SIZE,
+    hyperparameters: dict | None = None,
+) -> dict:
+    blocks, context = build_locked_train_blocks(paths, lock=lock)
+    return execute_ablation_train_on_blocks(
+        ablation_id,
+        seed,
+        blocks,
+        context=context,
+        output_dir=output_dir,
+        budget=budget,
+        candidate_pool_size=candidate_pool_size,
+        hyperparameters=hyperparameters,
+    )
 
 
 def main() -> int:
