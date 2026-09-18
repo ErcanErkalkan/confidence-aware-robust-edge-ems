@@ -13,7 +13,13 @@ from opsd_ood_replay_inventory import (
 
 def _raw(days=2):
     n = days * 1440 + 1
-    ts = pd.date_range("2026-01-01", periods=n, freq="1min", tz="UTC")
+    # One-minute pre-roll is required because cumulative-energy differencing
+    # needs the previous sample to derive the 00:00 power interval.
+    ts = pd.date_range(
+        "2025-12-31T23:59:00Z",
+        periods=n,
+        freq="1min",
+    )
     df = pd.DataFrame({"utc_timestamp": ts, "interpolated": ""})
     for h in ("residential3", "residential4", "residential6"):
         ch = OPSDHouseholdChannels.for_household(h)
