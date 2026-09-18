@@ -8,6 +8,7 @@ from .replay import ReplayBlock, ReplayEvaluator
 from .risk import DEFAULT_OBJECTIVES, RiskConfig
 from .site_model import OpenCEMSubsystemAssumptions, build_opencem_subsystem_site, calibrate_train_grid_caps
 from .study import CRMTStudy, StudyResult
+from .temporal import TemporalMapping, derive_temporal_mapping
 
 __all__ = [
     "EvaluationBudgetExceeded",
@@ -29,4 +30,6 @@ __all__ = [
     "calibrate_train_grid_caps",
     "CRMTStudy",
     "StudyResult",
+    "TemporalMapping",
+    "derive_temporal_mapping",
 ]

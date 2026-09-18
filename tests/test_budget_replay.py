@@ -88,16 +88,27 @@ def test_opencem_strict_site_model_requires_explicit_assumptions_and_uses_readme
         soc_min=0.2,
         soc_max=0.8,
         soc_init=0.5,
-        command_ramp_kw_per_tick=2.0,
+        command_ramp_kw_per_min=2.0,
         import_cap_kw=4.0,
         export_cap_kw=3.0,
     )
-    site = build_opencem_subsystem_site(a)
+    site = build_opencem_subsystem_site(a, cadence_minutes=2)
     assert np.isclose(OPENCEM_BATTERY_NOMINAL_KWH, 10.24)
     assert np.isclose(site.e_nom_kwh, 10.24)
     assert site.p_ch_max == 8.0 and site.p_dis_max == 8.0
     assert site.p_imp_peakcap == site.p_imp_offcap == 4.0
     assert site.p_exp_peakcap == site.p_exp_offcap == 3.0
+    assert np.isclose(site.ts_hours, 2.0 / 60.0)
+    assert site.r_max_kw_per_tick == 4.0
+    assert site.t_min_ticks == 2
+    assert site.w_f == 3
+    assert site.horizon_k == 5
+    assert site.d_lim == 16.0
+    assert np.isclose(site.fbrl_ema_beta_override, 0.4375)
+    assert site.proposed_cap_fix_hold_ticks_override == 2
+    assert site.proposed_prep_hold_ticks_override == 3
+    assert site.proposed_near_cap_window_ticks_override == 2
+    assert np.isclose(site.proposed_hold_decay_override, 0.36)
 
 
 def test_train_only_grid_cap_rule_uses_directional_quantiles_and_rejects_sparse_direction():

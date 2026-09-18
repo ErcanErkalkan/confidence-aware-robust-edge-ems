@@ -94,3 +94,30 @@ def test_normalized_power_parameters_scale_with_site():
     c2 = build_tuned_controller(s2, p)
     assert c2.prep_power_cap_kw == 2 * c1.prep_power_cap_kw
     assert c2.near_cap_forecast_buffer_kw == 2 * c1.near_cap_forecast_buffer_kw
+
+
+def test_cadence_aware_controller_hooks_preserve_default_and_map_two_minute_behavior():
+    from jer_microgrid.controllers import ProposedController, FilterBasedReferenceShapingController
+    from crmt_edge_ems.site_model import OpenCEMSubsystemAssumptions, build_opencem_subsystem_site
+    default = ProposedController(SiteConfig())
+    assert default.cap_fix_hold_ticks == 3
+    assert default.prep_hold_ticks == 5
+    assert default.near_cap_window_ticks == 3
+    assert np.isclose(default.hold_decay, 0.60)
+
+    assumptions = OpenCEMSubsystemAssumptions(
+        battery_power_limit_kw=8.0, eta_ch=0.95, eta_dis=0.95,
+        soc_min=0.2, soc_max=0.8, soc_init=0.5,
+        command_ramp_kw_per_min=2.0, import_cap_kw=4.0, export_cap_kw=3.0,
+    )
+    site = build_opencem_subsystem_site(assumptions, cadence_minutes=2)
+    proposed = ProposedController(site)
+    assert proposed.cap_fix_hold_ticks == 2
+    assert proposed.prep_hold_ticks == 3
+    assert proposed.near_cap_window_ticks == 2
+    assert np.isclose(proposed.hold_decay, 0.36)
+
+    fbrl = FilterBasedReferenceShapingController(site)
+    fbrl.step(0, np.array([0.0]), 0.5, 0)
+    fbrl.step(1, np.array([0.0, 10.0]), 0.5, 0)
+    assert np.isclose(fbrl.ema_ref, 4.375)

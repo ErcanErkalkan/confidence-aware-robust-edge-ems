@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 
 from jer_microgrid.config import SiteConfig
+from .temporal import derive_temporal_mapping
 
 OPENCEM_INVERTER_RATED_KW = 8.0
 OPENCEM_BATTERY_AH = 200.0
@@ -33,7 +34,7 @@ class OpenCEMSubsystemAssumptions:
     soc_min: float
     soc_max: float
     soc_init: float
-    command_ramp_kw_per_tick: float
+    command_ramp_kw_per_min: float
     import_cap_kw: float
     export_cap_kw: float
     def validate(self)->None:
@@ -43,9 +44,47 @@ class OpenCEMSubsystemAssumptions:
         if self.command_ramp_kw_per_tick <= 0.0: raise ValueError("command_ramp_kw_per_tick must be > 0")
         if self.import_cap_kw <= 0.0 or self.export_cap_kw <= 0.0: raise ValueError("import/export caps must be > 0")
 
-def build_opencem_subsystem_site(assumptions: OpenCEMSubsystemAssumptions) -> SiteConfig:
+def build_opencem_subsystem_site(
+    assumptions: OpenCEMSubsystemAssumptions,
+    *,
+    cadence_minutes: int = 1,
+) -> SiteConfig:
+    """Build a per-subsystem SiteConfig with cadence-aware temporal semantics."""
     assumptions.validate()
-    return SiteConfig(ts_hours=1.0/60.0,p_dis_max=float(assumptions.battery_power_limit_kw),p_ch_max=float(assumptions.battery_power_limit_kw),e_nom_kwh=float(OPENCEM_BATTERY_NOMINAL_KWH),eta_ch=float(assumptions.eta_ch),eta_dis=float(assumptions.eta_dis),soc_min=float(assumptions.soc_min),soc_max=float(assumptions.soc_max),soc_init=float(assumptions.soc_init),r_max_kw_per_tick=float(assumptions.command_ramp_kw_per_tick),soc_low_thresh=float(assumptions.soc_min),soc_high_thresh=float(assumptions.soc_max),p_imp_contr=float(assumptions.import_cap_kw),p_exp_phys=float(assumptions.export_cap_kw),p_imp_peakcap=float(assumptions.import_cap_kw),p_imp_offcap=float(assumptions.import_cap_kw),p_exp_peakcap=float(assumptions.export_cap_kw),p_exp_offcap=float(assumptions.export_cap_kw))
+    temporal = derive_temporal_mapping(
+        cadence_minutes,
+        base_r_max_kw_per_tick=float(assumptions.command_ramp_kw_per_min),
+    )
+    return SiteConfig(
+        ts_hours=temporal.ts_hours,
+        p_dis_max=float(assumptions.battery_power_limit_kw),
+        p_ch_max=float(assumptions.battery_power_limit_kw),
+        e_nom_kwh=float(OPENCEM_BATTERY_NOMINAL_KWH),
+        eta_ch=float(assumptions.eta_ch),
+        eta_dis=float(assumptions.eta_dis),
+        soc_min=float(assumptions.soc_min),
+        soc_max=float(assumptions.soc_max),
+        soc_init=float(assumptions.soc_init),
+        r_max_kw_per_tick=temporal.r_max_kw_per_tick,
+        t_min_ticks=temporal.t_min_ticks,
+        w_f=temporal.w_f_ticks,
+        horizon_k=temporal.horizon_k_ticks,
+        d_lim=temporal.d_lim_kw_per_tick,
+        fbrl_ema_beta_override=temporal.ema_beta,
+        proposed_cap_fix_hold_ticks_override=temporal.cap_fix_hold_ticks,
+        proposed_prep_hold_ticks_override=temporal.prep_hold_ticks,
+        proposed_near_cap_window_ticks_override=temporal.near_cap_window_ticks,
+        proposed_hold_decay_override=temporal.hold_decay_per_tick,
+        soc_low_thresh=float(assumptions.soc_min),
+        soc_high_thresh=float(assumptions.soc_max),
+        p_imp_contr=float(assumptions.import_cap_kw),
+        p_exp_phys=float(assumptions.export_cap_kw),
+        p_imp_peakcap=float(assumptions.import_cap_kw),
+        p_imp_offcap=float(assumptions.import_cap_kw),
+        p_exp_peakcap=float(assumptions.export_cap_kw),
+        p_exp_offcap=float(assumptions.export_cap_kw),
+    )
+
 
 def calibrate_train_grid_caps(train_profiles: Iterable[pd.DataFrame],*,import_quantile:float=0.90,export_quantile:float=0.90,min_samples_each_direction:int=100)->GridCapCalibration:
     if not (0.5 <= import_quantile < 1.0 and 0.5 <= export_quantile < 1.0): raise ValueError("cap quantiles must be in [0.5, 1)")

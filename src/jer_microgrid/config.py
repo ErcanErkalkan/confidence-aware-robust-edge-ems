@@ -41,6 +41,12 @@ class SiteConfig:
     w_ema: int = 7
     horizon_k: int = 10
     d_lim: float = 8.0
+    # Optional cadence-aware overrides. None preserves the frozen 1-minute behavior.
+    fbrl_ema_beta_override: float | None = None
+    proposed_cap_fix_hold_ticks_override: int | None = None
+    proposed_prep_hold_ticks_override: int | None = None
+    proposed_near_cap_window_ticks_override: int | None = None
+    proposed_hold_decay_override: float | None = None
     ecrit_abs: float = 25.0
     gamma_crit: float = 0.20
 

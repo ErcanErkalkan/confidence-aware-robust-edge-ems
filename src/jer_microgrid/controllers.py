@@ -125,7 +125,11 @@ class FilterBasedReferenceShapingController(ControllerBase):
         p_imp_cap, p_exp_cap = compute_caps(peak_flag, self.site)
         pmin, pmax = compute_hard_bounds(soc, self.site)
         prev = self.state.prev_cmd
-        beta = 2.0 / (self.site.w_ema + 1.0)
+        beta = (
+            float(self.site.fbrl_ema_beta_override)
+            if self.site.fbrl_ema_beta_override is not None
+            else 2.0 / (self.site.w_ema + 1.0)
+        )
         if self.ema_ref is None:
             self.ema_ref = base
         self.ema_ref = beta * base + (1.0 - beta) * self.ema_ref
@@ -192,10 +196,27 @@ class ProposedController(ControllerBase):
 
         # Action-hold logic is anchored to the site-level minimum dwell time
         # so t_min_ticks is a real behavioral control rather than a dead knob.
-        self.cap_fix_hold_ticks = max(1, int(site.t_min_ticks))
-        self.prep_hold_ticks = max(self.cap_fix_hold_ticks + 2, int(site.t_min_ticks))
+        self.cap_fix_hold_ticks = (
+            int(site.proposed_cap_fix_hold_ticks_override)
+            if site.proposed_cap_fix_hold_ticks_override is not None
+            else max(1, int(site.t_min_ticks))
+        )
+        self.prep_hold_ticks = (
+            int(site.proposed_prep_hold_ticks_override)
+            if site.proposed_prep_hold_ticks_override is not None
+            else max(self.cap_fix_hold_ticks + 2, int(site.t_min_ticks))
+        )
+        self.near_cap_window_ticks = (
+            int(site.proposed_near_cap_window_ticks_override)
+            if site.proposed_near_cap_window_ticks_override is not None
+            else 3
+        )
         self.near_cap_margin_kw = 0.8
-        self.hold_decay = 0.60
+        self.hold_decay = (
+            float(site.proposed_hold_decay_override)
+            if site.proposed_hold_decay_override is not None
+            else 0.60
+        )
 
         # Slightly softer reserve shaping than v4.
         self.prep_slack_gain = 0.70
@@ -223,7 +244,7 @@ class ProposedController(ControllerBase):
         forecast = forecast_base(history_base, s, no_forecast=self.no_forecast)
         imp_vec = np.maximum(0.0, forecast - p_imp_cap)
         exp_vec = np.maximum(0.0, -forecast - p_exp_cap)
-        forecast_window = forecast[: min(3, forecast.size)] if forecast.size else forecast
+        forecast_window = forecast[: min(self.near_cap_window_ticks, forecast.size)] if forecast.size else forecast
         near_imp_signal = max(
             0.0,
             float(np.max(forecast_window)) - (p_imp_cap - self.near_cap_forecast_buffer_kw)
@@ -339,14 +360,14 @@ class ProposedController(ControllerBase):
             # Short action-hold logic: reduce mode chatter without forcing
             # long persistence.
             if prev_mode == 'PS' and mode == 'IDLE' and prev_dwell < cap_fix_hold_ticks:
-                near_imp_cap = bool(forecast.size) and float(np.max(forecast[: min(3, forecast.size)])) > (p_imp_cap - self.near_cap_margin_kw)
+                near_imp_cap = bool(forecast.size) and float(np.max(forecast[: min(self.near_cap_window_ticks, forecast.size)])) > (p_imp_cap - self.near_cap_margin_kw)
                 if near_imp_cap:
                     desired = max(0.0, prev_cmd * self.hold_decay)
                     cmd = clip(desired, hard_lo, hard_hi)
                     mode = 'PS' if cmd > 0.0 else 'IDLE'
 
             elif prev_mode == 'VF' and mode == 'IDLE' and prev_dwell < cap_fix_hold_ticks:
-                near_exp_cap = bool(forecast.size) and float(np.min(forecast[: min(3, forecast.size)])) < (-p_exp_cap + self.near_cap_margin_kw)
+                near_exp_cap = bool(forecast.size) and float(np.min(forecast[: min(self.near_cap_window_ticks, forecast.size)])) < (-p_exp_cap + self.near_cap_margin_kw)
                 if near_exp_cap:
                     desired = min(0.0, prev_cmd * self.hold_decay)
                     cmd = clip(desired, hard_lo, hard_hi)
@@ -457,6 +478,7 @@ def get_proposed_controller_params(site: SiteConfig) -> dict[str, float | int | 
         'prep_hold_ticks': int(ctrl.prep_hold_ticks),
         'near_cap_margin_kw': float(ctrl.near_cap_margin_kw),
         'hold_decay': float(ctrl.hold_decay),
+        'near_cap_window_ticks': int(ctrl.near_cap_window_ticks),
         'prep_slack_gain': float(ctrl.prep_slack_gain),
         'prep_slack_offset': float(ctrl.prep_slack_offset),
         'near_cap_forecast_buffer_kw': float(ctrl.near_cap_forecast_buffer_kw),
