@@ -60,17 +60,24 @@ jobs:
                   k, v = line.split("=", 1)
                   lines[k.strip()] = v.strip()
           assert lines["protocol"] == "opencem-confirmatory-prelock-v1"
-          assert lines["train_batch_conclusion"] == "success"
-          print(f"train_run_id={int(lines['train_batch_run_id'])}")
+          assert lines["primary_train_run_id"] == "35368457130"
+          assert lines["primary_train_run_conclusion"] == "cancelled_after_MODE_timeout"
+          assert lines["primary_completed_methods"] == "SOBOL,NSGAII,MOPSO,CRMT"
+          assert lines["mode_recovery_conclusion"] == "success"
+          print(f"primary_train_run_id={int(lines['primary_train_run_id'])}")
+          print(f"mode_recovery_run_id={int(lines['mode_recovery_run_id'])}")
           PY
 
-      - name: Download all frozen TRAIN batch artifacts
+      - name: Download completed primary TRAIN artifacts and MODE recovery artifacts
         shell: bash
         run: |
-          mkdir -p train_batch_artifacts
-          gh run download "${{ steps.launch.outputs.train_run_id }}" \
+          mkdir -p train_batch_artifacts/primary train_batch_artifacts/mode_recovery
+          gh run download "${{ steps.launch.outputs.primary_train_run_id }}" \
             --repo "${{ github.repository }}" \
-            --dir train_batch_artifacts
+            --dir train_batch_artifacts/primary
+          gh run download "${{ steps.launch.outputs.mode_recovery_run_id }}" \
+            --repo "${{ github.repository }}" \
+            --dir train_batch_artifacts/mode_recovery
 
       - name: Acquire immutable OpenCEM data once for this shard
         run: |
