@@ -1,0 +1,76 @@
+name: CRMT ablation held-out report v1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "reproducibility/launch/CRMT_ABLATION_REPORT_V1.token"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  report:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: "${{ github.token }}"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: python -m pip install -U pip && python -m pip install -e .
+
+      - name: Read report prerequisites
+        id: launch
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          from pathlib import Path
+          vals = {}
+          for line in Path("reproducibility/launch/CRMT_ABLATION_REPORT_V1.token").read_text().splitlines():
+              if "=" in line:
+                  k, v = line.split("=", 1)
+                  vals[k.strip()] = v.strip()
+          assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
+          assert vals["primary_validation_conclusion"] == "success"
+          assert vals["primary_internal_conclusion"] == "success"
+          assert vals["ablation_internal_conclusion"] == "success"
+          print(f"primary_validation_run_id={int(vals['primary_validation_run_id'])}")
+          print(f"primary_internal_run_id={int(vals['primary_internal_run_id'])}")
+          print(f"ablation_internal_run_id={int(vals['ablation_internal_run_id'])}")
+          PY
+
+      - name: Download held-out evidence
+        run: |
+          mkdir -p primary_validation primary_internal ablation_internal outputs
+          gh run download "${{ steps.launch.outputs.primary_validation_run_id }}" \
+            --repo "${{ github.repository }}" --dir primary_validation
+          gh run download "${{ steps.launch.outputs.primary_internal_run_id }}" \
+            --repo "${{ github.repository }}" --dir primary_internal
+          gh run download "${{ steps.launch.outputs.ablation_internal_run_id }}" \
+            --repo "${{ github.repository }}" --dir ablation_internal
+
+      - name: Build paired ablation report
+        run: |
+          python tools/opencem_ablation_report.py \
+            --primary-selection-root primary_validation \
+            --primary-internal-root primary_internal \
+            --ablation-internal-root ablation_internal \
+            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \
+            --output-dir outputs
+
+      - name: Upload ablation statistical report
+        uses: actions/upload-artifact@v4
+        with:
+          name: crmt-ablation-heldout-statistical-report-v1
+          path: outputs/
+          if-no-files-found: error
+          retention-days: 90
