@@ -55,8 +55,12 @@ jobs:
           assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
           assert vals["ablation_train_conclusion"] == "success"
           assert vals["primary_validation_conclusion"] == "success"
+          assert len(vals["ablation_train_root_sha256"]) == 64
+          assert len(vals["primary_validation_root_sha256"]) == 64
           print(f"ablation_train_run_id={int(vals['ablation_train_run_id'])}")
           print(f"primary_validation_run_id={int(vals['primary_validation_run_id'])}")
+          print(f"ablation_train_root_sha256={vals['ablation_train_root_sha256']}")
+          print(f"primary_validation_root_sha256={vals['primary_validation_root_sha256']}")
           PY
 
       - name: Map shard to frozen seed range
@@ -80,6 +84,17 @@ jobs:
           gh run download "${{ steps.launch.outputs.primary_validation_run_id }}" \
             --repo "${{ github.repository }}" \
             --dir primary_validation_artifacts
+
+      - name: Audit frozen ablation TRAIN and primary validation roots
+        run: |
+          python tools/evidence_roots.py \
+            --stage ablation_train \
+            --root ablation_train_artifacts \
+            --expected-root "${{ steps.launch.outputs.ablation_train_root_sha256 }}"
+          python tools/evidence_roots.py \
+            --stage validation \
+            --root primary_validation_artifacts \
+            --expected-root "${{ steps.launch.outputs.primary_validation_root_sha256 }}"
 
       - name: Acquire immutable OpenCEM data once for this shard
         run: |
