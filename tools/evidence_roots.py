@@ -7,6 +7,11 @@ from pathlib import Path
 
 ABLATION_IDS = ("NO_CVAR", "NO_CONFIDENCE", "NO_ADAPTIVE")
 SEEDS = tuple(range(1001, 1031))
+ABLATION_CONTROLLER_BLOCK_BUDGET = 12600
+ABLATION_TRAIN_MANIFEST_SHA256 = "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1"
+ABLATION_TRAIN_BLOCK_COUNT = 210
+ABLATION_TRAIN_GIT_SHA = "128c6d3be06d9efd7921f903065bc727ac1d7440"
+ABLATION_REQUIRED_HASHED_FILES = ("candidate_metrics.csv", "optimizer_front.csv", "ledger.csv")
 
 
 def _sha256(path: Path) -> str:
@@ -140,9 +145,26 @@ def ablation_train_root(root: Path) -> tuple[str, int]:
                 raise RuntimeError(f"ablation TRAIN ID mismatch for {ablation}/{seed}")
             if int(summary.get("seed")) != seed:
                 raise RuntimeError(f"ablation TRAIN seed mismatch for {ablation}/{seed}")
-            if int(summary.get("controller_block_budget")) != int(summary.get("ledger_used")):
+            if int(summary.get("controller_block_budget")) != ABLATION_CONTROLLER_BLOCK_BUDGET:
+                raise RuntimeError(f"ablation TRAIN budget mismatch for {ablation}/{seed}")
+            if int(summary.get("ledger_used")) != ABLATION_CONTROLLER_BLOCK_BUDGET:
                 raise RuntimeError(f"ablation TRAIN ledger mismatch for {ablation}/{seed}")
-            verified = _verify_files_sha256(directory, summary.get("files_sha256", {}))
+            if str(summary.get("git_sha")) != ABLATION_TRAIN_GIT_SHA:
+                raise RuntimeError(f"ablation TRAIN git SHA mismatch for {ablation}/{seed}")
+            data_context = summary.get("data_context", {})
+            if data_context.get("manifest_sha256") != ABLATION_TRAIN_MANIFEST_SHA256:
+                raise RuntimeError(f"ablation TRAIN manifest mismatch for {ablation}/{seed}")
+            if data_context.get("split") != "train":
+                raise RuntimeError(f"ablation TRAIN split mismatch for {ablation}/{seed}")
+            if int(data_context.get("split_block_count")) != ABLATION_TRAIN_BLOCK_COUNT:
+                raise RuntimeError(f"ablation TRAIN block-count mismatch for {ablation}/{seed}")
+            files_sha256 = summary.get("files_sha256", {})
+            missing_hashes = [name for name in ABLATION_REQUIRED_HASHED_FILES if name not in files_sha256]
+            if missing_hashes:
+                raise RuntimeError(
+                    f"ablation TRAIN missing required file hashes for {ablation}/{seed}: {missing_hashes}"
+                )
+            verified = _verify_files_sha256(directory, files_sha256)
             line = [ablation, str(seed), _sha256(summary_path)]
             line.extend(f"{name}:{sha}" for name, sha in verified)
             lines.append("|".join(line))
