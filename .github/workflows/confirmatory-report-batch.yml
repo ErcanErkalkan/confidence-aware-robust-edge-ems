@@ -42,8 +42,12 @@ jobs:
           assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
           assert vals["validation_batch_conclusion"] == "success"
           assert vals["internal_batch_conclusion"] == "success"
+          assert len(vals["validation_selection_root_sha256"]) == 64
+          assert len(vals["internal_test_root_sha256"]) == 64
           print(f"validation_run_id={int(vals['validation_batch_run_id'])}")
           print(f"internal_run_id={int(vals['internal_batch_run_id'])}")
+          print(f"validation_selection_root_sha256={vals['validation_selection_root_sha256']}")
+          print(f"internal_test_root_sha256={vals['internal_test_root_sha256']}")
           PY
 
       - name: Download validation and internal-test evidence
@@ -55,6 +59,105 @@ jobs:
           gh run download "${{ steps.launch.outputs.internal_run_id }}" \
             --repo "${{ github.repository }}" \
             --dir internal_batch_artifacts
+
+      - name: Audit frozen validation and internal-test roots
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          validation_root = Path("validation_batch_artifacts")
+          internal_root = Path("internal_batch_artifacts")
+          validation_records = {}
+          validation_lines = []
+          internal_lines = []
+
+          for seed in range(1001, 1031):
+              vname = f"validation_selection_seed{seed}"
+              vmatches = sorted(
+                  p for p in validation_root.rglob(vname)
+                  if p.is_dir()
+                  and (p / "selection_lock.json").is_file()
+                  and (p / "selected_candidates.csv").is_file()
+              )
+              if len(vmatches) != 1:
+                  raise RuntimeError(
+                      f"expected exactly one validation selection for seed {seed}, found {len(vmatches)}"
+                  )
+              vdir = vmatches[0]
+              lock_path = vdir / "selection_lock.json"
+              selected_path = vdir / "selected_candidates.csv"
+              lock_sha = hashlib.sha256(lock_path.read_bytes()).hexdigest()
+              selected_sha = hashlib.sha256(selected_path.read_bytes()).hexdigest()
+              lock = json.loads(lock_path.read_text(encoding="utf-8"))
+              if int(lock.get("seed")) != seed:
+                  raise RuntimeError(f"validation seed mismatch for {seed}")
+              if lock.get("selected_candidates_sha256") != selected_sha:
+                  raise RuntimeError(f"validation selected-candidate hash mismatch for seed {seed}")
+              validation_records[seed] = (lock_sha, selected_sha)
+              validation_lines.append(f"{seed}|{lock_sha}|{selected_sha}")
+
+              iname = f"internal_test_seed{seed}"
+              imatches = sorted(
+                  p for p in internal_root.rglob(iname)
+                  if p.is_dir()
+                  and (p / "internal_test_run_summary.json").is_file()
+                  and (p / "internal_test_risk_summary.csv").is_file()
+                  and (p / "internal_test_block_metrics.csv").is_file()
+              )
+              if len(imatches) != 1:
+                  raise RuntimeError(
+                      f"expected exactly one internal-test bundle for seed {seed}, found {len(imatches)}"
+                  )
+              idir = imatches[0]
+              summary_path = idir / "internal_test_run_summary.json"
+              risk_path = idir / "internal_test_risk_summary.csv"
+              block_path = idir / "internal_test_block_metrics.csv"
+              summary_bytes = summary_path.read_bytes()
+              risk_bytes = risk_path.read_bytes()
+              block_bytes = block_path.read_bytes()
+              summary = json.loads(summary_bytes)
+              summary_sha = hashlib.sha256(summary_bytes).hexdigest()
+              risk_sha = hashlib.sha256(risk_bytes).hexdigest()
+              block_sha = hashlib.sha256(block_bytes).hexdigest()
+
+              if int(summary.get("seed")) != seed:
+                  raise RuntimeError(f"internal-test seed mismatch for {seed}")
+              if summary.get("selection_lock_sha256") != lock_sha:
+                  raise RuntimeError(f"internal-test selection-lock mismatch for seed {seed}")
+              if summary.get("selected_candidates_sha256") != selected_sha:
+                  raise RuntimeError(f"internal-test selected-candidate mismatch for seed {seed}")
+              files = summary.get("files_sha256", {})
+              if files.get("internal_test_risk_summary.csv") != risk_sha:
+                  raise RuntimeError(f"internal-test risk-summary hash mismatch for seed {seed}")
+              if files.get("internal_test_block_metrics.csv") != block_sha:
+                  raise RuntimeError(f"internal-test block-metrics hash mismatch for seed {seed}")
+
+              internal_lines.append(
+                  f"{seed}|{lock_sha}|{selected_sha}|{summary_sha}|{risk_sha}|{block_sha}"
+              )
+
+          observed_validation = hashlib.sha256(
+              "\n".join(validation_lines).encode("utf-8")
+          ).hexdigest()
+          observed_internal = hashlib.sha256(
+              "\n".join(internal_lines).encode("utf-8")
+          ).hexdigest()
+          expected_validation = "${{ steps.launch.outputs.validation_selection_root_sha256 }}"
+          expected_internal = "${{ steps.launch.outputs.internal_test_root_sha256 }}"
+          if observed_validation != expected_validation:
+              raise RuntimeError(
+                  f"validation root mismatch: observed={observed_validation} expected={expected_validation}"
+              )
+          if observed_internal != expected_internal:
+              raise RuntimeError(
+                  f"internal-test root mismatch: observed={observed_internal} expected={expected_internal}"
+              )
+          print(f"verified validation root: {observed_validation}")
+          print(f"verified internal-test root: {observed_internal}")
+          PY
 
       - name: Build hash-verified confirmatory report
         run: |
