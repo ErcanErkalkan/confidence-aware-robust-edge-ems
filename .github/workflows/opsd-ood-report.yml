@@ -41,7 +41,9 @@ jobs:
                   vals[k.strip()] = v.strip()
           assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
           assert vals["ood_batch_conclusion"] == "success"
+          assert len(vals["ood_root_sha256"]) == 64
           print(f"ood_run_id={int(vals['ood_batch_run_id'])}")
+          print(f"ood_root_sha256={vals['ood_root_sha256']}")
           PY
 
       - name: Download OOD batch evidence
@@ -50,6 +52,11 @@ jobs:
           gh run download "${{ steps.launch.outputs.ood_run_id }}" \
             --repo "${{ github.repository }}" \
             --dir ood_batch_artifacts
+
+      - name: Audit frozen OOD evidence root
+        run: |
+          python tools/evidence_roots.py --stage ood --root ood_batch_artifacts \
+            --expected-root "${{ steps.launch.outputs.ood_root_sha256 }}"
 
       - name: Build paired OOD statistical report
         run: |
