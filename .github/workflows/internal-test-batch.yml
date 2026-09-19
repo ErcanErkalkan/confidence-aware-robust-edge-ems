@@ -61,7 +61,9 @@ jobs:
                   lines[k.strip()] = v.strip()
           assert lines["protocol"] == "opencem-confirmatory-prelock-v1"
           assert lines["validation_batch_conclusion"] == "success"
+          assert len(lines["validation_selection_root_sha256"]) == 64
           print(f"validation_run_id={int(lines['validation_batch_run_id'])}")
+          print(f"validation_selection_root_sha256={lines['validation_selection_root_sha256']}")
           PY
 
       - name: Download all validation selection artifacts
@@ -71,6 +73,49 @@ jobs:
           gh run download "${{ steps.launch.outputs.validation_run_id }}" \
             --repo "${{ github.repository }}" \
             --dir validation_batch_artifacts
+
+      - name: Audit frozen validation selection root
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path("validation_batch_artifacts")
+          records = []
+          for seed in range(1001, 1031):
+              name = f"validation_selection_seed{seed}"
+              matches = sorted(
+                  p for p in root.rglob(name)
+                  if p.is_dir()
+                  and (p / "selection_lock.json").is_file()
+                  and (p / "selected_candidates.csv").is_file()
+              )
+              if len(matches) != 1:
+                  raise RuntimeError(
+                      f"expected exactly one frozen validation selection for seed {seed}, found {len(matches)}"
+                  )
+              selection_dir = matches[0]
+              lock_path = selection_dir / "selection_lock.json"
+              selected_path = selection_dir / "selected_candidates.csv"
+              lock_sha = hashlib.sha256(lock_path.read_bytes()).hexdigest()
+              selected_sha = hashlib.sha256(selected_path.read_bytes()).hexdigest()
+              lock = json.loads(lock_path.read_text(encoding="utf-8"))
+              if int(lock.get("seed")) != seed:
+                  raise RuntimeError(f"selection seed mismatch for {seed}")
+              if lock.get("selected_candidates_sha256") != selected_sha:
+                  raise RuntimeError(f"selected-candidate hash mismatch for seed {seed}")
+              records.append(f"{seed}|{lock_sha}|{selected_sha}")
+
+          observed = hashlib.sha256("\n".join(records).encode("utf-8")).hexdigest()
+          expected = "${{ steps.launch.outputs.validation_selection_root_sha256 }}"
+          if observed != expected:
+              raise RuntimeError(
+                  f"validation selection root mismatch: observed={observed} expected={expected}"
+              )
+          print(f"verified validation selection root: {observed}")
+          PY
 
       - name: Acquire immutable OpenCEM data once for this shard
         run: |
