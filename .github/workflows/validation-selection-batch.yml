@@ -79,6 +79,14 @@ jobs:
             --repo "${{ github.repository }}" \
             --dir train_batch_artifacts/mode_recovery
 
+      - name: Audit all 150 frozen TRAIN evidence bundles
+        run: |
+          mkdir -p outputs/train_evidence_audit
+          python tools/opencem_train_evidence_audit.py \
+            --train-run-root train_batch_artifacts \
+            --block-lock-json reproducibility/manifests/opencem_complete_day_blocks_lock_v1.json \
+            --output-dir outputs/train_evidence_audit
+
       - name: Acquire immutable OpenCEM data once for this shard
         run: |
           mkdir -p .tmp/opencem .tmp/verification outputs
