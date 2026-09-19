@@ -100,3 +100,125 @@ def test_train_evidence_audit_fails_closed_on_tampered_ledger(tmp_path, monkeypa
         audit.audit_train_evidence(
             tmp_path, expected_manifest_sha256="manifest"
         )
+
+
+def test_train_evidence_audit_accepts_frozen_split_block_count_schema(tmp_path, monkeypatch):
+    import hashlib
+    import json
+
+    import numpy as np
+    import pandas as pd
+
+    import opencem_train_evidence_audit as audit
+
+    monkeypatch.setattr(audit, "METHOD_IDS", ("SOBOL",))
+    monkeypatch.setattr(audit, "OPTIMIZER_SEEDS", (1001,))
+    monkeypatch.setattr(audit, "TRAIN_BLOCK_COUNT", 2)
+    monkeypatch.setattr(audit, "CONFIRMATORY_CONTROLLER_BLOCK_BUDGET", 2)
+
+    run_dir = tmp_path / "SOBOL_seed1001"
+    run_dir.mkdir()
+    front = run_dir / "optimizer_front.csv"
+    ledger = run_dir / "ledger.csv"
+    candidates = run_dir / "candidate_evaluations.csv"
+    front.write_text("front_id\nSOBOL-front-0001\n", encoding="utf-8")
+    pd.DataFrame(
+        {
+            "ordinal": [1, 2],
+            "method_id": ["SOBOL", "SOBOL"],
+            "candidate_id": ["c1", "c1"],
+            "block_id": ["b1", "b2"],
+            "unit": [
+                "controller_block_evaluation",
+                "controller_block_evaluation",
+            ],
+        }
+    ).to_csv(ledger, index=False)
+    candidates.write_text("candidate_id\nc1\n", encoding="utf-8")
+    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    summary = {
+        "stage": "TRAIN_OPTIMIZATION_ONLY",
+        "protocol_version": audit.PROTOCOL_VERSION,
+        "method": "SOBOL",
+        "seed": 1001,
+        "controller_block_budget": 2,
+        "ledger_used": 2,
+        "candidate_count": 60,
+        "data_context": {
+            "manifest_sha256": "manifest",
+            "split": "train",
+            "split_block_count": 2,
+        },
+        "files_sha256": {
+            "optimizer_front.csv": sha(front),
+            "ledger.csv": sha(ledger),
+            "candidate_evaluations.csv": sha(candidates),
+        },
+    }
+    (run_dir / "run_summary.json").write_text(
+        json.dumps(summary), encoding="utf-8"
+    )
+    frame, report = audit.audit_train_evidence(
+        tmp_path, expected_manifest_sha256="manifest"
+    )
+    assert len(frame) == 1
+    assert report["verified_runs"] == 1
+
+
+def test_train_evidence_audit_rejects_conflicting_block_count_aliases(tmp_path, monkeypatch):
+    import hashlib
+    import json
+    import pandas as pd
+    import pytest
+
+    import opencem_train_evidence_audit as audit
+
+    monkeypatch.setattr(audit, "METHOD_IDS", ("SOBOL",))
+    monkeypatch.setattr(audit, "OPTIMIZER_SEEDS", (1001,))
+    monkeypatch.setattr(audit, "TRAIN_BLOCK_COUNT", 2)
+    monkeypatch.setattr(audit, "CONFIRMATORY_CONTROLLER_BLOCK_BUDGET", 2)
+
+    run_dir = tmp_path / "SOBOL_seed1001"
+    run_dir.mkdir()
+    front = run_dir / "optimizer_front.csv"
+    ledger = run_dir / "ledger.csv"
+    candidates = run_dir / "candidate_evaluations.csv"
+    front.write_text("front_id\nSOBOL-front-0001\n", encoding="utf-8")
+    pd.DataFrame(
+        {
+            "ordinal": [1, 2],
+            "method_id": ["SOBOL", "SOBOL"],
+            "candidate_id": ["c1", "c1"],
+            "block_id": ["b1", "b2"],
+            "unit": ["controller_block_evaluation"] * 2,
+        }
+    ).to_csv(ledger, index=False)
+    candidates.write_text("candidate_id\nc1\n", encoding="utf-8")
+    sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    summary = {
+        "stage": "TRAIN_OPTIMIZATION_ONLY",
+        "protocol_version": audit.PROTOCOL_VERSION,
+        "method": "SOBOL",
+        "seed": 1001,
+        "controller_block_budget": 2,
+        "ledger_used": 2,
+        "candidate_count": 60,
+        "data_context": {
+            "manifest_sha256": "manifest",
+            "split": "train",
+            "train_block_count": 2,
+            "split_block_count": 3,
+        },
+        "files_sha256": {
+            "optimizer_front.csv": sha(front),
+            "ledger.csv": sha(ledger),
+            "candidate_evaluations.csv": sha(candidates),
+        },
+    }
+    (run_dir / "run_summary.json").write_text(
+        json.dumps(summary), encoding="utf-8"
+    )
+    with pytest.raises(RuntimeError, match="inconsistent TRAIN block-count aliases"):
+        audit.audit_train_evidence(
+            tmp_path, expected_manifest_sha256="manifest"
+        )

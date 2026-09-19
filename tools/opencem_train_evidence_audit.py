@@ -62,7 +62,23 @@ def audit_train_evidence(
             context = summary.get("data_context", {})
             if context.get("manifest_sha256") != expected_manifest_sha256:
                 raise RuntimeError(f"{method}/{seed}: block-manifest mismatch")
-            if int(context.get("train_block_count")) != TRAIN_BLOCK_COUNT:
+            if context.get("split") not in (None, "train"):
+                raise RuntimeError(f"{method}/{seed}: non-TRAIN data context")
+            explicit_train = context.get("train_block_count")
+            split_count = context.get("split_block_count")
+            if explicit_train is not None and split_count is not None:
+                if int(explicit_train) != int(split_count):
+                    raise RuntimeError(
+                        f"{method}/{seed}: inconsistent TRAIN block-count aliases"
+                    )
+            observed_train_count = (
+                explicit_train if explicit_train is not None else split_count
+            )
+            if observed_train_count is None:
+                raise RuntimeError(
+                    f"{method}/{seed}: missing TRAIN block-count evidence"
+                )
+            if int(observed_train_count) != TRAIN_BLOCK_COUNT:
                 raise RuntimeError(f"{method}/{seed}: TRAIN block-count mismatch")
 
             files = summary.get("files_sha256", {})
