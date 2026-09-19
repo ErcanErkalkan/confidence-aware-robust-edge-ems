@@ -79,8 +79,12 @@ jobs:
           assert vals["internal_batch_conclusion"] == "success"
           assert vals["opsd_package_sha256"] == "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3"
           assert vals["opsd_replay_manifest_sha256"] == "7e6137adf98a4b5c604fd047891297458b0a2dc606e32f2e8b9e3dba562bea1d"
+          assert len(vals["validation_selection_root_sha256"]) == 64
+          assert len(vals["internal_test_root_sha256"]) == 64
           print(f"validation_run_id={int(vals['validation_batch_run_id'])}")
           print(f"internal_run_id={int(vals['internal_batch_run_id'])}")
+          print(f"validation_selection_root_sha256={vals['validation_selection_root_sha256']}")
+          print(f"internal_test_root_sha256={vals['internal_test_root_sha256']}")
           PY
 
       - name: Download selection and primary internal-test evidence
@@ -93,6 +97,13 @@ jobs:
           gh run download "${{ steps.launch.outputs.internal_run_id }}" \
             --repo "${{ github.repository }}" \
             --dir internal_batch_artifacts
+
+      - name: Audit frozen primary selection and internal-test roots
+        run: |
+          python tools/evidence_roots.py --stage validation --root validation_batch_artifacts \
+            --expected-root "${{ steps.launch.outputs.validation_selection_root_sha256 }}"
+          python tools/evidence_roots.py --stage internal --root internal_batch_artifacts \
+            --expected-root "${{ steps.launch.outputs.internal_test_root_sha256 }}"
 
       - name: Download exact locked OPSD package
         run: |
