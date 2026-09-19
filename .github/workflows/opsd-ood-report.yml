@@ -1,0 +1,66 @@
+name: OPSD OOD statistical report v1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "reproducibility/launch/OPSD_OOD_REPORT_V1.token"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  report:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: "${{ github.token }}"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project
+        run: python -m pip install -U pip && python -m pip install -e .
+
+      - name: Read OOD-report dependency
+        id: launch
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          from pathlib import Path
+          vals = {}
+          for line in Path("reproducibility/launch/OPSD_OOD_REPORT_V1.token").read_text().splitlines():
+              if "=" in line:
+                  k, v = line.split("=", 1)
+                  vals[k.strip()] = v.strip()
+          assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
+          assert vals["ood_batch_conclusion"] == "success"
+          print(f"ood_run_id={int(vals['ood_batch_run_id'])}")
+          PY
+
+      - name: Download OOD batch evidence
+        run: |
+          mkdir -p ood_batch_artifacts outputs
+          gh run download "${{ steps.launch.outputs.ood_run_id }}" \
+            --repo "${{ github.repository }}" \
+            --dir ood_batch_artifacts
+
+      - name: Build paired OOD statistical report
+        run: |
+          python tools/opsd_ood_report.py \
+            --ood-root ood_batch_artifacts \
+            --output-dir outputs
+
+      - name: Upload OOD statistical report
+        uses: actions/upload-artifact@v4
+        with:
+          name: opsd-ood-statistical-report-v1
+          path: outputs/
+          if-no-files-found: error
+          retention-days: 90
