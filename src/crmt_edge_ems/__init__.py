@@ -8,7 +8,7 @@ from .replay import MultiSiteReplayEvaluator, ReplayBlock, ReplayEvaluator
 from .risk import DEFAULT_OBJECTIVES, RiskConfig
 from .site_model import OpenCEMSubsystemAssumptions, build_opencem_subsystem_site, build_primary_opencem_site, primary_opencem_assumptions, calibrate_train_grid_caps
 from .study import CRMTStudy, StudyResult
-from .selection import score_validation_candidates, select_one_per_method
+from .selection import score_validation_candidates, score_validation_candidates_with_reference, select_one_per_method
 from .indicators import validation_optimizer_indicators
 from .statistics import descriptive_table, friedman_table, pairwise_paired_table
 from .protocol import BASELINE_HYPERPARAMETERS, CRMT_HYPERPARAMETERS, SITE_SENSITIVITY_VARIANTS, build_opencem_sensitivity_site
@@ -38,6 +38,7 @@ __all__ = [
     "CRMTStudy",
     "StudyResult",
     "score_validation_candidates",
+    "score_validation_candidates_with_reference",
     "select_one_per_method",
     "validation_optimizer_indicators",
     "descriptive_table",

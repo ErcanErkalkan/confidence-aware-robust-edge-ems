@@ -100,3 +100,26 @@ def test_internal_test_rejects_modified_selected_candidate_csv(tmp_path):
         internal.load_locked_selection(
             tmp_path, expected_manifest_sha256="abc"
         )
+
+
+def test_fixed_validation_reference_is_reused_without_clipping():
+    from crmt_edge_ems.selection import score_validation_candidates_with_reference
+    df = pd.DataFrame(
+        {
+            "method": ["ABL", "ABL"],
+            "candidate_id": ["a", "b"],
+            "o1": [-1.0, 12.0],
+            "o2": [5.0, 5.0],
+        }
+    )
+    refs = {
+        "o1": {"ideal": 0.0, "observed_worst": 10.0, "span": 10.0, "degenerate": False},
+        "o2": {"ideal": 5.0, "observed_worst": 5.0, "span": 0.0, "degenerate": True},
+    }
+    scored = score_validation_candidates_with_reference(
+        df, objectives=("o1", "o2"), references=refs
+    )
+    assert np.isclose(scored.loc[0, "norm__o1"], -0.1)
+    assert np.isclose(scored.loc[1, "norm__o1"], 1.2)
+    assert np.allclose(scored["norm__o2"], 0.0)
+    assert set(scored["normalization_reference_source"]) == {"primary_validation_lock"}
