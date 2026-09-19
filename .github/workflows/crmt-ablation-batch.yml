@@ -49,7 +49,9 @@ jobs:
                   k, v = line.split("=", 1)
                   vals[k.strip()] = v.strip()
           assert vals["protocol"] == "opencem-confirmatory-prelock-v1"
-          assert vals["primary_train_batch_conclusion"] == "success"
+          assert vals["primary_train_execution_status"] == "complete_with_mode_recovery"
+          assert vals["primary_train_run_id"] == "35368457130"
+          assert vals["mode_recovery_run_id"] == "35432584414"
           assert vals["ablations"] == "NO_CVAR,NO_CONFIDENCE,NO_ADAPTIVE"
           PY
 
