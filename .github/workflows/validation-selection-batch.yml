@@ -18,20 +18,35 @@ jobs:
       matrix:
         include:
           - seed_start: 1001
-            seed_end: 1006
+            seed_end: 1003
             shard: 01
-          - seed_start: 1007
-            seed_end: 1012
+          - seed_start: 1004
+            seed_end: 1006
             shard: 02
-          - seed_start: 1013
-            seed_end: 1018
+          - seed_start: 1007
+            seed_end: 1009
             shard: 03
-          - seed_start: 1019
-            seed_end: 1024
+          - seed_start: 1010
+            seed_end: 1012
             shard: 04
-          - seed_start: 1025
-            seed_end: 1030
+          - seed_start: 1013
+            seed_end: 1015
             shard: 05
+          - seed_start: 1016
+            seed_end: 1018
+            shard: 06
+          - seed_start: 1019
+            seed_end: 1021
+            shard: 07
+          - seed_start: 1022
+            seed_end: 1024
+            shard: 08
+          - seed_start: 1025
+            seed_end: 1027
+            shard: 09
+          - seed_start: 1028
+            seed_end: 1030
+            shard: 10
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env:
