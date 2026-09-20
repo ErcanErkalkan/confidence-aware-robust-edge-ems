@@ -47,6 +47,9 @@ MIT
 
 Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift
 
+Current journal-facing manuscript provenance is recorded in:
+`reproducibility/MANUSCRIPT_V8_LOCK_2026-09-20.md`.
+
 The journal manuscript is under submission preparation and has no publication DOI yet. Do not invent or pre-register a journal DOI.
 
 ## Repository metadata now present
@@ -55,7 +58,7 @@ The journal manuscript is under submission preparation and has no publication DO
 - `CITATION.cff`
 - `.zenodo.json`
 - `docs/RELEASE_NOTES_v0.1.0.md`
-- `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`
+- `reproducibility/MANUSCRIPT_V8_LOCK_2026-09-20.md`
 
 ## Remaining operational sequence
 
