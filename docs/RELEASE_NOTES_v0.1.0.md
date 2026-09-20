@@ -40,8 +40,15 @@ The v7 manuscript contains 24 cited references, including 18 papers from *Applie
 
 See `reproducibility/CONFIRMATORY_EVIDENCE_ROOTS_2026-09-20.md`.
 
-## Zenodo preparation
+## Licensing and Zenodo metadata
 
-`CITATION.cff` is provided for GitHub citation support and Zenodo-compatible software metadata.
+The repository is released under the **MIT License**.
 
-A root-level `.zenodo.json` is intentionally not committed yet because the repository currently has no software license selected. A Zenodo open-access software deposit requires a license choice; that legal/reuse choice must be made explicitly by the author before publication.
+- `LICENSE` contains the canonical MIT license text.
+- `CITATION.cff` contains GitHub citation metadata.
+- `.zenodo.json` contains Zenodo-specific archival metadata.
+- `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md` records the Zenodo release checklist.
+
+## Zenodo release state
+
+Metadata and licensing blockers are closed. A Zenodo DOI has not yet been minted in this repository state. The remaining operational step is to create/publish the GitHub release `v0.1.0` after the repository has been enabled in the author's Zenodo GitHub integration. Zenodo will then ingest the release according to the configured integration.
