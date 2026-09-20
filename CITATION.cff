@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Confidence-Aware Robust Edge EMS: Reproducibility Software for Risk-Calibrated Multiobjective Tuning"
+type: software
+authors:
+  - family-names: Erkalkan
+    given-names: Ercan
+    orcid: "https://orcid.org/0000-0001-9259-7112"
+    affiliation: "Marmara University, Vocational School of Technical Sciences, Department of Electronics and Automation, Artificial Intelligence Operator Program"
+repository-code: "https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems"
+version: 0.1.0
+date-released: 2026-09-20
+keywords:
+  - microgrid
+  - energy management system
+  - multiobjective optimization
+  - uncertainty
+  - CVaR
+  - confidence-aware optimization
+  - distribution shift
+  - reproducibility
