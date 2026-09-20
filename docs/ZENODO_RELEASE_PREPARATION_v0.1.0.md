@@ -1,5 +1,11 @@
 # Zenodo Release Preparation — v0.1.0
 
+## Status
+
+**METADATA READY / LICENSE CLOSED / RELEASE NOT YET PUBLISHED**
+
+The author selected the **MIT License** on 2026-09-20.
+
 ## Intended record type
 
 Software / reproducibility artifact.
@@ -22,6 +28,10 @@ https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems
 
 0.1.0
 
+## License
+
+MIT
+
 ## Suggested keywords
 
 - microgrid
@@ -39,16 +49,21 @@ Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy
 
 The journal manuscript is under submission preparation and has no publication DOI yet. Do not invent or pre-register a journal DOI.
 
-## Release blocker
+## Repository metadata now present
 
-The repository has no software license selected.
+- `LICENSE`
+- `CITATION.cff`
+- `.zenodo.json`
+- `docs/RELEASE_NOTES_v0.1.0.md`
+- `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`
 
-Do not publish an open-access Zenodo software record until the author explicitly chooses the reuse license. This is a legal/reuse choice and is intentionally not inferred from upstream dependencies, public GitHub visibility, or dataset licenses.
+## Remaining operational sequence
 
-## After license selection
+1. In Zenodo, link GitHub if not already linked.
+2. In Zenodo > GitHub, enable `ErcanErkalkan/confidence-aware-robust-edge-ems`.
+3. Create/publish GitHub release `v0.1.0`.
+4. Wait for Zenodo to ingest and archive the release.
+5. Verify title, creator, ORCID, affiliation, version, repository URL, MIT license, files, and DOI.
+6. Record the resulting Zenodo concept/version DOI back in the repository and manuscript support files only after the DOI actually exists.
 
-1. Add the selected license to the repository.
-2. Add a validated root-level `.zenodo.json` (optional but recommended for Zenodo-specific metadata).
-3. Create GitHub release `v0.1.0`.
-4. If the repository is enabled in Zenodo's GitHub integration, allow Zenodo to archive that release.
-5. Verify title, creator, ORCID, affiliation, version, repository URL, license, related identifiers, files, and DOI before treating the Zenodo record as canonical.
+Zenodo's GitHub workflow requires the repository to be enabled before a GitHub release is archived. Do not claim a DOI until the Zenodo record has actually been created.
