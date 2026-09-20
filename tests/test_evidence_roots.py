@@ -118,3 +118,76 @@ def test_ablation_train_root_fails_on_missing_required_hash(tmp_path):
     path.write_text(json.dumps(summary), encoding="utf-8")
     with pytest.raises(RuntimeError, match="missing required file hashes"):
         compute_evidence_root("ablation_train", tmp_path)
+
+
+def _build_sensitivity(root: Path):
+    variants = [
+        "ETA_LOW_090",
+        "ETA_IDEAL_100",
+        "SOC_CONSERVATIVE_15_95",
+        "RAMP_HALF",
+        "RAMP_QUARTER",
+        "TEMPORAL_FLOOR",
+    ]
+    block_payload = "variant_id,method,candidate_id,block_id\n" + "".join(
+        f"{variants[i % 6]},CRMT,c1,b{i}\n" for i in range(2340)
+    )
+    risk_payload = "variant_id,method,candidate_id,value\n" + "".join(
+        f"{variants[i % 6]},CRMT,c1,1\n" for i in range(30)
+    )
+    for seed in range(1001, 1031):
+        d = root / f"sensitivity_seed{seed}"
+        d.mkdir(parents=True)
+        (d / "sensitivity_block_metrics.csv").write_text(block_payload, encoding="utf-8")
+        (d / "sensitivity_risk_summary.csv").write_text(risk_payload, encoding="utf-8")
+        summary = {
+            "stage": "PREDECLARED_SITE_TEMPORAL_SENSITIVITY",
+            "seed": seed,
+            "variant_ids": variants,
+            "selection_lock_sha256": "a" * 64,
+            "selected_candidates_sha256": "b" * 64,
+            "primary_internal_test_summary_sha256": "c" * 64,
+            "primary_internal_test_stage": "ONE_SHOT_INTERNAL_TEST",
+            "data_context": {
+                "manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+                "split": "internal_test",
+                "split_block_count": 78,
+            },
+            "files_sha256": {
+                "sensitivity_block_metrics.csv": _sha(d / "sensitivity_block_metrics.csv"),
+                "sensitivity_risk_summary.csv": _sha(d / "sensitivity_risk_summary.csv"),
+            },
+        }
+        (d / "sensitivity_run_summary.json").write_text(
+            json.dumps(summary), encoding="utf-8"
+        )
+
+
+def test_sensitivity_root_verifies_exact_30_seed_design(tmp_path):
+    _build_sensitivity(tmp_path)
+    result = compute_evidence_root("sensitivity", tmp_path)
+    assert result["records"] == 30
+    assert len(result["root_sha256"]) == 64
+
+
+def test_sensitivity_root_fails_on_variant_drift(tmp_path):
+    _build_sensitivity(tmp_path)
+    path = tmp_path / "sensitivity_seed1001" / "sensitivity_run_summary.json"
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    summary["variant_ids"][0] = "UNDECLARED_VARIANT"
+    path.write_text(json.dumps(summary), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="variant set/order mismatch"):
+        compute_evidence_root("sensitivity", tmp_path)
+
+
+def test_sensitivity_root_fails_on_row_count_drift(tmp_path):
+    _build_sensitivity(tmp_path)
+    path = tmp_path / "sensitivity_seed1001" / "sensitivity_risk_summary.csv"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    path.write_text("\n".join(lines[:-1]) + "\n", encoding="utf-8")
+    summary_path = tmp_path / "sensitivity_seed1001" / "sensitivity_run_summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    summary["files_sha256"]["sensitivity_risk_summary.csv"] = _sha(path)
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="row-count mismatch"):
+        compute_evidence_root("sensitivity", tmp_path)
