@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -12,6 +13,20 @@ ABLATION_TRAIN_MANIFEST_SHA256 = "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973
 ABLATION_TRAIN_BLOCK_COUNT = 210
 ABLATION_TRAIN_GIT_SHA = "128c6d3be06d9efd7921f903065bc727ac1d7440"
 ABLATION_REQUIRED_HASHED_FILES = ("candidate_metrics.csv", "optimizer_front.csv", "ledger.csv")
+SENSITIVITY_VARIANT_IDS = (
+    "ETA_LOW_090",
+    "ETA_IDEAL_100",
+    "SOC_CONSERVATIVE_15_95",
+    "RAMP_HALF",
+    "RAMP_QUARTER",
+    "TEMPORAL_FLOOR",
+)
+SENSITIVITY_INTERNAL_BLOCK_COUNT = 78
+SENSITIVITY_METHOD_COUNT = 5
+SENSITIVITY_EXPECTED_BLOCK_ROWS = len(SENSITIVITY_VARIANT_IDS) * SENSITIVITY_METHOD_COUNT * SENSITIVITY_INTERNAL_BLOCK_COUNT
+SENSITIVITY_EXPECTED_RISK_ROWS = len(SENSITIVITY_VARIANT_IDS) * SENSITIVITY_METHOD_COUNT
+SENSITIVITY_MANIFEST_SHA256 = ABLATION_TRAIN_MANIFEST_SHA256
+SENSITIVITY_REQUIRED_HASHED_FILES = ("sensitivity_block_metrics.csv", "sensitivity_risk_summary.csv")
 
 
 def _sha256(path: Path) -> str:
@@ -251,7 +266,44 @@ def sensitivity_root(root: Path) -> tuple[str, int]:
             raise RuntimeError(f"sensitivity stage mismatch for seed {seed}")
         if int(summary.get("seed")) != seed:
             raise RuntimeError(f"sensitivity seed mismatch for seed {seed}")
-        verified = _verify_files_sha256(directory, summary.get("files_sha256", {}))
+        if tuple(summary.get("variant_ids", ())) != SENSITIVITY_VARIANT_IDS:
+            raise RuntimeError(f"sensitivity variant set/order mismatch for seed {seed}")
+        data_context = summary.get("data_context", {})
+        if data_context.get("manifest_sha256") != SENSITIVITY_MANIFEST_SHA256:
+            raise RuntimeError(f"sensitivity manifest mismatch for seed {seed}")
+        if data_context.get("split") != "internal_test":
+            raise RuntimeError(f"sensitivity split mismatch for seed {seed}")
+        if int(data_context.get("split_block_count")) != SENSITIVITY_INTERNAL_BLOCK_COUNT:
+            raise RuntimeError(f"sensitivity block-count mismatch for seed {seed}")
+        if summary.get("primary_internal_test_stage") != "ONE_SHOT_INTERNAL_TEST":
+            raise RuntimeError(f"sensitivity primary-internal stage mismatch for seed {seed}")
+        if not summary.get("selection_lock_sha256"):
+            raise RuntimeError(f"sensitivity selection-lock hash missing for seed {seed}")
+        if not summary.get("selected_candidates_sha256"):
+            raise RuntimeError(f"sensitivity selected-candidates hash missing for seed {seed}")
+        if not summary.get("primary_internal_test_summary_sha256"):
+            raise RuntimeError(f"sensitivity primary-internal summary hash missing for seed {seed}")
+        files_sha256 = summary.get("files_sha256", {})
+        missing_hashes = [
+            name for name in SENSITIVITY_REQUIRED_HASHED_FILES
+            if name not in files_sha256
+        ]
+        if missing_hashes:
+            raise RuntimeError(
+                f"sensitivity missing required file hashes for seed {seed}: {missing_hashes}"
+            )
+        verified = _verify_files_sha256(directory, files_sha256)
+        for name, expected_rows in (
+            ("sensitivity_block_metrics.csv", SENSITIVITY_EXPECTED_BLOCK_ROWS),
+            ("sensitivity_risk_summary.csv", SENSITIVITY_EXPECTED_RISK_ROWS),
+        ):
+            with (directory / name).open(newline="", encoding="utf-8") as handle:
+                observed_rows = sum(1 for _ in csv.reader(handle)) - 1
+            if observed_rows != expected_rows:
+                raise RuntimeError(
+                    f"sensitivity row-count mismatch for seed {seed}/{name}: "
+                    f"{observed_rows} != {expected_rows}"
+                )
         line = [
             str(seed),
             str(summary.get("selection_lock_sha256")),
