@@ -26,16 +26,16 @@ The current journal-facing manuscript line is:
 
 **Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift**
 
-Current canonical manuscript revision: **v8**.
+Current canonical manuscript revision: **v9**.
 
-- 33-page manuscript with 24 cited references;
+- 34-page manuscript with 24 cited references;
 - 18 references from *Applied Soft Computing*;
-- 8 manuscript figures: 3 new programmatic figures plus 5 byte-identical frozen result figures;
+- 7 manuscript figures: 2 disclosed AI-assisted explanatory schematics plus 5 frozen data-derived result figures;
 - separate programmatic graphical abstract;
-- v7→v8 integrity audit: 24/24 pre-existing frozen/result artifacts SHA-256 identical;
-- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V8_LOCK_2026-09-20.md`.
+- v8→v9 integrity audit: 24/24 frozen scientific artifacts SHA-256 identical;
+- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V9_LOCK_2026-09-20.md`.
 
-The v8 upgrade changes visual presentation and evidence synthesis only. It does not change the frozen experiments, selections, statistical decisions, or claim boundary.
+The v9 update integrates the author-requested explanatory Figure 1 and Figure 2 artwork with journal-policy-compliant disclosure. Figure 1 was technically corrected to match the frozen protocol; Figure 2 is explicitly schematic. The update does not change the frozen experiments, selections, statistical decisions, numerical results, or claim boundary.
 
 The manuscript PDF and editable source package are intentionally kept outside Git history. Their hashes provide provenance without allowing manuscript edits to redefine the frozen experiment chain.
 
@@ -128,7 +128,7 @@ Release-preparation metadata is documented in:
 
 - `docs/RELEASE_NOTES_v0.1.0.md`
 - `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md`
-- `reproducibility/MANUSCRIPT_V8_LOCK_2026-09-20.md`
+- `reproducibility/MANUSCRIPT_V9_LOCK_2026-09-20.md`
 
 A Zenodo DOI has **not yet been minted**. The repository is license- and metadata-ready for the GitHub→Zenodo release flow; the remaining operational step is to enable the repository in the author's Zenodo GitHub integration and publish GitHub release `v0.1.0`.
 
