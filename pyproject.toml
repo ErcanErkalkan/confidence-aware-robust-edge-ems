@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "confidence-aware-robust-edge-ems"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "Reproducible research artifact for confidence-aware robust multi-objective tuning of edge microgrid EMS"
 requires-python = ">=3.11"
 dependencies = [
