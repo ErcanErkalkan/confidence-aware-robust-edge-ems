@@ -191,3 +191,55 @@ def test_sensitivity_root_fails_on_row_count_drift(tmp_path):
     summary_path.write_text(json.dumps(summary), encoding="utf-8")
     with pytest.raises(RuntimeError, match="row-count mismatch"):
         compute_evidence_root("sensitivity", tmp_path)
+
+
+def _build_ood(root: Path):
+    payloads = {
+        "ood_block_metrics.csv": "x\n" + "1\n" * 16560,
+        "ood_stratum_risk_summary.csv": "x\n" + "1\n" * 30,
+        "ood_macro_risk_summary.csv": "x\n" + "1\n" * 5,
+        "ood_pooled_risk_summary.csv": "x\n" + "1\n" * 5,
+    }
+    for seed in range(1001, 1031):
+        d = root / f"opsd_ood_seed{seed}"
+        d.mkdir(parents=True)
+        for name, payload in payloads.items():
+            (d / name).write_text(payload, encoding="utf-8")
+        summary = {
+            "stage": "EXTERNAL_OOD_OPSD_FROZEN_SELECTION",
+            "protocol_version": "opencem-confirmatory-prelock-v1",
+            "seed": seed,
+            "selection_lock_sha256": "a" * 64,
+            "selected_candidates_sha256": "b" * 64,
+            "primary_internal_test_summary_sha256": "c" * 64,
+            "source_context": {
+                "package_sha256": "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3",
+                "full_replay_manifest_sha256": "7e6137adf98a4b5c604fd047891297458b0a2dc606e32f2e8b9e3dba562bea1d",
+                "full_replay_manifest_rows": 1656,
+                "target_site_ids": [1, 2],
+                "ood_block_count": 3312,
+            },
+            "files_sha256": {
+                name: _sha(d / name) for name in payloads
+            },
+        }
+        (d / "ood_run_summary.json").write_text(
+            json.dumps(summary), encoding="utf-8"
+        )
+
+
+def test_ood_root_verifies_exact_30_seed_design(tmp_path):
+    _build_ood(tmp_path)
+    result = compute_evidence_root("ood", tmp_path)
+    assert result["records"] == 30
+    assert len(result["root_sha256"]) == 64
+
+
+def test_ood_root_fails_on_locked_package_drift(tmp_path):
+    _build_ood(tmp_path)
+    path = tmp_path / "opsd_ood_seed1001" / "ood_run_summary.json"
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    summary["source_context"]["package_sha256"] = "0" * 64
+    path.write_text(json.dumps(summary), encoding="utf-8")
+    with pytest.raises(RuntimeError, match="package hash mismatch"):
+        compute_evidence_root("ood", tmp_path)
