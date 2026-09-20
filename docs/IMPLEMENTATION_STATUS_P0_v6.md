@@ -1,3 +1,5 @@
+> **Historical snapshot / superseded status document.** This file records the P0 engineering state on 2026-09-17 and is retained for provenance. It is **not** the current project status. The confirmatory experimental evidence chain was subsequently completed and closed. For the current state, use the repository README and `reproducibility/CONFIRMATORY_EVIDENCE_ROOTS_2026-09-20.md`.
+
 # 00_IMPLEMENTATION_STATUS_P0
 
 Date: 2026-09-17
