@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it using the metadata below."
+message: "If you use this software, please cite the Zenodo archive using the metadata below."
 title: "Confidence-Aware Robust Edge EMS: Reproducibility Software for Risk-Calibrated Multiobjective Tuning"
 type: software
 authors:
@@ -8,9 +8,18 @@ authors:
     orcid: "https://orcid.org/0000-0001-9259-7112"
     affiliation: "Marmara University, Vocational School of Technical Sciences, Department of Electronics and Automation, Artificial Intelligence Operator Program"
 repository-code: "https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems"
+url: "https://zenodo.org/records/22862992"
+doi: "10.5281/zenodo.22862991"
 license: MIT
-version: 0.1.0
+version: 0.1.1
 date-released: 2026-09-20
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22862991"
+    description: "Zenodo concept DOI for all software versions"
+  - type: doi
+    value: "10.5281/zenodo.22862992"
+    description: "Frozen v0.1.0 software release DOI"
 keywords:
   - microgrid
   - energy management system

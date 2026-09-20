@@ -1,0 +1,31 @@
+name: Publish v0.1.1 archival sync release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-v0.1.1.yml
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish v0.1.1 if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.1 >/dev/null 2>&1; then
+            echo "v0.1.1 already exists; no action required."
+            exit 0
+          fi
+          gh release create v0.1.1 \
+            --target "$GITHUB_SHA" \
+            --title "v0.1.1 — Zenodo and manuscript provenance synchronization" \
+            --notes-file docs/RELEASE_NOTES_v0.1.1.md

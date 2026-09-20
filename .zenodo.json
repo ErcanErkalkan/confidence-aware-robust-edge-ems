@@ -7,8 +7,8 @@
     }
   ],
   "title": "Confidence-Aware Robust Edge EMS: Reproducibility Software for Risk-Calibrated Multiobjective Tuning",
-  "version": "0.1.0",
-  "description": "Reproducibility software for confidence-aware, risk-calibrated, multiobjective tuning of an edge-executable battery-supported microgrid energy-management system under finite simulation budgets and distribution shift. The archived software release is tied to a closed confirmatory evidence chain with frozen validation, internal-test, ablation, sensitivity, and external-OOD provenance roots.",
+  "version": "0.1.1",
+  "description": "Documentation/provenance synchronization release for the reproducibility software supporting confidence-aware, risk-calibrated, multiobjective tuning of an edge-executable battery-supported microgrid energy-management system. The scientific evidence chain remains frozen; this patch synchronizes the published Zenodo identifiers, manuscript v10 provenance, and archival metadata without changing experimental results.",
   "access_right": "open",
   "license": "mit",
   "upload_type": "software",

@@ -6,7 +6,7 @@ This repository is scientifically distinct from the historical `microgrid-bess` 
 
 ## Current scientific status — 2026-09-20
 
-The **confirmatory experimental evidence chain is closed** and the repository is synchronized to the **v0.1.0 archival-release candidate**.
+The **confirmatory experimental evidence chain is closed**. The frozen software release **v0.1.0** is published on Zenodo, and the repository is prepared for the documentation/provenance synchronization patch release **v0.1.1**.
 
 Completed stages include:
 
@@ -26,16 +26,16 @@ The current journal-facing manuscript line is:
 
 **Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift**
 
-Current canonical manuscript revision: **v9**.
+Current canonical manuscript revision: **v10**.
 
 - 34-page manuscript with 24 cited references;
 - 18 references from *Applied Soft Computing*;
 - 7 manuscript figures: 2 disclosed AI-assisted explanatory schematics plus 5 frozen data-derived result figures;
 - separate programmatic graphical abstract;
-- v8→v9 integrity audit: 24/24 frozen scientific artifacts SHA-256 identical;
-- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V9_LOCK_2026-09-20.md`.
+- v9→v10 integrity audit: 24/24 frozen scientific artifacts SHA-256 identical;
+- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V10_LOCK_2026-09-20.md`.
 
-The v9 update integrates the author-requested explanatory Figure 1 and Figure 2 artwork with journal-policy-compliant disclosure. Figure 1 was technically corrected to match the frozen protocol; Figure 2 is explicitly schematic. The update does not change the frozen experiments, selections, statistical decisions, numerical results, or claim boundary.
+The v10 update synchronizes the published GitHub/Zenodo archival identifiers with the manuscript and submission-support files. It does not change the frozen experiments, controller selections, statistical decisions, numerical results, figures, bibliography, or claim boundary.
 
 The manuscript PDF and editable source package are intentionally kept outside Git history. Their hashes provide provenance without allowing manuscript edits to redefine the frozen experiment chain.
 
@@ -124,13 +124,23 @@ Do not:
 
 `CITATION.cff` provides machine-readable citation metadata for GitHub. Zenodo-specific metadata is provided in `.zenodo.json`.
 
-Release-preparation metadata is documented in:
+Release and archive metadata are documented in:
 
 - `docs/RELEASE_NOTES_v0.1.0.md`
+- `docs/RELEASE_NOTES_v0.1.1.md`
 - `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md`
-- `reproducibility/MANUSCRIPT_V9_LOCK_2026-09-20.md`
+- `docs/ZENODO_ARCHIVE_STATUS.md`
+- `reproducibility/MANUSCRIPT_V10_LOCK_2026-09-20.md`
 
-A Zenodo DOI has **not yet been minted**. The repository is license- and metadata-ready for the GitHub→Zenodo release flow; the remaining operational step is to enable the repository in the author's Zenodo GitHub integration and publish GitHub release `v0.1.0`.
+## Archived software DOI
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22862991.svg)](https://doi.org/10.5281/zenodo.22862991)
+
+- Zenodo concept DOI (all versions): **10.5281/zenodo.22862991**
+- Frozen v0.1.0 release DOI: **10.5281/zenodo.22862992**
+- Published Zenodo record: https://zenodo.org/records/22862992
+
+The v0.1.0 archive is the frozen initial software release associated with the closed confirmatory chain. Patch release v0.1.1 synchronizes documentation, manuscript provenance, and DOI metadata only; it does not redefine the frozen scientific evidence.
 
 ## License
 
