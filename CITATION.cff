@@ -8,6 +8,7 @@ authors:
     orcid: "https://orcid.org/0000-0001-9259-7112"
     affiliation: "Marmara University, Vocational School of Technical Sciences, Department of Electronics and Automation, Artificial Intelligence Operator Program"
 repository-code: "https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems"
+license: MIT
 version: 0.1.0
 date-released: 2026-09-20
 keywords:
