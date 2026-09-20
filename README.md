@@ -6,7 +6,7 @@ This repository is scientifically distinct from the historical `microgrid-bess` 
 
 ## Current scientific status — 2026-09-20
 
-The **confirmatory experimental evidence chain is closed**.
+The **confirmatory experimental evidence chain is closed** and the repository is synchronized to the **v0.1.0 archival-release candidate**.
 
 Completed stages include:
 
@@ -19,6 +19,21 @@ Completed stages include:
 - immutable evidence roots and report freezes for each confirmatory stage.
 
 The confirmatory results support a **protocol-specific TRAIN approximation-quality advantage for CRMT**, but held-out internal and external-OOD outcomes remain **objective-specific**. The evidence does **not** establish universal operational superiority, universal OOD robustness, independent held-out benefit of each CRMT component, certified hard-real-time behavior, or physical battery-lifetime extension.
+
+## Manuscript synchronization
+
+The current journal-facing manuscript line is:
+
+**Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift**
+
+Current canonical manuscript revision: **v7**.
+
+- 24 cited references;
+- 18 references from *Applied Soft Computing*;
+- literature positioning expanded without changing the frozen experimental evidence;
+- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`.
+
+The manuscript PDF and editable source package are intentionally kept outside Git history. Their hashes provide provenance without allowing manuscript edits to redefine the frozen experiment chain.
 
 ## Frozen evidence anchors
 
@@ -43,7 +58,7 @@ The codebase contains:
 - `tools/` — ingest, verification, QA, evidence-audit, and workflow-support utilities.
 - `tests/` — unit, integration, budget, replay, adapter, ingest/QA, and temporal-mapping regression tests.
 - `reproducibility/` — immutable source/seed/manifest material used to bind confirmatory execution.
-- `docs/` — engineering and scientific-status documentation.
+- `docs/` — engineering, release, and scientific-status documentation.
 
 ## Data provenance
 
@@ -101,10 +116,18 @@ Do not:
 - infer field-deployment, hard-real-time, or electrochemical lifetime guarantees from the simulation/replay evidence;
 - treat untracked local data transformations as canonical evidence.
 
-## Manuscript status
+## Citation and archival release
 
-The current manuscript line is targeted to **Applied Soft Computing**. The evidence chain and manuscript claim gate are maintained separately from the repository source so that manuscript wording cannot redefine the frozen experiments.
+`CITATION.cff` provides machine-readable citation metadata for GitHub.
+
+Release-preparation metadata is documented in:
+
+- `docs/RELEASE_NOTES_v0.1.0.md`
+- `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md`
+- `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`
+
+A Zenodo release has **not yet been published** for this repository. The remaining prerequisite is an explicit software-license choice by the author; public repository visibility is not treated as a license grant.
 
 ## License
 
-No license has been selected for this repository yet. **Do not infer permission to reuse the repository's original research code** from the licenses of upstream datasets or dependencies.
+No software license has been selected for this repository yet. **Do not infer permission to reuse the repository's original research code** from public GitHub visibility, upstream dataset licenses, or dependency licenses.
