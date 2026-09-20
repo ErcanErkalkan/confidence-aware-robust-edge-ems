@@ -118,7 +118,7 @@ Do not:
 
 ## Citation and archival release
 
-`CITATION.cff` provides machine-readable citation metadata for GitHub.
+`CITATION.cff` provides machine-readable citation metadata for GitHub. Zenodo-specific metadata is provided in `.zenodo.json`.
 
 Release-preparation metadata is documented in:
 
@@ -126,8 +126,10 @@ Release-preparation metadata is documented in:
 - `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md`
 - `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`
 
-A Zenodo release has **not yet been published** for this repository. The remaining prerequisite is an explicit software-license choice by the author; public repository visibility is not treated as a license grant.
+A Zenodo DOI has **not yet been minted**. The repository is now license- and metadata-ready for the GitHub→Zenodo release flow; the remaining operational step is to enable the repository in the author's Zenodo GitHub integration and publish GitHub release `v0.1.0`.
 
 ## License
 
-No software license has been selected for this repository yet. **Do not infer permission to reuse the repository's original research code** from public GitHub visibility, upstream dataset licenses, or dependency licenses.
+Copyright © 2026 Ercan Erkalkan.
+
+This software is released under the **MIT License**. See [LICENSE](LICENSE).
