@@ -26,12 +26,16 @@ The current journal-facing manuscript line is:
 
 **Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift**
 
-Current canonical manuscript revision: **v7**.
+Current canonical manuscript revision: **v8**.
 
-- 24 cited references;
+- 33-page manuscript with 24 cited references;
 - 18 references from *Applied Soft Computing*;
-- literature positioning expanded without changing the frozen experimental evidence;
-- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`.
+- 8 manuscript figures: 3 new programmatic figures plus 5 byte-identical frozen result figures;
+- separate programmatic graphical abstract;
+- v7→v8 integrity audit: 24/24 pre-existing frozen/result artifacts SHA-256 identical;
+- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V8_LOCK_2026-09-20.md`.
+
+The v8 upgrade changes visual presentation and evidence synthesis only. It does not change the frozen experiments, selections, statistical decisions, or claim boundary.
 
 The manuscript PDF and editable source package are intentionally kept outside Git history. Their hashes provide provenance without allowing manuscript edits to redefine the frozen experiment chain.
 
@@ -124,9 +128,9 @@ Release-preparation metadata is documented in:
 
 - `docs/RELEASE_NOTES_v0.1.0.md`
 - `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md`
-- `reproducibility/MANUSCRIPT_V7_LOCK_2026-09-20.md`
+- `reproducibility/MANUSCRIPT_V8_LOCK_2026-09-20.md`
 
-A Zenodo DOI has **not yet been minted**. The repository is now license- and metadata-ready for the GitHub→Zenodo release flow; the remaining operational step is to enable the repository in the author's Zenodo GitHub integration and publish GitHub release `v0.1.0`.
+A Zenodo DOI has **not yet been minted**. The repository is license- and metadata-ready for the GitHub→Zenodo release flow; the remaining operational step is to enable the repository in the author's Zenodo GitHub integration and publish GitHub release `v0.1.0`.
 
 ## License
 
