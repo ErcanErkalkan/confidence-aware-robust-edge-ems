@@ -23,18 +23,28 @@ The release does not establish universal operational superiority, universal OOD 
 
 Canonical manuscript line at release preparation:
 
-- Manuscript: `MANUSCRIPT_ASOC_FULL_v7.pdf`
-- Manuscript SHA-256: `e43fe60378c128e2b29d8a0b3e2a82c185367183f50cd06f20e4e3f232050292`
-- Editable source package: `ASOC_FULL_MANUSCRIPT_v7_SUBMISSION_READY.zip`
-- Source SHA-256: `6d1a59fb329a0e1204ccd53a1a003bf0effe4ba08dfad7f239b57a014c6d5b11`
-- Portal package: `ASOC_PORTAL_SUBMISSION_PACKAGE_FINAL_v3.zip`
-- Portal-package SHA-256: `8719d6177cde36a46c48a2347c9fbcb1a1c3f208d8fdf1e019ced8ff5393e35b`
+- Manuscript: `MANUSCRIPT_ASOC_FULL_v8.pdf`
+- Manuscript SHA-256: `3ccbcfe2640f1adf06f3e545ea5a71174931fa820740242775b08fd81b8afa86`
+- Editable source package: `ASOC_FULL_MANUSCRIPT_v8_SUBMISSION_READY.zip`
+- Source SHA-256: `f86d4fefde20ffd0940c872ebae4028e421cc19a562c8428d0b6e63f8bc24498`
+- Graphical abstract PDF SHA-256: `bb63130fa3bbf0160a698124b369d9f55552d4d1bdf22bdc4225796756e1fa14`
+- Graphical abstract TIFF SHA-256: `e014677973f9dde0e80eebfbda376c47dcbae7de45db993479d739d70f4e90f8`
+- Portal package: `ASOC_PORTAL_SUBMISSION_PACKAGE_FINAL_v4.zip`
+- Portal-package SHA-256: `1c6fe92d682fa30c00b991718bea847fac1269c523391b568faf7a5bfc9b468a`
 
 The manuscript binaries are intentionally not committed to Git history. Their hashes are recorded for provenance.
 
-## Literature-state synchronization
+## v8 visual-evidence synchronization
 
-The v7 manuscript contains 24 cited references, including 18 papers from *Applied Soft Computing*. The literature expansion changes positioning and discussion only; it does not alter frozen experimental outputs.
+The v8 manuscript contains 24 cited references (18 from *Applied Soft Computing*) and 8 manuscript figures.
+
+The v8 presentation upgrade adds:
+- a programmatic CRMT offline/online architecture schematic;
+- a programmatic confirmatory information-flow/controller-lock schematic;
+- a programmatic cross-stage synthesis derived only from already frozen reported values;
+- a separate programmatic graphical abstract.
+
+The five pre-existing result figures remain byte-identical to v7. A v7→v8 SHA-256 audit confirmed 24/24 checked pre-existing frozen/result artifacts are identical, with zero mismatches. No new experiment or inferential analysis was introduced.
 
 ## Frozen confirmatory roots
 
@@ -51,4 +61,4 @@ The repository is released under the **MIT License**.
 
 ## Zenodo release state
 
-Metadata and licensing blockers are closed. A Zenodo DOI has not yet been minted in this repository state. The remaining operational step is to create/publish the GitHub release `v0.1.0` after the repository has been enabled in the author's Zenodo GitHub integration. Zenodo will then ingest the release according to the configured integration.
+Metadata and licensing blockers are closed. A Zenodo DOI has not yet been minted in this repository state. The remaining operational step is to create/publish GitHub release `v0.1.0` after the repository has been enabled in the author's Zenodo GitHub integration. Zenodo will then ingest the release according to the configured integration.
