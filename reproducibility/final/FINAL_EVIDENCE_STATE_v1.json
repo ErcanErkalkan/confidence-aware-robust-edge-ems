@@ -1,0 +1,59 @@
+{
+  "ablation": {
+    "claim_boundary": "No single-factor ablation differs significantly from full CRMT after Holm correction for any held-out objective; do not claim independent component superiority.",
+    "internal_root_sha256": "7bdc251e57fd37c4eafe053406771991b3c102cacf68dbd04227bd35dd5f11a3",
+    "internal_run_id": 35489915070,
+    "report_run_id": 35490096429,
+    "train_root_sha256": "4ef8b3dc4058232c26ab6bf9199fcfc58181e50e97cd157e851735288e47f74b",
+    "train_run_id": 35439908126,
+    "validation_root_sha256": "377021e8627bd733411794e24c5f47bd58686e44143ffbe71c3354d9aabda32a",
+    "validation_run_id": 35459941795
+  },
+  "next_primary_task": "Claim-evidence reconciliation followed by manuscript-ready tables/figures and Results/Discussion drafting from frozen evidence only.",
+  "opsd_external_ood": {
+    "batch_commit_sha": "fb8e3af5ccf8a9de9ade5a8b65d54346f9144d75",
+    "batch_run_id": 35492713949,
+    "claim_boundary": "External OOD evidence supports objective-specific paired comparisons only. It does not support universal robustness, hardware equivalence, or universal optimizer superiority.",
+    "ood_root_sha256": "4e080b1957f13617f17a91949a553c9ccdc46a32879954bbe0a84f4f58cc808c",
+    "opsd_package_sha256": "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3",
+    "opsd_replay_manifest_sha256": "7e6137adf98a4b5c604fd047891297458b0a2dc606e32f2e8b9e3dba562bea1d",
+    "records": 30,
+    "report_artifact_digest_sha256": "b43632d5f755c04e3c5adab28f840fdd50305d60be9c54531fb2752bd3761acb",
+    "report_artifact_id": 10599464522,
+    "report_commit_sha": "7eb100b54e031e52cae034be38c87cd2be9c85f4",
+    "report_freeze_manifest_sha256": "a1da5fb837ff531a08dc6b1f8cb142988afa2c0d1e584eb19da220407e7043a4",
+    "report_run_id": 35495277533,
+    "statistical_findings": [
+      "Friedman omnibus significant only for flip_per_day (p=0.000010).",
+      "cap_violation_pct_total Friedman p=0.064195: not significant at alpha=0.05.",
+      "lfp_cycle_loss_pct Friedman p=0.448101: not significant at alpha=0.05.",
+      "ramp95_kw_per_min Friedman p=0.189929: not significant at alpha=0.05.",
+      "CRMT ramp95 is lower than SOBOL; Holm-adjusted p=0.005850; median(SOBOL-CRMT)=0.0002588203.",
+      "For flip_per_day, SOBOL, NSGAII and MODE are lower than CRMT; Holm-adjusted p=0.030627, 0.000187 and 0.000140 respectively."
+    ],
+    "verified_row_totals": {
+      "ood_block_metrics": 496800,
+      "ood_macro_risk_summary": 150,
+      "ood_pooled_risk_summary": 150,
+      "ood_stratum_risk_summary": 900
+    }
+  },
+  "overall_claim_boundary": "The frozen evidence supports strong TRAIN optimizer-quality results and objective-specific held-out/OOD comparisons, but not universal operational superiority, universal OOD robustness, hardware/real-time equivalence, battery-lifetime guarantees, or global optimality.",
+  "primary": {
+    "confirmatory_report_run_id": 35448902611,
+    "internal_root_sha256": "e39b4a1de6cfaff859ac54b3aa9c5a3388f89542367d1c2cb2b3b492d3f47100",
+    "internal_run_id": 35448507400,
+    "validation_root_sha256": "6481b5a363fa747a0f193b016105a806cd75827b03b43163715984f9a410610b",
+    "validation_run_id": 35439670953
+  },
+  "protocol_version": "opencem-confirmatory-prelock-v1",
+  "sensitivity": {
+    "batch_run_id": 35490232146,
+    "claim_boundary": "Sensitivity is objective-dependent: RAMP_HALF and RAMP_QUARTER show no change; ETA_LOW_090, ETA_IDEAL_100, SOC_CONSERVATIVE_15_95 and TEMPORAL_FLOOR produce significant changes across objectives, with direction interpreted per minimized metric.",
+    "report_run_id": 35492572956,
+    "root_sha256": "7f530634a027e5c6647e93bd7b1cabcfebe34b5d8d3a000b0b359e8801111377"
+  },
+  "stage": "FINAL_EVIDENCE_STATE",
+  "status": "EXPERIMENTAL_EVIDENCE_CHAIN_CLOSED",
+  "version": 1
+}
