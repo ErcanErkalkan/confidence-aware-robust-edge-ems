@@ -1,0 +1,26 @@
+{
+  "creators": [
+    {
+      "name": "Erkalkan, Ercan",
+      "orcid": "0000-0001-9259-7112",
+      "affiliation": "Marmara University, Vocational School of Technical Sciences, Department of Electronics and Automation, Artificial Intelligence Operator Program"
+    }
+  ],
+  "title": "Confidence-Aware Robust Edge EMS: Reproducibility Software for Risk-Calibrated Multiobjective Tuning",
+  "version": "0.1.0",
+  "description": "Reproducibility software for confidence-aware, risk-calibrated, multiobjective tuning of an edge-executable battery-supported microgrid energy-management system under finite simulation budgets and distribution shift. The archived software release is tied to a closed confirmatory evidence chain with frozen validation, internal-test, ablation, sensitivity, and external-OOD provenance roots.",
+  "access_right": "open",
+  "license": "mit",
+  "upload_type": "software",
+  "language": "eng",
+  "keywords": [
+    "microgrid",
+    "energy management system",
+    "multiobjective optimization",
+    "uncertainty",
+    "CVaR",
+    "confidence-aware optimization",
+    "distribution shift",
+    "reproducibility"
+  ]
+}
