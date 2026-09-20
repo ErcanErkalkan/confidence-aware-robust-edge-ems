@@ -27,6 +27,26 @@ SENSITIVITY_EXPECTED_BLOCK_ROWS = len(SENSITIVITY_VARIANT_IDS) * SENSITIVITY_MET
 SENSITIVITY_EXPECTED_RISK_ROWS = len(SENSITIVITY_VARIANT_IDS) * SENSITIVITY_METHOD_COUNT
 SENSITIVITY_MANIFEST_SHA256 = ABLATION_TRAIN_MANIFEST_SHA256
 SENSITIVITY_REQUIRED_HASHED_FILES = ("sensitivity_block_metrics.csv", "sensitivity_risk_summary.csv")
+OOD_PROTOCOL_VERSION = "opencem-confirmatory-prelock-v1"
+OOD_PACKAGE_SHA256 = "17c41c778bf8ce9a6e483c179664afc66af2e5eddda869e359c719fc037013b3"
+OOD_REPLAY_MANIFEST_SHA256 = "7e6137adf98a4b5c604fd047891297458b0a2dc606e32f2e8b9e3dba562bea1d"
+OOD_REPLAY_MANIFEST_ROWS = 1656
+OOD_TARGET_SITE_IDS = (1, 2)
+OOD_BLOCK_COUNT = OOD_REPLAY_MANIFEST_ROWS * len(OOD_TARGET_SITE_IDS)
+OOD_METHOD_COUNT = 5
+OOD_STRATA_PER_METHOD = 6
+OOD_REQUIRED_HASHED_FILES = (
+    "ood_block_metrics.csv",
+    "ood_stratum_risk_summary.csv",
+    "ood_macro_risk_summary.csv",
+    "ood_pooled_risk_summary.csv",
+)
+OOD_EXPECTED_ROWS = {
+    "ood_block_metrics.csv": OOD_BLOCK_COUNT * OOD_METHOD_COUNT,
+    "ood_stratum_risk_summary.csv": OOD_STRATA_PER_METHOD * OOD_METHOD_COUNT,
+    "ood_macro_risk_summary.csv": OOD_METHOD_COUNT,
+    "ood_pooled_risk_summary.csv": OOD_METHOD_COUNT,
+}
 
 
 def _sha256(path: Path) -> str:
@@ -330,7 +350,43 @@ def ood_root(root: Path) -> tuple[str, int]:
             raise RuntimeError(f"OOD stage mismatch for seed {seed}")
         if int(summary.get("seed")) != seed:
             raise RuntimeError(f"OOD seed mismatch for seed {seed}")
-        verified = _verify_files_sha256(directory, summary.get("files_sha256", {}))
+        if summary.get("protocol_version") != OOD_PROTOCOL_VERSION:
+            raise RuntimeError(f"OOD protocol mismatch for seed {seed}")
+        source_context = summary.get("source_context", {})
+        if source_context.get("package_sha256") != OOD_PACKAGE_SHA256:
+            raise RuntimeError(f"OOD package hash mismatch for seed {seed}")
+        if source_context.get("full_replay_manifest_sha256") != OOD_REPLAY_MANIFEST_SHA256:
+            raise RuntimeError(f"OOD replay manifest mismatch for seed {seed}")
+        if int(source_context.get("full_replay_manifest_rows")) != OOD_REPLAY_MANIFEST_ROWS:
+            raise RuntimeError(f"OOD replay row-count lock mismatch for seed {seed}")
+        if tuple(source_context.get("target_site_ids", ())) != OOD_TARGET_SITE_IDS:
+            raise RuntimeError(f"OOD target-site registry mismatch for seed {seed}")
+        if int(source_context.get("ood_block_count")) != OOD_BLOCK_COUNT:
+            raise RuntimeError(f"OOD block-count mismatch for seed {seed}")
+        if not summary.get("selection_lock_sha256"):
+            raise RuntimeError(f"OOD selection-lock hash missing for seed {seed}")
+        if not summary.get("selected_candidates_sha256"):
+            raise RuntimeError(f"OOD selected-candidates hash missing for seed {seed}")
+        if not summary.get("primary_internal_test_summary_sha256"):
+            raise RuntimeError(f"OOD primary-internal summary hash missing for seed {seed}")
+        files_sha256 = summary.get("files_sha256", {})
+        missing_hashes = [
+            name for name in OOD_REQUIRED_HASHED_FILES
+            if name not in files_sha256
+        ]
+        if missing_hashes:
+            raise RuntimeError(
+                f"OOD missing required file hashes for seed {seed}: {missing_hashes}"
+            )
+        verified = _verify_files_sha256(directory, files_sha256)
+        for name, expected_rows in OOD_EXPECTED_ROWS.items():
+            with (directory / name).open(newline="", encoding="utf-8") as handle:
+                observed_rows = sum(1 for _ in csv.reader(handle)) - 1
+            if observed_rows != expected_rows:
+                raise RuntimeError(
+                    f"OOD row-count mismatch for seed {seed}/{name}: "
+                    f"{observed_rows} != {expected_rows}"
+                )
         line = [
             str(seed),
             str(summary.get("selection_lock_sha256")),
