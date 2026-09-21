@@ -4,9 +4,9 @@ Reproducible research-code workspace for **confidence-aware, risk-calibrated, mu
 
 This repository is scientifically distinct from the historical `microgrid-bess` and earlier `microgrid-ems-simulation` work. The fixed EMS/controller snapshot is used as a controlled baseline layer, while CRMT, common-budget baselines, real-data adapters, confirmatory workflows, and reproducibility tooling are maintained separately.
 
-## Current scientific status — 2026-09-20
+## Current scientific status — 2026-09-21
 
-The **confirmatory experimental evidence chain is closed**. The frozen software release **v0.1.0** is published on Zenodo, and the repository is prepared for the documentation/provenance synchronization patch release **v0.1.1**.
+The **confirmatory experimental evidence chain is closed**. The frozen software release **v0.1.0** is published on Zenodo, and the documentation/provenance synchronization patch release **v0.1.1** is published on GitHub.
 
 Completed stages include:
 
@@ -26,16 +26,16 @@ The current journal-facing manuscript line is:
 
 **Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift**
 
-Current canonical manuscript revision: **v10**.
+Current canonical manuscript revision: **v12**.
 
 - 33-page manuscript with 24 cited references;
 - 18 references from *Applied Soft Computing*;
-- 7 manuscript figures: 2 programmatic vector explanatory schematics plus 5 frozen data-derived result figures;
+- 7 manuscript figures: Figure 1 is the corrected vector CRMT workflow; Figures 2–4 and 6–7 are frozen data-derived result figures; Figure 5 is an evidence-safe vector cross-stage synthesis;
 - separate programmatic graphical abstract;
-- v9→v10 integrity audit: 24/24 frozen scientific artifacts SHA-256 identical;
-- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V10_LOCK_2026-09-20.md`.
+- v11→v12 integrity audit: 17/17 checked frozen scientific artifacts SHA-256 identical;
+- manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V12_LOCK_2026-09-21.md`.
 
-The v10 update synchronizes the published GitHub/Zenodo archival identifiers with the manuscript and submission-support files. It does not change the frozen experiments, controller selections, statistical decisions, numerical results, figures, bibliography, or claim boundary.
+The v12 update is a manuscript-only figure-correction and placement revision. Figure 1 is rebuilt from the executed protocol and placed immediately after the Introduction. The former synthetic objective-space schematic is removed; Figure 5 summarizes only already reported frozen TRAIN, validation, internal-test, and external-OOD evidence. No frozen experiment, controller selection, statistical decision, numerical result, data-derived result figure, bibliography entry, or claim boundary is changed.
 
 The manuscript PDF and editable source package are intentionally kept outside Git history. Their hashes provide provenance without allowing manuscript edits to redefine the frozen experiment chain.
 
@@ -130,7 +130,7 @@ Release and archive metadata are documented in:
 - `docs/RELEASE_NOTES_v0.1.1.md`
 - `docs/ZENODO_RELEASE_PREPARATION_v0.1.0.md`
 - `docs/ZENODO_ARCHIVE_STATUS.md`
-- `reproducibility/MANUSCRIPT_V10_LOCK_2026-09-20.md`
+- `reproducibility/MANUSCRIPT_V12_LOCK_2026-09-21.md`
 
 ## Archived software DOI
 
