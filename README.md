@@ -28,9 +28,9 @@ The current journal-facing manuscript line is:
 
 Current canonical manuscript revision: **v10**.
 
-- 34-page manuscript with 24 cited references;
+- 33-page manuscript with 24 cited references;
 - 18 references from *Applied Soft Computing*;
-- 7 manuscript figures: 2 disclosed AI-assisted explanatory schematics plus 5 frozen data-derived result figures;
+- 7 manuscript figures: 2 programmatic vector explanatory schematics plus 5 frozen data-derived result figures;
 - separate programmatic graphical abstract;
 - v9→v10 integrity audit: 24/24 frozen scientific artifacts SHA-256 identical;
 - manuscript/package SHA-256 identities are recorded in `reproducibility/MANUSCRIPT_V10_LOCK_2026-09-20.md`.
