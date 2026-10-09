@@ -1,0 +1,107 @@
+{
+  "dataset": "OpenCEM",
+  "repository": "OpenCEM-platform/opencem-dataset",
+  "commit_sha": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+  "tree_sha": "5471f4cf87c3d4bcf0fe590c6cad69433cb5535b",
+  "measurements_tree_sha": "61bec721d8bb2b07e22bd48dd1d5780ebe8792cc",
+  "partition_count": 19,
+  "total_measurement_bytes": 883382698,
+  "partitions": [
+    {
+      "path": "data/measurements/2025-07-a.csv",
+      "git_blob_sha1": "390213df12696e95604be5ea98a7ef1359bc7525",
+      "size_bytes": 429290
+    },
+    {
+      "path": "data/measurements/2025-07-b.csv",
+      "git_blob_sha1": "adf497f540456c98febbd31e87f4504853ebfa80",
+      "size_bytes": 4231632
+    },
+    {
+      "path": "data/measurements/2025-08-a.csv",
+      "git_blob_sha1": "92fe3d61ca0e6ddc13db010a0faa8303540af9c8",
+      "size_bytes": 1920989
+    },
+    {
+      "path": "data/measurements/2025-08-b.csv",
+      "git_blob_sha1": "ffbefbaca56761ee180074d0feb5d83553527c7e",
+      "size_bytes": 2493086
+    },
+    {
+      "path": "data/measurements/2025-09-a.csv",
+      "git_blob_sha1": "b1ea4ac9d3ee8b086652c6eddb3ba86dc1f115dd",
+      "size_bytes": 14226760
+    },
+    {
+      "path": "data/measurements/2025-09-b.csv",
+      "git_blob_sha1": "eea75aafc22dafb13e3f7efc884b5f2acb8a1133",
+      "size_bytes": 11327265
+    },
+    {
+      "path": "data/measurements/2025-10-a.csv",
+      "git_blob_sha1": "45ef0a87a082557d36f16a1cec9478cd0627dcad",
+      "size_bytes": 14261049
+    },
+    {
+      "path": "data/measurements/2025-10-b.csv",
+      "git_blob_sha1": "758a34233d29547ed1d242ecd5bde0b94a2051f1",
+      "size_bytes": 56142062
+    },
+    {
+      "path": "data/measurements/2025-11-a.csv",
+      "git_blob_sha1": "15d07fe934d36d8079705320706d0df8c02d2865",
+      "size_bytes": 58704649
+    },
+    {
+      "path": "data/measurements/2025-11-b.csv",
+      "git_blob_sha1": "90d65e296c392a4f243d5919c2175991155b4002",
+      "size_bytes": 61837765
+    },
+    {
+      "path": "data/measurements/2025-12-a.csv",
+      "git_blob_sha1": "67098522c7e7087c7842c1e814464371bf3b9853",
+      "size_bytes": 96147420
+    },
+    {
+      "path": "data/measurements/2025-12-b.csv",
+      "git_blob_sha1": "256cdd4f142a9fe550ff54897b71283e9aefe6a1",
+      "size_bytes": 101719386
+    },
+    {
+      "path": "data/measurements/2026-01-a.csv",
+      "git_blob_sha1": "89e9f014f3e9c691d8854892415dc78bb43ea44c",
+      "size_bytes": 90934053
+    },
+    {
+      "path": "data/measurements/2026-01-b.csv",
+      "git_blob_sha1": "758f904bbd430b62799438853c27824ce53e54e4",
+      "size_bytes": 87396902
+    },
+    {
+      "path": "data/measurements/2026-02-a.csv",
+      "git_blob_sha1": "dcee9ec7c00d2b422e42c31707f4f1d86f618327",
+      "size_bytes": 76040384
+    },
+    {
+      "path": "data/measurements/2026-02-b.csv",
+      "git_blob_sha1": "a060991e3d401134a8e6804f38e02764351c03e3",
+      "size_bytes": 53416095
+    },
+    {
+      "path": "data/measurements/2026-03-a.csv",
+      "git_blob_sha1": "73de5caf8fedbb951e15268a7f3fe0b93e239eb7",
+      "size_bytes": 61157328
+    },
+    {
+      "path": "data/measurements/2026-03-b.csv",
+      "git_blob_sha1": "964801d0ad010a1ac47d719a89aeb2d8f8a87bae",
+      "size_bytes": 65873772
+    },
+    {
+      "path": "data/measurements/2026-04-a.csv",
+      "git_blob_sha1": "87bf935de3512005c166d1afd84a4bb4d4bb8b23",
+      "size_bytes": 25122811
+    }
+  ],
+  "integrity_note": "Git blob SHA-1 + byte size are immutable identities within the frozen commit. Per-file SHA-256 remains required after full-byte download before confirmatory use."
+}
