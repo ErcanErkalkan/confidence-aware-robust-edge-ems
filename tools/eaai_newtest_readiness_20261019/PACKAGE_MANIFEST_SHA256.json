@@ -1,0 +1,14 @@
+{
+  "files_sha256": {
+    "NEW_TEST_SOURCES_CANDIDATES_TR.md": "55b011fe91dad144c0727365244f49d5e80c0850ffa9a02ebebd63c6532ef044",
+    "PROSPECTIVE_NEW_TEST_MANIFEST_TEMPLATE.json": "c2073e3c97e3304bd1c7515c4ce7e0a95589fc3e58e4195ce50fd6eb2a558ffa",
+    "README_TR.md": "38621fbd185ebda83d5ff6b8cf4c908153ea64711cedd16469081d08c6f898c9",
+    "REQUIRED_WINDOWS_HEADERS.csv": "fbf8b7f1bbe9f24ef0c03df86199d6f17df8b0523efcdaa34f1da90a4ad17b6b",
+    "archive_fidelity.py": "41c10af16039e877b4c479677311b25f58476ed94a86508c71adc274e65389a0",
+    "pretest_readiness.py": "70e19b400a88e17f0ecb68a09507e9db58081d4eed9b02deabe8663709cba5b6",
+    "tests/test_gates.py": "0747920855a287c1f60b697f6ded100a38a935f2ee349c3d5bf94ee317b8c666"
+  },
+  "input_risk": "No real new independent test data included; reference fidelity scoring requires full equal-budget common scored pool.",
+  "protocol": "CRMT-EAAI-PRENEWTEST-READONLY-GATES-20261019-v1",
+  "status": "NEW_TEST_BLOCKED; F_ARCHIVE_FIDELITY_UNVERIFIED"
+}
