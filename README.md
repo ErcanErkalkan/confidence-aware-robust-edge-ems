@@ -15,6 +15,15 @@ The newer **EAAI Gate3 extension** is tracked separately from the historical v0.
 
 The `Current scientific status — 2026-09-21` section below describes the **earlier closed and archived confirmatory evidence chain** and should not be confused with this EAAI extension. Local Windows working directories, raw OpenCEM partitions, and unprovided new data have not been asserted to be automatically mirrored by the new documentation commits.
 
+
+## New-data and archive-fidelity tooling — 2026-10-19
+
+A **read-only**, fail-closed readiness package is available under [`tools/eaai_newtest_readiness_20261019/`](tools/eaai_newtest_readiness_20261019/README_TR.md). Its candidate inventory checker requires historical exposure windows (210 TRAIN, 118 VAL, 78 previously inspected internal TEST and earlier external/OPSD windows), independently frozen SHA-256 and a *new* source manifest. It refuses raw-file hash changes, temporal overlap and unsupported physical objectives. Output `ELIGIBLE_FOR_MANUAL_REVIEW_ONLY` never authorizes or performs TEST. A separate F archive-fidelity diagnostic accepts only a uniformly rescored four-objective common-candidate reference; it cannot invent a reference or claim F0/F1 performance benefit.
+
+- [Potential external sources and essential limitations](tools/eaai_newtest_readiness_20261019/NEW_TEST_SOURCES_CANDIDATES_TR.md) — Brazil STAR and SOFIE operate in island mode, so applicability to grid import/export constraints must be independently established.
+- [Drive package including scripts, 8 synthetic tests and SHA-256 manifest](https://drive.google.com/drive/folders/1jLgWDfmFFBCCW3HrRXnseLNM7N7VzJUu)
+- **State:** prospective eligibility **not passed**, new data not acquired, no new blind TEST; EAAI **NO-GO**.
+
 ## Current scientific status — 2026-09-21
 
 The **confirmatory experimental evidence chain is closed**. The frozen software release **v0.1.0** is published on Zenodo, and the documentation/provenance synchronization patch release **v0.1.1** is published on GitHub.
