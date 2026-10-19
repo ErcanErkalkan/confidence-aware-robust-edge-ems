@@ -1,0 +1,28 @@
+{
+  "dataset_name": "TODO_verified_external_dataset_name",
+  "dataset_version": "TODO_frozen_dataset_version",
+  "source_family": "TODO_source_family",
+  "source_url": "TODO_direct_provider_url",
+  "license": "TODO_verified_license",
+  "site_id": "TODO_physical_site_and_inverter_fingerprint",
+  "timezone": "TODO_IANA_timezone",
+  "sampling_seconds": 120,
+  "measurement_units": {
+    "pv": "kW",
+    "load": "kW",
+    "battery": "kW",
+    "soc": "%",
+    "grid": "kW"
+  },
+  "physical_objectives_supported": {
+    "cap_violation_pct_total": false,
+    "lfp_cycle_loss_pct": false,
+    "ramp95_kw_per_min": false,
+    "flip_per_day": false
+  },
+  "adapter_version": "TODO_frozen_commit_and_adapter_revision",
+  "previously_inspected_outcomes": true,
+  "embargo_hours": 48,
+  "raw_files": [],
+  "prior_external_inventory_complete": false
+}
