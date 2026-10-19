@@ -22,3 +22,11 @@ No new independent test dataset has yet been identified, frozen, or evaluated. T
 Hold candidate pool, evaluation budget and overlapping sampled TRAIN block IDs fixed across F0/F1. Compare false elimination and false retention against prespecified rescored nondomination labels, plus precision/recall, archive stability, calibration, overlapping sample count and run-time/memory. Reference labels based on TRAIN are diagnostic, not independent proof of field benefit.
 
 **State:** NEW TEST BLOCKED / EAAI NO-GO. See [Gate3 status](EAAI_GATE3_2026_10_19_STATUS.md) and the Drive snapshot for the full pretest package.
+
+## New-data and archive-fidelity tooling — 2026-10-19
+
+A **read-only**, fail-closed readiness package is available under [`tools/eaai_newtest_readiness_20261019/`](tools/eaai_newtest_readiness_20261019/README_TR.md). Its candidate inventory checker requires historical exposure windows (210 TRAIN, 118 VAL, 78 previously inspected internal TEST and earlier external/OPSD windows), independently frozen SHA-256 and a *new* source manifest. It refuses raw-file hash changes, temporal overlap and unsupported physical objectives. Output `ELIGIBLE_FOR_MANUAL_REVIEW_ONLY` never authorizes or performs TEST. A separate F archive-fidelity diagnostic accepts only a uniformly rescored four-objective common-candidate reference; it cannot invent a reference or claim F0/F1 performance benefit.
+
+- [Potential external sources and essential limitations](tools/eaai_newtest_readiness_20261019/NEW_TEST_SOURCES_CANDIDATES_TR.md) — Brazil STAR and SOFIE operate in island mode, so applicability to grid import/export constraints must be independently established.
+- [Drive package including scripts, 8 synthetic tests and SHA-256 manifest](https://drive.google.com/drive/folders/1jLgWDfmFFBCCW3HrRXnseLNM7N7VzJUu)
+- **State:** prospective eligibility **not passed**, new data not acquired, no new blind TEST; EAAI **NO-GO**.
