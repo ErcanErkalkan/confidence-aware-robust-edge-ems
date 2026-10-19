@@ -4,6 +4,17 @@ Reproducible research-code workspace for **confidence-aware, risk-calibrated, mu
 
 This repository is scientifically distinct from the historical `microgrid-bess` and earlier `microgrid-ems-simulation` work. The fixed EMS/controller snapshot is used as a controlled baseline layer, while CRMT, common-budget baselines, real-data adapters, confirmatory workflows, and reproducibility tooling are maintained separately.
 
+## EAAI research extension — 2026-10-19 (exploratory, NO-GO)
+
+The newer **EAAI Gate3 extension** is tracked separately from the historical v0.1.0/v0.1.1 release and the older Applied Soft Computing v12 manuscript. Five-seed 2×2×2 TRAIN and K20 selection, 118-block *historical VALIDATION*, and five-seed Pareto indicator analysis have been completed and hash audited. **F0/F1 select identical K20 candidates**; an independent confidence mechanism improvement is not shown. No new independent/blinded TEST has been acquired or executed. EAAI submission remains **NO-GO**.
+
+- [Gate3 experimental status and result boundaries](docs/EAAI_GATE3_2026_10_19_STATUS.md)
+- [EAAI Gate3 SHA-256 evidence registry](reproducibility/EAAI_GATE3_2026_10_19_LOCK_REGISTRY.md)
+- [Independent NEW TEST prerequisites — BLOCKED](docs/EAAI_INDEPENDENT_NEW_TEST_GATE_2026_10_19.md)
+- [Google Drive snapshot: source/analysis tools, archived CSV evidence, reports, LaTeX, pre-TEST lock](https://drive.google.com/drive/folders/1KKEWjGgn9TiaH9OgyOG3QqQ3S5SBxKlm)
+
+The `Current scientific status — 2026-09-21` section below describes the **earlier closed and archived confirmatory evidence chain** and should not be confused with this EAAI extension. Local Windows working directories, raw OpenCEM partitions, and unprovided new data have not been asserted to be automatically mirrored by the new documentation commits.
+
 ## Current scientific status — 2026-09-21
 
 The **confirmatory experimental evidence chain is closed**. The frozen software release **v0.1.0** is published on Zenodo, and the documentation/provenance synchronization patch release **v0.1.1** is published on GitHub.
