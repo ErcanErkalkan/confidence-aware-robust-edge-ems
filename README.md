@@ -167,3 +167,12 @@ The v0.1.0 archive is the frozen initial software release associated with the cl
 Copyright © 2026 Ercan Erkalkan.
 
 This software is released under the **MIT License**. See [LICENSE](LICENSE).
+
+## Historical OpenCEM 406-window provenance (2026-10-20)
+
+The original Drive `canonical_block_manifest.csv` was separately re-hashed and verified against frozen SHA-256 `3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1`. An audit derived **406 true OpenCEM historical block intervals**, split 210 TRAIN / 118 validation / 78 previously inspected internal TEST; the metadata CSV SHA-256 is `85c295e39f43f0a64d06f720f7486255601f0ffa2486b56661bb98781da37f18`.
+
+- [Historical 406 UTC windows, integrity checker and incomplete evidence status](tools/eaai_newtest_readiness_20261019/historical_406_metadata/README_TR.md)
+- [Drive source-derived metadata & audit ZIP](https://drive.google.com/drive/folders/1heNTsoJlum0fuJCCcgk_uoRUTv7P1wux)
+
+**Critical:** This is *metadata only*. The frozen OpenCEM block manifest has **no per-block raw file SHA-256 mapping**, and the prior OPSD/external temporal exposure register is incomplete. The generated CSV intentionally lacks the `raw_sha256` field needed by `pretest_readiness.py` and **must not be passed off as a complete historical registry**. `NEW_TEST_BLOCKED`; no new TEST performed. Source checksum and original evidence preserved.
