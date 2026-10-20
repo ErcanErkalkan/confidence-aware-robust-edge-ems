@@ -39,3 +39,11 @@ The original Drive `canonical_block_manifest.csv` was separately re-hashed and v
 - [Drive source-derived metadata & audit ZIP](https://drive.google.com/drive/folders/1heNTsoJlum0fuJCCcgk_uoRUTv7P1wux)
 
 **Critical:** This is *metadata only*. The frozen OpenCEM block manifest has **no per-block raw file SHA-256 mapping**, and the prior OPSD/external temporal exposure register is incomplete. The generated CSV intentionally lacks the `raw_sha256` field needed by `pretest_readiness.py` and **must not be passed off as a complete historical registry**. `NEW_TEST_BLOCKED`; no new TEST performed. Source checksum and original evidence preserved.
+
+## Historical source evidence update — 2026-10-20
+
+The [source-level OpenCEM/OPSD audit](docs/EAAI_HISTORICAL_OPSD_OPENCEM_SOURCE_LINKAGE_20261020.md) independently verified original bytes from **19 OpenCEM source CSV partitions**, mapped all **406** historical daily block UTC windows to **434** raw partition/time-overlap edges (378 one-partition blocks and 28 two-partition blocks), and recovered the **original locked GitHub Actions OPSD inventories** covering 1,786 strict QA household-days and 1,656 full-regular historic replay-scope days. These results are documentary and source-level evidence; they do not provide exact per-bin raw lineage, establish exhaustive prior external-use history, or authorize a NEW TEST.
+
+- [Locked original and derived bundle on Google Drive](https://drive.google.com/file/d/1gLhUviFTFeguHNnyyxKXT0YhBHGiCIfj/view)
+- ZIP SHA-256: `0ca0f3ae3cd3f777cde38b8666999a9918d867767de88f1c5866712aee2aea6e`; seven source-audit tests passed.
+- Prospective new-data eligibility: **BLOCKED**; EAAI: **NO-GO**.
