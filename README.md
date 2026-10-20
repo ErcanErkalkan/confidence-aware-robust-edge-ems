@@ -192,3 +192,11 @@ A separate source integrity audit reproduced **406/406 historical OpenCEM day bl
 - [Full evidence, provenance SHA-256 and scientific limitations](docs/EAAI_OPENCEM_EXACT_REPLAY_LINEAGE_20261020.md)
 - [Complete source trace + reproducibility code in Google Drive](https://drive.google.com/file/d/1_DFkvXdHMPROrfid3G8DRrztcwxg0E_J/view)
 - **EAAI research status: NO-GO pending independently eligible new TEST and identifiability of the F confidence component.**
+
+## F0/F1 confidence archive: selected-54 historical validation audit — 2026-10-20
+
+Frozen `CRMTStudy.run` applies `archive_mode` **after** exhausting candidate evaluations; amended K20-v2 ranks all 256 TRAIN candidates, independently of the terminal archive. A new hash-checked, seed1001 retrospective analysis found **18** TRAIN risk-Pareto F0 candidates versus **236** stored confidence F1 candidates. Only **54** of the 256 had common-block historical VALIDATION results; within that selected subset **38** are Pareto-nondominated, of which F0 retained 13 and F1 retained 38 while F1 retained **all 54**. These are *conditional-on-selection* descriptive numbers, **not** F1 performance superiority or an independent full-population oracle.
+
+- [Detailed limitations, source hashes and conditional tables](docs/EAAI_F_ARCHIVE_SELECTED54_VAL_DIAGNOSTIC_20261020.md)
+- [Read-only reproducibility code and full-256 fail-closed coverage tools on Drive](https://drive.google.com/drive/folders/1TvM9qx_mA-EDGN33SgS8OLW8o_b-zvig)
+- Gate3 EAAI: **NO-GO** until an equal-budget, all-256 common reference and a genuinely independent new TEST are validated.
