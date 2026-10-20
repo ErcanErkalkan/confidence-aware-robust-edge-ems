@@ -184,3 +184,11 @@ The [source-level OpenCEM/OPSD audit](docs/EAAI_HISTORICAL_OPSD_OPENCEM_SOURCE_L
 - [Locked original and derived bundle on Google Drive](https://drive.google.com/file/d/1gLhUviFTFeguHNnyyxKXT0YhBHGiCIfj/view)
 - ZIP SHA-256: `0ca0f3ae3cd3f777cde38b8666999a9918d867767de88f1c5866712aee2aea6e`; seven source-audit tests passed.
 - Prospective new-data eligibility: **BLOCKED**; EAAI: **NO-GO**.
+
+## Exact historical OpenCEM replay input lineage — 2026-10-20
+
+A separate source integrity audit reproduced **406/406 historical OpenCEM day blocks** from all 19 byte-verified original CSV partitions: 292,256 accepted two-minute load/PV bins and 3,853,508 traceable source-record associations. Input reconstruction matches frozen day-block tick counts and UTC boundary timestamps. It does **not** rerun EMS outcomes or an independent new TEST.
+
+- [Full evidence, provenance SHA-256 and scientific limitations](docs/EAAI_OPENCEM_EXACT_REPLAY_LINEAGE_20261020.md)
+- [Complete source trace + reproducibility code in Google Drive](https://drive.google.com/file/d/1_DFkvXdHMPROrfid3G8DRrztcwxg0E_J/view)
+- **EAAI research status: NO-GO pending independently eligible new TEST and identifiability of the F confidence component.**
