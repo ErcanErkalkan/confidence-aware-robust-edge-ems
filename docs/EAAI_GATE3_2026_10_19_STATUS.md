@@ -55,3 +55,11 @@ The F mechanism needs a separate equal-budget archive fidelity experiment (false
 Current snapshot archive: [Google Drive / EAAI Gate3 2026-10-19](https://drive.google.com/drive/folders/1KKEWjGgn9TiaH9OgyOG3QqQ3S5SBxKlm). It contains the four-CSV evidence ZIP, the source/analysis scripts ZIPs, the PDF review, the manuscript-ready artifacts, the pre-TEST lock package, and a SHA-256 file inventory.
 
 Public GitHub contains provenance and status; **the large raw measurement partitions, local E:\\ working directory, and unpublished full experimental datasets are not asserted to be synchronized here**. Preserve prior scientific locks and release metadata.
+
+## Historical source evidence update — 2026-10-20
+
+The [source-level OpenCEM/OPSD audit](docs/EAAI_HISTORICAL_OPSD_OPENCEM_SOURCE_LINKAGE_20261020.md) independently verified original bytes from **19 OpenCEM source CSV partitions**, mapped all **406** historical daily block UTC windows to **434** raw partition/time-overlap edges (378 one-partition blocks and 28 two-partition blocks), and recovered the **original locked GitHub Actions OPSD inventories** covering 1,786 strict QA household-days and 1,656 full-regular historic replay-scope days. These results are documentary and source-level evidence; they do not provide exact per-bin raw lineage, establish exhaustive prior external-use history, or authorize a NEW TEST.
+
+- [Locked original and derived bundle on Google Drive](https://drive.google.com/file/d/1gLhUviFTFeguHNnyyxKXT0YhBHGiCIfj/view)
+- ZIP SHA-256: `0ca0f3ae3cd3f777cde38b8666999a9918d867767de88f1c5866712aee2aea6e`; seven source-audit tests passed.
+- Prospective new-data eligibility: **BLOCKED**; EAAI: **NO-GO**.
