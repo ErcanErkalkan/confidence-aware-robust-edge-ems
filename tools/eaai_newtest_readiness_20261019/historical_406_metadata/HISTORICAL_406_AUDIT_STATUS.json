@@ -1,0 +1,43 @@
+{
+  "protocol": "CRMT-EAAI-OPEN_CEM-406-HISTORICAL-WINDOWS-ONLY-20261020-v1",
+  "canonical_source_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+  "canonical_source_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+  "input_provenance": "canonical OpenCEM 406-row manifest; provider file hashes absent from its columns",
+  "metadata_inventory_sha256": "85c295e39f43f0a64d06f720f7486255601f0ffa2486b56661bb98781da37f18",
+  "row_count": 406,
+  "split_counts": {
+    "internal_test": 78,
+    "train": 210,
+    "validation": 118
+  },
+  "coverage_by_split": {
+    "train": {
+      "blocks": 210,
+      "earliest_start_utc": "2025-08-01T16:00:00Z",
+      "latest_end_utc_exclusive": "2025-12-31T16:00:00Z"
+    },
+    "validation": {
+      "blocks": 118,
+      "earliest_start_utc": "2025-12-31T16:00:00Z",
+      "latest_end_utc_exclusive": "2026-02-28T16:00:00Z"
+    },
+    "internal_test": {
+      "blocks": 78,
+      "earliest_start_utc": "2026-02-28T16:00:00Z",
+      "latest_end_utc_exclusive": "2026-04-10T16:00:00Z"
+    }
+  },
+  "inverter_ids": [
+    "opencem_inv1",
+    "opencem_inv2"
+  ],
+  "end_utc_method": "last observed tick + frozen 2-minute cadence; half-open bounds",
+  "known_missing": [
+    "block_to_raw_sha256_mapping",
+    "complete prior OPSD/external exposure windows",
+    "verified independent NEW TEST raw inputs, physical adapter, and eligibility decision"
+  ],
+  "dataset_eligibility": "BLOCKED",
+  "new_blind_test": "NOT_RUN",
+  "WARNING": "This CSV intentionally lacks raw_sha256 and is NOT a valid pretest_readiness.py historical registry."
+}
