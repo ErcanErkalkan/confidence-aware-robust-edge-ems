@@ -36,3 +36,13 @@ Source is historical seed1001 `C1_F1_A1`:
 - Original OpenCEM internal 78 TEST blocks and prior OPSD are already exposed and cannot be called fresh blind TEST.
 
 **Submission: NO-GO.**
+
+## Verified code synchronization
+
+The actual re-execution source files are checked into GitHub and their UTF-8 contents were compared with the corresponding Google Drive files (both exact matches):
+
+- [Historical seed1001 conditional F0/F1 archive audit](../tools/eaai_newtest_readiness_20261019/archive_conditional_audit_20261020.py)
+- [Strict full-256 common-block reference preflight](../tools/eaai_newtest_readiness_20261019/fullpool_reference_gate_20261020.py)
+- [Drive evidence folder with byte-verified ZIPs](https://drive.google.com/drive/folders/1TvM9qx_mA-EDGN33SgS8OLW8o_b-zvig)
+
+The full-256 gate was executed on the historical 54-candidate VALIDATION data and returned **BLOCKED_INCOMPLETE**, as required. This is the correct negative control. Both uploaded ZIPs were re-downloaded and compared byte-for-byte against the source archives. The six conditional-analysis synthetic tests and four gate tests passed, but actual 256-candidate common-reference evaluation has **not** been run.
