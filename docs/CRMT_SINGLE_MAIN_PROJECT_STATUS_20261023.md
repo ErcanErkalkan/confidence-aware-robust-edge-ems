@@ -36,6 +36,12 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - Ham kaynak klasörü: https://drive.google.com/drive/folders/1vYO1Z7perxj-G3_nbeIys7ObSXFoHZYP (19/19, 883.382.698 bayt). Eski 18/19 CSV doğrulama tablosu tarihsel arşive taşındı; güncel 19/19 kapanış JSON/CSV kanıtı tek Drive projesine ayrıca kaydedilir.
 - Kurtarma için kullanılan geçici GitHub Actions iş akışı başarıyla çalışıp silindi. Daha önce hazırlanan PowerShell aracı tarihsel kurtarma destek dosyasıdır; işlem şu anda tamamlanmıştır.
 
+## R9 G2 prototipi — 23 Ekim 2026 (geliştirme, yeni TEST değil)
+
+- [Yeni yöntem taslağı](R9_EQUAL_CAPACITY_POLICY_DRAFT_20261023.md) ve [TRAIN-only kaynak kodu](../tools/r9_equal_capacity_20261023/r9_capacity.py) mevcuttur; sentetik örnek ve 22 sentetik pytest testi ile yerelde doğrulandı. Çalışmanın tamamı için GitHub Actions pytest sonucu ayrıca kontrol edilmelidir.
+- Bu politika F0/F1'in **aynı aday–TRAIN blok değerlendirme izini** ve ortak kullanılan bellek kapasitesini denetler. Eksik doğal arşiv slotlarını ortak TRAIN adaylarından tamamlayarak **yeni etkin bellek** üretir. Tarihsel orijinal F0/F1 arşivinin gerçek kapasitesi veya K20 seçimlerinin değiştiği anlamına gelmez.
+- B=20, K=20 aday tasarım koşuludur; kilitlenmiş ön kayıt değildir. Birincil hipotez (C/A HV mi F0/F1 utility mi), B/K seçimi, tek nihai kontrolcü selector, yeni bağımsız TEST kaynağı ve örneklem birimi **onaylanmadı**. R9 G2 yalnız teknik ön prototip olarak ilerledi; G3–G4 BLOCKED ve yayın **NO-GO** devam eder.
+
 ## R7/R8 düzeltme ve araştırma sınırları
 
 - R8 CSV'de `C0 → λ=0`, `C1 → λ=0.5` doğrulanmıştır. R8 metninin A0/A1'e bağladığı tanım raporlama hatasıdır.
@@ -58,7 +64,9 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - [x] Eski dalların `main`den ileride olmadığına dair karşılaştırma.
 - [x] Eski iki dalın GitHub Actions ile güvenli şekilde kaldırılması; son dal listesinde yalnızca `main` görülmesi.
 - [x] `2025-08-b.csv` özgün kaynağının eksiksiz aktarılması, sha eşlemesi ve bağımsız Drive geri okuması.
-- [ ] R9 eşit bütçe ve bağımsız veri ön kayıt kilitlerinin tamamlanması.
+- [x] R9 G2 için TRAIN-only deterministik eşit bellek / eşit değerlendirme izi prototipi ve sentetik testleri (`tools/r9_equal_capacity_20261023/`, `tests/test_r9_capacity_policy.py`).
+- [ ] R9 G2 tasarımının araştırmacı onayı, B/K ve backfill ön kilidi, GERÇEK eşit bütçeli TRAIN çalışma loglarının kilitlenmesi.
+- [ ] R9 G3–G4 yeni bağımsız veri, maruziyet ayrıklığı ve tek birincil uç / güç / safety ön kayıt kilitleri.
 - [ ] Yeni bağımsız TEST'in protokole uygun çalıştırılması ve makalenin yeni kanıtlarla güncellenmesi.
 
 **Ana kural:** Depoda yalnız `main` dalı bulunur. Her yeni uygulama ve düzeltme yalnız `main`e girer; ikinci bir aktif araştırma dalı oluşturulmaz. Bu dosyanın son commit'i, geçmiş deney kanıtlarını yeniden etiketlemez.
