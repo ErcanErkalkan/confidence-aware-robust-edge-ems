@@ -14,17 +14,22 @@ The five historical TRAIN seeds (1001–1005) each have eight conditions (C0/C1 
 
 The earlier audit `docs/R9_HISTORICAL_TRAIN_INPUT_AUDIT_TR_20261023.md` said "metadata discrepancies 0", which omitted the source-code provenance check. This assertion **must not be interpreted as 40/40 frozen-commit confirmation**. The present file supersedes that overly broad reading. The historical summary itself stays unchanged.
 
-## Independent source-byte paired pilots: 3 / 20
+## Independent source-byte paired pilots: 8 / 20
 
-The existing fail-closed `r9_train_pair_preflight.py` has been executed against four *original Drive-downloaded* historical conditions, verifying all original three CSV SHA-256 against their individual `run_summary.json` and checking 12,600 unique TRAIN controller–block ledger rows, 256 distinct controllers and archive membership:
+The existing fail-closed `r9_train_pair_preflight.py` has now been applied to **eight historical F0/F1 pairs** (16 conditions) using original Drive-downloaded TRAIN artifacts, verifying SHA-256 for each of the three CSV source files against each condition's `run_summary.json`, 12,600 unique TRAIN controller–block ledger rows, 256 distinct controllers, archive membership and F0/F1 non-timing science equality. The first pair was verified earlier; the seven subsequent pairs were rechecked with the repository preflight and an additional independent local verifier:
 
 | Pilot pair | Original byte SHA vs source manifest | Ledger identities and order | Four science objectives and all non-CPU fields | Measurement CSV hash | Timing differences |
 |---|---|---|---|---|---|
 | seed1001/C0_A0 F0 versus F1 | 6/6 CSV PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600 rows; max_cpu_ms: 12,599 rows |
 | seed1002/C0_A0 F0 versus F1 | 6/6 CSV PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600 rows; max_cpu_ms: 12,600 rows |
 | seed1002/C0_A1 F0 versus F1 (**adaptive allocation**) | 6/6 CSV PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600 rows; max_cpu_ms: 12,600 rows |
+| seed1002/C1_A0 | 6/6 PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600; max_cpu_ms: 12,600 |
+| seed1002/C1_A1 (**adaptive**) | 6/6 PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600; max_cpu_ms: 12,600 |
+| seed1003/C1_A1 (**adaptive**) | 6/6 PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600; max_cpu_ms: 12,600 |
+| seed1004/C0_A0 | 6/6 PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600; max_cpu_ms: 12,599 |
+| seed1005/C0_A1 (**adaptive**) | 6/6 PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600; max_cpu_ms: 12,600 |
 
-Non-CPU fields including `cap_violation_pct_total`, `lfp_cycle_loss_pct`, `ramp95_kw_per_min`, and `flip_per_day` are equal **only for these three byte-verified matched pairs**. It is incorrect to infer the same for the 17 unverified pairs.
+Non-CPU fields including `cap_violation_pct_total`, `lfp_cycle_loss_pct`, `ramp95_kw_per_min`, and `flip_per_day` are equal for **these eight byte-verified matched pairs**. It is incorrect to infer the same for the **12 unverified pairs**.
 
 Timing columns vary; equality of controller–block simulation budget is **not equality of elapsed time, CPU cost, memory or bootstrap computation**. No inferential F0/F1 performance superiority is established.
 
@@ -41,4 +46,5 @@ Timing columns vary; equality of controller–block simulation budget is **not e
 - Exact source summary metadata per seed: `reproducibility/r9_historical_train_sources_20261023/seed100{1..5}_provenance_review.json`.
 - Source file URL manifests: `reproducibility/r9_historical_train_sources_20261023/seed100{1..5}.csv`.
 - F0/F1 pair summary: [R9_TRAIN_PAIR_SUMMARY_20.csv](../reproducibility/r9_historical_train_sources_20261023/R9_TRAIN_PAIR_SUMMARY_20.csv).
+- The eight-pair consolidated receipt: [R9_EIGHT_PAIR_BYTE_AUDIT_RECEIPT.json](../reproducibility/r9_historical_train_sources_20261023/R9_EIGHT_PAIR_BYTE_AUDIT_RECEIPT.json); the seven new repository-preflight JSON receipts are in the same folder. An automated pytest manifest-consistency check independently enforces the declared 8/20 coverage, but does not itself re-download Drive CSV bytes.
 - Frozen experiments untouched: `src/crmt_edge_ems`, old 30-seed evidence, R6/R7/R8 historical data.
