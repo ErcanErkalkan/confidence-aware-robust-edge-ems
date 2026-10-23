@@ -45,7 +45,7 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 ## R9 tarihsel TRAIN kaynak commit engeli (23 Ekim 2026 denetim düzeltmesi)
 
 - 40/40 koşulda kaynak CSV bağlantıları bulunuyor; **39/40** historical `run_summary.json` dosyası beklenen donmuş Git SHA'yı *bildiriyor*. **seed1001/C1_F1_A1** dosyası `original_git_sha=UNRECORDED_LOCAL_SHA` içeriyor, bu yüzden aynı yürütme commit'i henüz ispatlanamıyor. Orijinal source summary değiştirilmeyecek.
-- 20/20 F0/F1 çiftinin run summary'sindeki ledger SHA-256'lar eşit; candidate_metrics ham SHA-256'lar farklı. Gerçek Drive CSV'leri üzerinden ölçüm alanı ve SHA doğrulaması **3/20 çift** için tamamlandı: seed1001/C0_A0, seed1002/C0_A0 ve adaptif tahsis koşulu seed1002/C0_A1. Kalan 17 çiftin ölçüm eşitliği ispatlanmış kabul edilmez.
+- 20/20 F0/F1 çiftinin run summary'sindeki ledger SHA-256'lar eşit; candidate_metrics ham SHA-256'lar farklı. **8/20 çiftin gerçek Drive CSV baytları** SHA-256 ve TRAIN ölçüm alanlarıyla yeniden doğrulandı; beş tohumdan örnekler ve A0/A1 koşulları mevcut. **Kalan 12 çiftin** non-CPU bilimsel eşitliği henüz ispatlanmamıştır. [8/20 kanıt fişi](../reproducibility/r9_historical_train_sources_20261023/R9_EIGHT_PAIR_BYTE_AUDIT_RECEIPT.json) ve [güncel metodoloji sınırı](R9_TRAIN_PROVENANCE_BLOCKER_20261023.md).
 - Düzeltme ve kapı raporu: [R9_TRAIN_PROVENANCE_BLOCKER_20261023.md](R9_TRAIN_PROVENANCE_BLOCKER_20261023.md). Genel koşul manifesti: [GLOBAL_SOURCE_PROVENANCE_GATE_20261023.json](../reproducibility/r9_historical_train_sources_20261023/GLOBAL_SOURCE_PROVENANCE_GATE_20261023.json). GitHub sadece tek `main` dalında kalır.
 - **R9 bağımsız TEST: NO-GO**. B/K/hipotez/ön-kayıt ve yeni bağımsız veri kilidi yoktur.
 
