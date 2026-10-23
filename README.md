@@ -1,5 +1,8 @@
 # Confidence-Aware Robust Edge EMS
 
+> **Canonical single-project update (2026-10-23):** This repository is one continuous CRMT research project. **`main` is the only authoritative development branch.** Earlier audit and evidence-sync branches were fully merged into `main` by [PR #2](https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems/pull/2); their remote branch names are pending cleanup (no unmerged commits). For the up-to-date single-project chronology, OpenCEM 18/19 verified-data status, R7/R8 errata, and independent TEST caveats, see **[Canonical CRMT project status](docs/CRMT_SINGLE_MAIN_PROJECT_STATUS_20261023.md)**. All data, experiments and manuscripts live under the [single Drive project root](https://drive.google.com/drive/folders/1g8afkrJCfF4fFSNxS1kJo9aQISGOlBne). A new `main` commit does not retroactively change any frozen experimental source revision.
+
+
 Reproducible research-code workspace for **confidence-aware, risk-calibrated, multi-objective tuning of an edge-executable battery-supported microgrid energy-management system (EMS)**.
 
 This repository is scientifically distinct from the historical `microgrid-bess` and earlier `microgrid-ems-simulation` work. The fixed EMS/controller snapshot is used as a controlled baseline layer, while CRMT, common-budget baselines, real-data adapters, confirmatory workflows, and reproducibility tooling are maintained separately.
