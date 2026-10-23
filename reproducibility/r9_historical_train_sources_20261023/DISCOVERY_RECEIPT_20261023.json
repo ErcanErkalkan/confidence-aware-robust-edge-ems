@@ -1,0 +1,21 @@
+{
+  "receipt_date": "2026-10-23",
+  "project": "CRMT_SINGLE_PROJECT",
+  "branch": "main",
+  "source_folder": "https://drive.google.com/drive/folders/1auSnDAdA_A6XNfb5rLuwn9SJN-sdTw8S",
+  "seeds": 5,
+  "conditions": 40,
+  "file_refs": 160,
+  "file_types_per_condition": 4,
+  "total_drive_reported_file_bytes": 236076265,
+  "paired_F0_F1_ledger_comparisons": 20,
+  "paired_ledger_comparison_failures": 0,
+  "historical_train_controller_block_events_including_both_F_arms": 504000,
+  "byte_sha256_of_all_160_files": "NOT_YET_REVERIFIED",
+  "full_40_cell_candidate_metrics_parity": "NOT_YET_REVERIFIED",
+  "checked_sample_candidate_metrics": "seed1001/C1_A0: 12600/12600 four-objective values equal",
+  "independent_TEST": "NOT_ACQUIRED_NOT_RUN",
+  "prospective_preregistration": "NOT_LOCKED",
+  "scientific_status": "R9_NO_GO",
+  "notes": "All 40 condition folders have four nonempty files. Each of the 20 historical F0/F1 comparisons has equal unique controller-block event pairs, but this is TRAIN evidence and not new R9 prospective TEST."
+}
