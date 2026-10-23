@@ -109,6 +109,17 @@ def test_wrong_source_commit_rejected(sandbox_pair):
         gate.audit_pair(*sandbox_pair, seed=1001, c=0, a=0)
 
 
+
+def test_unrecorded_local_source_commit_rejected(sandbox_pair):
+    """A historical condition with this marker cannot pass the provenance gate."""
+    path = sandbox_pair[1] / 'run_summary.json'
+    summary = json.loads(path.read_text())
+    summary['original_git_sha'] = 'UNRECORDED_LOCAL_SHA'
+    path.write_text(json.dumps(summary))
+    with pytest.raises(gate.PreflightBlocked, match='original_git_sha'):
+        gate.audit_pair(*sandbox_pair, seed=1001, c=0, a=0)
+
+
 def test_extra_front_candidate_rejected(sandbox_pair):
     _modify_csv(sandbox_pair[0], 'optimizer_front.csv', 'candidate_id', 'ghost')
     with pytest.raises(gate.PreflightBlocked, match='unknown candidate'):
