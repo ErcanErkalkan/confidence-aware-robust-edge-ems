@@ -31,10 +31,10 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 ## 23 Ekim 2026 veri kurtarma ve kanıt durumu
 
 - OpenCEM dondurulmuş kaynak commit'i: `5884d253a5267fb240b7a8df6fa9e4d49a905167`.
-- 19 ham CSV parçasından **18'i** tek Drive klasöründe; toplam **880.889.612 bayt**. Bu 18 kopya gerçek içerikten hesaplanan Git blob SHA-1 ile eşleşti; SHA-256 her kopya için kaydedildi.
-- Eksik tek kaynak: `data/measurements/2025-08-b.csv` (**2.493.086 bayt**, beklenen Git blob SHA-1 `ffbefbaca56761ee180074d0feb5d83553527c7e`). GitHub'daki dondurulmuş kaynak blob mevcut, fakat Drive'a aktarım henüz yapılmadı.
-- Doğrulama tablosu: https://drive.google.com/file/d/11oMMP7d1G2wHrFiLFjFlcgttpWKY3vMS/view
-- Kaynak kurtarma aracı: https://drive.google.com/file/d/1RGQOhMeBR2oKK4k1wHfNFq3dtmEUBvuc/view
+- 19 ham CSV parçasının **19'u da** tek Drive klasöründe; toplam **883.382.698 bayt**. Önceki 18 dosyanın Drive geri okuma SHA/Git blob denetimi başarılıdır; son parça da özgün pinned kaynaktan alınıp **Drive'a yüklenmiş ve bağımsız geri okuma ile doğrulanmıştır**. Her birinin SHA-256 değeri kayıtlıdır.
+- Son kurtarılan kaynak: `data/measurements/2025-08-b.csv` (**2.493.086 bayt**) — [kanonik Drive dosyası](https://drive.google.com/file/d/1Gwdk8zwXFcibbONNAt9ZcscrV3NR1azc/view). Kaynak Git blob SHA-1 `ffbefbaca56761ee180074d0feb5d83553527c7e`, son dosya SHA-256 `d889a3b06693d76a5d04cc21b4c6d2ce4edf29710a021438a7979a6ad31ae041`. [GitHub Actions bağımsız pinned kurtarma](https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems/actions/runs/39919083779) başarılıdır; geçici recovery workflow dosyası `main`den kaldırılmıştır.
+- Ham kaynak klasörü: https://drive.google.com/drive/folders/1vYO1Z7perxj-G3_nbeIys7ObSXFoHZYP (19/19, 883.382.698 bayt). Eski 18/19 CSV doğrulama tablosu tarihsel arşive taşındı; güncel 19/19 kapanış JSON/CSV kanıtı tek Drive projesine ayrıca kaydedilir.
+- Kurtarma için kullanılan geçici GitHub Actions iş akışı başarıyla çalışıp silindi. Daha önce hazırlanan PowerShell aracı tarihsel kurtarma destek dosyasıdır; işlem şu anda tamamlanmıştır.
 
 ## R7/R8 düzeltme ve araştırma sınırları
 
@@ -57,7 +57,7 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - [x] 14 tarihsel araştırma dosyasının PR #2 ile `main`e birleştirilmesi.
 - [x] Eski dalların `main`den ileride olmadığına dair karşılaştırma.
 - [x] Eski iki dalın GitHub Actions ile güvenli şekilde kaldırılması; son dal listesinde yalnızca `main` görülmesi.
-- [ ] `2025-08-b.csv` özgün kaynağının eksiksiz aktarılması ve hash doğrulaması.
+- [x] `2025-08-b.csv` özgün kaynağının eksiksiz aktarılması, sha eşlemesi ve bağımsız Drive geri okuması.
 - [ ] R9 eşit bütçe ve bağımsız veri ön kayıt kilitlerinin tamamlanması.
 - [ ] Yeni bağımsız TEST'in protokole uygun çalıştırılması ve makalenin yeni kanıtlarla güncellenmesi.
 
