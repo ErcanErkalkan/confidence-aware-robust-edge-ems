@@ -16,8 +16,8 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - Merge commit: `d8615d8a71880f13945e8f3407b226e08d7e1e5d`.
 - Main üzerinde eklenen tarihsel içerik: `research_audits/` altında 14 dosya, yalnız ekleme (1.618 satır); yürütme kodunun mevcut `src/` dosyaları birleştirmeden değişmedi.
 - Birleştirme sonrasında her iki eski dalın `main`e göre `ahead_by=0` olduğu ayrıca doğrulandı.
-- GitHub dal silme işlemi henüz **tamamlanmadı**. Eski dal adları silinene kadar `main` tek **yetkili/aktif** daldır, fakat depoda fiziksel olarak birden fazla dal bulunmaktadır.
-- GitHub dal temizliği için silinecekler: `audit/crmt-eaai-gate2-30seed-20261009`, `revision/crmt-eaai-evidence-sync-20261011`. GitHub arayüzünde repo → Branches ekranından `main` dışındaki iki dal silinebilir. **`main` silinmez ve force-push yapılmaz.**
+- GitHub dal temizliği **tamamlandı**. [GitHub Actions tek seferlik temizleme işlemi](https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems/actions/runs/39909877273) başarılı sonuçlandı. Bağlayıcı üzerinden alınan dal listesi yeniden kontrol edildi: depoda **yalnızca `main`** mevcut.
+- Silinen tarihsel dal referansları: `audit/crmt-eaai-gate2-30seed-20261009` ve `revision/crmt-eaai-evidence-sync-20261011`. Her ikisi silinmeden önce `main` karşılaştırmasında `ahead_by=0` idi. Eski commit'ler ve bilimsel kayıtlar `main` geçmişinde korunmuştur; force-push uygulanmadı. Temizlikte kullanılan geçici workflow dosyası da `main`den kaldırıldı.
 
 ## Çalışmanın tek bilimsel kronolojisi
 
@@ -56,9 +56,9 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - [x] Dalların ve dosyaların karşılaştırılması.
 - [x] 14 tarihsel araştırma dosyasının PR #2 ile `main`e birleştirilmesi.
 - [x] Eski dalların `main`den ileride olmadığına dair karşılaştırma.
-- [ ] Eski iki dalın GitHub'dan kaldırılması (dal silme yeteneği mevcut bağlayıcıda yok).
+- [x] Eski iki dalın GitHub Actions ile güvenli şekilde kaldırılması; son dal listesinde yalnızca `main` görülmesi.
 - [ ] `2025-08-b.csv` özgün kaynağının eksiksiz aktarılması ve hash doğrulaması.
 - [ ] R9 eşit bütçe ve bağımsız veri ön kayıt kilitlerinin tamamlanması.
 - [ ] Yeni bağımsız TEST'in protokole uygun çalıştırılması ve makalenin yeni kanıtlarla güncellenmesi.
 
-**Ana kural:** Her yeni uygulama ve düzeltme yalnız `main`e girer; ikinci bir aktif araştırma dalı oluşturulmaz. Bu dosyanın son commit'i, geçmiş deney kanıtlarını yeniden etiketlemez.
+**Ana kural:** Depoda yalnız `main` dalı bulunur. Her yeni uygulama ve düzeltme yalnız `main`e girer; ikinci bir aktif araştırma dalı oluşturulmaz. Bu dosyanın son commit'i, geçmiş deney kanıtlarını yeniden etiketlemez.
