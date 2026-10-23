@@ -1,0 +1,38 @@
+{
+  "A": 1,
+  "C": 0,
+  "F0": "C0_F0_A1",
+  "F1": "C0_F1_A1",
+  "archive_size_F0": 30,
+  "archive_size_F1": 182,
+  "budget_per_condition": 12600,
+  "candidate_metrics_raw_sha_equal": false,
+  "identical_candidate_block_evaluation_pairs": true,
+  "input_sha256": {
+    "F0": {
+      "candidate_metrics.csv": "0dc3b6f7e82945160fae4a488a3238e0dab8e8f073e438b6a3d2c616e6a20894",
+      "ledger.csv": "5a9f14e9d3f67400be0728c13e1206546b67e77bc57bcb7548854c121e406772",
+      "optimizer_front.csv": "31bb4c221d5d6462dfff08ec939b714366fd39b4366b16d440abcd8abe8ac06e"
+    },
+    "F1": {
+      "candidate_metrics.csv": "4a418c2ae4fc988aa41441bd63b646ee52d59bc79d19a45d432ccab6dcd3106e",
+      "ledger.csv": "5a9f14e9d3f67400be0728c13e1206546b67e77bc57bcb7548854c121e406772",
+      "optimizer_front.csv": "f5ab2acdca98cd933fbbb262309d1f5c6af9b173e9b2b70462284a62e5d53a23"
+    }
+  },
+  "ledger_raw_sha_equal": true,
+  "limitation": "Historical TRAIN; no new equal-capacity R9 execution, no VALIDATION, no prospective independent TEST or preregistration.",
+  "objective_fields_identical": [
+    "cap_violation_pct_total",
+    "lfp_cycle_loss_pct",
+    "ramp95_kw_per_min",
+    "flip_per_day"
+  ],
+  "science_and_non_timing_metrics_equal": true,
+  "seed": 1005,
+  "status": "HISTORICAL_TRAIN_PAIRED_PREFLIGHT_ONLY_NOT_NEW_TEST",
+  "timing_differences_in_rows": {
+    "max_cpu_ms": 12600,
+    "mean_cpu_ms": 12600
+  }
+}
