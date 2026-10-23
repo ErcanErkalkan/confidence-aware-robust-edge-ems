@@ -7,6 +7,10 @@ Reproducible research-code workspace for **confidence-aware, risk-calibrated, mu
 
 This repository is scientifically distinct from the historical `microgrid-bess` and earlier `microgrid-ems-simulation` work. The fixed EMS/controller snapshot is used as a controlled baseline layer, while CRMT, common-budget baselines, real-data adapters, confirmatory workflows, and reproducibility tooling are maintained separately.
 
+## CRMT R9 G2 capacity-policy prototype — 2026-10-23 (DRAFT, NO-GO)
+
+A new **TRAIN-only** equal-capacity F0/F1 memory-policy prototype is available at [R9 G2 policy and scientific boundaries](docs/R9_EQUAL_CAPACITY_POLICY_DRAFT_20261023.md), with [code](tools/r9_equal_capacity_20261023/r9_capacity.py), [synthetic input](tools/r9_equal_capacity_20261023/example_synthetic_pair.json), and [unit tests](tests/test_r9_capacity_policy.py). It checks identical controller–block TRAIN evaluation ledgers, deterministic common-TRAIN rank/prune/backfill, and equal used memory capacity. Its backfill output is a **new policy-specific bounded memory**, not a relabeling of the original native F0/F1 archives. Neither B nor K nor primary endpoint has received independent preregistration approval; the module cannot execute a new TEST. **R9 remains NO-GO.**
+
 ## EAAI research extension — 2026-10-19 (exploratory, NO-GO)
 
 The newer **EAAI Gate3 extension** is tracked separately from the historical v0.1.0/v0.1.1 release and the older Applied Soft Computing v12 manuscript. Five-seed 2×2×2 TRAIN and K20 selection, 118-block *historical VALIDATION*, and five-seed Pareto indicator analysis have been completed and hash audited. **F0/F1 select identical K20 candidates**; an independent confidence mechanism improvement is not shown. No new independent/blinded TEST has been acquired or executed. EAAI submission remains **NO-GO**.
