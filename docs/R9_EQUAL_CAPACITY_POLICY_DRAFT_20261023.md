@@ -2,6 +2,23 @@
 
 **23 Ekim 2026 · Statü: DRAFT / YÖNTEM PROTOTİPİ / ÖN-KAYIT DEĞİL / TEST YAPILMADI / NO-GO**
 
+## 23 Ekim 2026 tarihsel TRAIN kaynak ve preflight güncellemesi
+
+**Yeni doğrulama (ön-kayıt değildir):** Ayrı Drive paketlerinde eksik sanılan `candidate_metrics.csv`, `ledger.csv`, `optimizer_front.csv` ve `run_summary.json` orijinal 5-tohum TRAIN ağacında **40/40 koşul için bulundu**; [160 dosyalık kaynak envanteri ve 20 eşit F0/F1 ledger denetimi](R9_HISTORICAL_TRAIN_SOURCE_AUDIT_20261023.md) GitHub `main` üzerinde belgelendi. **20/20 çift** aynı 12.600 benzersiz controller–block olayına sahiptir. Bir gerçek örnek çiftte dört bilimsel amaçta 12.600/12.600 eşleşme bulundu; bu tek örnek sonucu tüm 20 çift için genellememek gerekir.
+
+Makineyle tekrarlanabilir, veri değiştirmeyen SHA ve semantik denetim aracı: [`r9_train_artifact_preflight.py`](../tools/r9_equal_capacity_20261023/r9_train_artifact_preflight.py) ve [sentetik regresyon testleri](../tests/test_r9_train_artifact_preflight.py). Bu kod, indirilecek tüm 40 hücrenin `run_summary.json` SHA-256 kayıtlarını, risk/faktör eşlemelerini, TRAIN-etiketli 12.600 metriği, arşiv adaylarını ve F kollarının bilimsel metrik eşitliğini **ancak gerçekten yürütüldüğünde** doğrulayacaktır. Bugünkü taramada bütün 160 ham dosyanın SHA-256 geri okuması yapılmadı; `G2` hâlâ tam kanıt kapanışı değil.
+
+Doğrulama komutu (Drive'dan alınan özgün TRAIN dizini yerel olarak aynı alt klasörlerle kurulduğunda):
+
+```bash
+python tools/r9_equal_capacity_20261023/r9_train_artifact_preflight.py \
+  --root /path/to/TRAIN \
+  --output-json ./r9_historical_train_preflight.json
+pytest -q tests/test_r9_train_artifact_preflight.py
+```
+
+**Bilimsel kapı değişmez:** Birincil hipotez, nihai B/K/backfill onayı, bağımsız TEST kaynağı ve ön-kayıt halen **NO-GO**. Tarihsel TRAIN uygunluğu gelecekteki TEST'e geçme izni vermez.
+
 ## Bilimsel gerekçe
 
 Bu belge *tek CRMT projesinin* R9 aşamasına aittir. Önceki R1–R8 deneyleri dondurulmuştur. R6'nın 151.040 kaydı tarihsel VALIDATION'dır. R7'de 20 F0/F1 K20 çiftinin **tamamı aynı sıralı adaylardan** oluşmuştur. R8'de F1 çok daha büyük arşive sahipken daha yüksek recall göstermiştir; bu, eşit kapasitede F1 üstünlüğü değildir. R7/R8'nin C0→λ0; C1→λ0,5 raporlama düzeltmesi önceki kayıtlardan ayrı erratum ile yapılmıştır.
