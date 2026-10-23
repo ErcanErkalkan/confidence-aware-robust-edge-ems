@@ -2,13 +2,15 @@
 
 **23 Ekim 2026 — retrospektif kanıt denetimi; YENİ R9 DENEMESİ / yeni bağımsız TEST değildir.**
 
+> **DÜZELTME / geçerli güncel kapsam:** [R9 kaynak commit engeli ve 2/20 bayt pilotu](R9_TRAIN_PROVENANCE_BLOCKER_20261023.md). 40 koşulun 39'unda beklenen dondurulmuş commit bildirilmiştir; **seed1001/C1_F1_A1** summary'sinde `original_git_sha=UNRECORDED_LOCAL_SHA` vardır. Önceki "metaveri tutarsızlığı 0" ifadesi, bu alanı kontrol etmediği için genellenemez. Gerçek CSV baytlarından doğrulanan F0/F1 çift sayısı artık **2/20**.
+
 ## Kaynak kapsamı
 
 - Ana depo: https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems
 - Tek `main` envanteri: `reproducibility/r9_historical_train_sources_20261023/seed1001.csv` ... `seed1005.csv`.
 - Google Drive 5 seed × 8 C/F/A koşulu = **40/40** koşul dosya seti.
 - Her koşulda `run_summary.json`, `candidate_metrics.csv`, `ledger.csv`, `optimizer_front.csv` mevcut, boyutları sıfırdan büyük: **160/160 kaynak dosya envanterlendi**.
-- 40 JSON run summary okundu ve `condition_id`, seed, `TRAIN`, `candidate_count=256`, `train_budget_used=12600`, C risk ağırlığı ve F/A mod etiketleri denetlendi; metaveri tutarsızlığı **0**.
+- 40 JSON run summary tekrar okundu; C/F/A, TRAIN rolü, aday/bütçe ve kaynak manifesti alanları beklenen değerlere uyumlu. **Ancak kaynak commit kimliğinde 1/40 açık sorun** vardır (`seed1001/C1_F1_A1`: `UNRECORDED_LOCAL_SHA`). Bkz. düzeltme eki.
 - Aynı (seed,C,A) için F0/F1 **20/20 çiftte ledger.csv SHA-256 kimliği eşleşiyor** (run_summary'de beyan edilen hashler). Buna karşılık **20/20 çiftte candidate_metrics.csv ham SHA-256 farklı**. Sadece hash farkıyla dört amaç değişmiş sayılmaz; her çift gerçek byte düzeyinde denetlenmelidir.
 - F0 toplam TRAIN arşiv üyesi **1672 / 20 = 83.60**, F1 **4539 / 20 = 226.95**, fark **+143.35**. Bu B kapasite eşlemesi yapılmadan gözlenen tarihsel sonuçtur; F1 üstünlüğünü göstermez.
 
@@ -36,7 +38,7 @@ F0 ve F1'in ledger sırası ve (aday,blok) çiftleri tamamen aynı; `candidate_m
 - Dosya SHA-256, frozen kaynak/manifest, C/F/A koşul eşlemesi, 12.600 bütçe, CSV şemaları, TRAIN-only satırları, 256 aday ve archive membership sayısını kontrol eder.
 - F0/F1 ledger olaylarını ve aynı aday–blok üzerindeki non-timing bilimsel alanları kıyaslar; `mean_cpu_ms` ve `max_cpu_ms` ölçüm dalgalanmalarını ayrı raporlar.
 - Başarısızlık halinde `R9_PREFLIGHT_BLOCKED` durumu ve nonzero exit kodu verir. Hiçbir EMS simülasyonu veya VAL/TEST yapmaz.
-- Sentetik test: **12/12 geçti**; gerçek tarihsel pilot: **1 çift (seed1001/C0_A0) geçti**. Tam GitHub CI sonucu GitHub Actions üzerinden ayrıca doğrulanmalıdır.
+- Sentetik testler genişletildi: **13 preflight + 22 R9 kapasite = 35/35 yerel test başarılı**. Tarihsel gerçek kaynak bayt pilotları: **2 çift** (`seed1001/C0_A0`, `seed1002/C0_A0`) geçti. Güncel GitHub CI kontrolü ayrıca raporlanır.
 
 Çalıştırma:
 
@@ -51,9 +53,9 @@ python -m pytest -q tests/test_r9_train_pair_preflight.py
 ## Neden R9 gerçek yürütmesi hâlâ kapalı?
 
 1. TRAIN candidate_metrics içindeki dört blok amacı, R9 policy modülünün beklediği aday başına dört bileşik TRAIN skoruna dönüştürülmeli; C0/C1 risk fonksiyonu, quantile, normalization ve seleksiyon tasarımı nihai kilit olmadan bu dönüştürme doğrulayıcı sonuç diye kullanılamaz.
-2. Henüz tüm 20 F0/F1 çiftinin gerçek CSV içerik eşitliği ve arşiv dosya kimlikleri teker teker doğrulanmadı.
+2. Henüz tüm 20 F0/F1 çiftinin gerçek CSV içerik eşitliği ve arşiv dosya kimlikleri teker teker doğrulanmadı (2/20 çiftin gerçek dosyaları kontrol edildi). Ayrıca seed1001/C1_F1_A1'in özgün kaynak commit'i belirsizdir.
 3. Eşit efektif kapasite B, K20, backfill etkisi ve kontrolcü seçim sonlanımı hâlâ **taslak**.
 4. Yeni bağımsız kör TEST veri kökeni, tarih/saha maruziyeti, prereg ve safety veto henüz kilitlenmedi.
 5. Eski TRAIN/VAL/internal TEST verilerini yeni bağımsız TEST diye sunmak yasaktır.
 
-**Kanıt statüsü:** INPUT DISCOVERY 40/40 COMPLETE; JSON DECLARED-LEDGER PAIR SHA 20/20 MATCH; ACTUAL BYTE PAIR 1/20 VERIFIED; R9 NEW INDEPENDENT TEST: **NO-GO**.
+**Kanıt statüsü:** INPUT DISCOVERY 40/40 COMPLETE; EXPECTED SOURCE-COMMIT DECLARED 39/40; JSON DECLARED-LEDGER PAIR SHA 20/20 MATCH; ACTUAL BYTE PAIR 2/20 VERIFIED; R9 NEW INDEPENDENT TEST: **NO-GO**.
