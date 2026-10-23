@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-23",
+  "purpose": "HISTORICAL_TRAIN_PROVENANCE_METADATA_AUDIT_NOT_TEST",
+  "seed": 1001,
+  "expected_commit": "be5756321617087ca421a639d60a99513f29d889",
+  "conditions": [
+    {
+      "condition": "C0_F0_A0",
+      "file_id": "1URQDWTRsNufhJj4HMHK_XjyjGRqQX6Hf",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 143,
+      "candidate_count": 256,
+      "risk_tail_weight": 0,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "round_robin",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "2f866cd5b566a33de381682854f7da19446d69293ac34b2fd6b3e34665179526",
+        "optimizer_front.csv": "bcd8b2e2074ba57777c67059dd026c873ca95023d6710cc13925b532986e973b",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C0_F0_A1",
+      "file_id": "1V9Jyx-8Aag2I9e2Wc2uSIeBp5bx14Kzz",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 29,
+      "candidate_count": 256,
+      "risk_tail_weight": 0,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "adaptive",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "ad4770e141c9a6262395edd6fb7ad77d38e6e833eed1b24b0e00c83b379f4836",
+        "optimizer_front.csv": "9866ff17dc978b41adfb82d217363f1403b4a717e09d5c5d085287e6a1175947",
+        "ledger.csv": "f0685538a5a3ec42835e854ae0c9ba7b9bac78a65526c8f6c31c6c37c4afb59a"
+      }
+    },
+    {
+      "condition": "C0_F1_A0",
+      "file_id": "1DO_Z_gqRrzOIP2vbDKEY-g1BrcOS86PZ",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 250,
+      "candidate_count": 256,
+      "risk_tail_weight": 0,
+      "archive_mode": "confidence",
+      "allocation_mode": "round_robin",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "10f6b4400ca6fb0b66e0413f74f6f1477e5b8c0a3b33754fc0031a5d59422b73",
+        "optimizer_front.csv": "ad8ddf7a52d45001135b27ef23f98c513cf08e5e3d6658af782a905c2f4f53b7",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C0_F1_A1",
+      "file_id": "1OnDdEXu3FIPoilnPiWy7SXQr0JKaRIQq",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 177,
+      "candidate_count": 256,
+      "risk_tail_weight": 0,
+      "archive_mode": "confidence",
+      "allocation_mode": "adaptive",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "dc10b4744b4e7d941a50d80d35a52d166571d89fdaf2dcfef8f2526402752a61",
+        "optimizer_front.csv": "cb8bfa89d0bf12d738721f1382c18c3da23940950d2576b3d52099a573534aa1",
+        "ledger.csv": "f0685538a5a3ec42835e854ae0c9ba7b9bac78a65526c8f6c31c6c37c4afb59a"
+      }
+    },
+    {
+      "condition": "C1_F0_A0",
+      "file_id": "11Al_HLxiGLXE3cZV78ry6bABkuWZ1BxQ",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 146,
+      "candidate_count": 256,
+      "risk_tail_weight": 0.5,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "round_robin",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "5fe7729547984d4d591ab3226607ac8ef6d4fd61cbde009d5de7344e625a9590",
+        "optimizer_front.csv": "581d6eda515338c83ed573c24c2d04f62e1b1f7dcf31cc16d76427617c851f02",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C1_F0_A1",
+      "file_id": "1j60vrs_plKkH7pMqzjgIlSlHeWQ84Ays",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 18,
+      "candidate_count": 256,
+      "risk_tail_weight": 0.5,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "adaptive",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "900571c4ea375a2c172d15df3503c55ccb78d0f6e099ee4a47db99565e7f124e",
+        "optimizer_front.csv": "b7a154ba7c8cad073e61f377cbd945e4a199fc4fc3d597157d50daa5736965c4",
+        "ledger.csv": "af89c582f6e366fa2ac2e30189f3df25a88a35824c2cbf2d4e76638777eeaf1d"
+      }
+    },
+    {
+      "condition": "C1_F1_A0",
+      "file_id": "15A0rWDL-RwjvdLk6Rld1vTXu-Uy9Apiz",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 249,
+      "candidate_count": 256,
+      "risk_tail_weight": 0.5,
+      "archive_mode": "confidence",
+      "allocation_mode": "round_robin",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "ccbfc10f59934a4a01289b2fca3b3f239ed3140efb877f31e338e0fc3e652f4b",
+        "optimizer_front.csv": "6d6a715c6cea353e35cac0f75a10fbc2718fe10cb94110999ce4a7f8c7efec62",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C1_F1_A1",
+      "file_id": "1_KqvDoiiu0s_1bexxoMhBd9I3kqDwNFc",
+      "original_git_sha": "UNRECORDED_LOCAL_SHA",
+      "source_repo": "ErcanErkalkan/confidence-aware-robust-edge-ems",
+      "train_budget_used": 12600,
+      "archive_count": 236,
+      "candidate_count": 256,
+      "risk_tail_weight": 0.5,
+      "archive_mode": "confidence",
+      "allocation_mode": "adaptive",
+      "split": "train",
+      "manifest_sha": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "files_sha256": {
+        "candidate_metrics.csv": "4e6e3975cbb6d52736ebf44de9d7c0d0e5e15641fbfdfdc66348f2e1d5e24c0d",
+        "optimizer_front.csv": "01f3423e08e6c2c62df3e1253d3d3f72882b2c129b32de10625a514376b68d8d",
+        "ledger.csv": "af89c582f6e366fa2ac2e30189f3df25a88a35824c2cbf2d4e76638777eeaf1d"
+      }
+    }
+  ],
+  "invalid_commit": [
+    "C1_F1_A1"
+  ]
+}
