@@ -217,7 +217,8 @@
   "pairs_with_matching_declared_metrics_hashes": 0,
   "raw_bytes_science_fields_verified_pilot_pairs": [
     "seed1001/C0_A0",
-    "seed1002/C0_A0"
+    "seed1002/C0_A0",
+    "seed1002/C0_A1"
   ],
   "methodological_gate": "BLOCKED_UNTIL_SINGLE_CELL_SOURCE_PROVENANCE_RESOLVED_AND_R9_PREREG_LOCKED"
 }
