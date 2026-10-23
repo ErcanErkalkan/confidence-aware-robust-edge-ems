@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-23",
+  "audit": "historical TRAIN source summary audit, NOT independent TEST",
+  "seed": 1005,
+  "expected_commit": "be5756321617087ca421a639d60a99513f29d889",
+  "invalid": [],
+  "conditions": [
+    {
+      "condition": "C0_F0_A0",
+      "summary_file_id": "1fI3vVRU0gmYUYRitvzcQzt_KTfydmyV1",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 145,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "round_robin",
+      "risk_tail_weight": 0,
+      "files_sha256": {
+        "candidate_metrics.csv": "22b2bfc2136f55bf9dcc5c9f10a1863cafdce791622a4db58e33c246c383a940",
+        "optimizer_front.csv": "b82f03b395fed1be8b0a1f034e073d510058eba663f909d5f8f085d350e29be8",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C0_F0_A1",
+      "summary_file_id": "1yGjkulj6rTLxRCPSBVgi0U477CH6effJ",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 30,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "adaptive",
+      "risk_tail_weight": 0,
+      "files_sha256": {
+        "candidate_metrics.csv": "0dc3b6f7e82945160fae4a488a3238e0dab8e8f073e438b6a3d2c616e6a20894",
+        "optimizer_front.csv": "31bb4c221d5d6462dfff08ec939b714366fd39b4366b16d440abcd8abe8ac06e",
+        "ledger.csv": "5a9f14e9d3f67400be0728c13e1206546b67e77bc57bcb7548854c121e406772"
+      }
+    },
+    {
+      "condition": "C0_F1_A0",
+      "summary_file_id": "1K_FOy8wPoo-Lq3wSQHnfkquZRADbGH_9",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 246,
+      "archive_mode": "confidence",
+      "allocation_mode": "round_robin",
+      "risk_tail_weight": 0,
+      "files_sha256": {
+        "candidate_metrics.csv": "20930b089b982bdf62a5601ee51dffa524758135b52f3e1f15d0799013ce428e",
+        "optimizer_front.csv": "82797fb21f39513f7f0aad0faa4a1dd2ad6b0fcb1d0f5d35284686655a7d513d",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C0_F1_A1",
+      "summary_file_id": "1BezMNc8cvRmRsi0Sd_lco3YWSH1talOr",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 182,
+      "archive_mode": "confidence",
+      "allocation_mode": "adaptive",
+      "risk_tail_weight": 0,
+      "files_sha256": {
+        "candidate_metrics.csv": "4a418c2ae4fc988aa41441bd63b646ee52d59bc79d19a45d432ccab6dcd3106e",
+        "optimizer_front.csv": "f5ab2acdca98cd933fbbb262309d1f5c6af9b173e9b2b70462284a62e5d53a23",
+        "ledger.csv": "5a9f14e9d3f67400be0728c13e1206546b67e77bc57bcb7548854c121e406772"
+      }
+    },
+    {
+      "condition": "C1_F0_A0",
+      "summary_file_id": "1jBa96Ec8phC0GKg10AKI2vAlQ9QfWrp7",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 139,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "round_robin",
+      "risk_tail_weight": 0.5,
+      "files_sha256": {
+        "candidate_metrics.csv": "b88571588d8ca3870e587c1e515998aba920e23bceecf335b6c51cfacc13274d",
+        "optimizer_front.csv": "a5123ef8914791ad648a9a8e4223095f1b3e9ab3223a650359aa001e1d7fe6cd",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C1_F0_A1",
+      "summary_file_id": "1KlQp0sNHeZi0vAN2P6YK80zFw6lTDHlr",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 17,
+      "archive_mode": "risk_pareto",
+      "allocation_mode": "adaptive",
+      "risk_tail_weight": 0.5,
+      "files_sha256": {
+        "candidate_metrics.csv": "8e86c8c96160fc4322fd2b6b9964535636f051a666637c6af307dc0ff15abc38",
+        "optimizer_front.csv": "02e82273fdd2b41845b04989e9fd6244dde7ec2e72a39090642dec3199a86705",
+        "ledger.csv": "acd5643b071721d1b68e80f2f906f8a3548058fe15d116eee63aee18ef202609"
+      }
+    },
+    {
+      "condition": "C1_F1_A0",
+      "summary_file_id": "1ZxHbc37P2OM_P2adTrXCqvoRDqEfPx4E",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 248,
+      "archive_mode": "confidence",
+      "allocation_mode": "round_robin",
+      "risk_tail_weight": 0.5,
+      "files_sha256": {
+        "candidate_metrics.csv": "a25ff7430d9ece1362d2400cfc902f4616065756e24988ef9c1e39fe6e867873",
+        "optimizer_front.csv": "1941e03a7f7549dfdb876f6c1e3711ecede911eb7429ec519bd52de2674cd1e6",
+        "ledger.csv": "5da1d366496fdd212270c064dce5dd4cc483d74acc6a249ad7c9d3f93e594d48"
+      }
+    },
+    {
+      "condition": "C1_F1_A1",
+      "summary_file_id": "1W3DXTFdPqXxcuqzHynCkwC-JABG2k7hR",
+      "original_git_sha": "be5756321617087ca421a639d60a99513f29d889",
+      "source_data_commit": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+      "canonical_manifest_sha256": "3226013d8c8f0672162f10f3d1c6da5e064d1dcb28e973f5d054de2fe296b9b1",
+      "train_budget_used": 12600,
+      "candidate_count": 256,
+      "archive_count": 237,
+      "archive_mode": "confidence",
+      "allocation_mode": "adaptive",
+      "risk_tail_weight": 0.5,
+      "files_sha256": {
+        "candidate_metrics.csv": "4b73b70eb370ce8e30d75fe9fcee597cd1624df96ff448fca7272825697923a2",
+        "optimizer_front.csv": "5216d15daf594a4ecf6f816da6252808542b5f2ebb8113bc15a1bc94ef5a3a81",
+        "ledger.csv": "acd5643b071721d1b68e80f2f906f8a3548058fe15d116eee63aee18ef202609"
+      }
+    }
+  ]
+}
