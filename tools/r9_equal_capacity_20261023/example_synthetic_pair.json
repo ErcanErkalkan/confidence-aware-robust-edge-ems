@@ -1,0 +1,137 @@
+{
+  "source_role": "TRAIN",
+  "capacity": 4,
+  "k": 2,
+  "expected_evaluations": 8,
+  "train_scores": {
+    "c00": [
+      0,
+      8,
+      0,
+      0
+    ],
+    "c01": [
+      1,
+      7,
+      1,
+      0
+    ],
+    "c02": [
+      2,
+      6,
+      2,
+      0
+    ],
+    "c03": [
+      3,
+      5,
+      3,
+      0
+    ],
+    "c04": [
+      4,
+      4,
+      4,
+      0
+    ],
+    "c05": [
+      5,
+      3,
+      5,
+      0
+    ],
+    "c06": [
+      6,
+      2,
+      6,
+      0
+    ],
+    "c07": [
+      7,
+      1,
+      7,
+      0
+    ]
+  },
+  "f0_archive": [
+    "c00",
+    "c02"
+  ],
+  "f1_archive": [
+    "c00",
+    "c01",
+    "c02",
+    "c03",
+    "c04",
+    "c05",
+    "c06"
+  ],
+  "f0_evaluations": [
+    {
+      "candidate_id": "c00",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c01",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c02",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c03",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c04",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c05",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c06",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c07",
+      "block_id": "TRAIN-X"
+    }
+  ],
+  "f1_evaluations": [
+    {
+      "candidate_id": "c00",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c01",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c02",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c03",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c04",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c05",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c06",
+      "block_id": "TRAIN-X"
+    },
+    {
+      "candidate_id": "c07",
+      "block_id": "TRAIN-X"
+    }
+  ]
+}
