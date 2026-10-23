@@ -1,0 +1,38 @@
+name: CRMT recover pinned OpenCEM partition (one-time)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/crmt-recover-opencem-2025-08-b.yml'
+permissions:
+  contents: read
+jobs:
+  verified-source-recovery:
+    if: github.repository == 'ErcanErkalkan/confidence-aware-robust-edge-ems'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Download and verify exact pinned upstream CSV bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p recovery
+          URL='https://raw.githubusercontent.com/OpenCEM-platform/opencem-dataset/5884d253a5267fb240b7a8df6fa9e4d49a905167/data/measurements/2025-08-b.csv'
+          curl --fail --silent --show-error --location --retry 3 --output recovery/2025-08-b.csv "$URL"
+          actual_size=$(wc -c < recovery/2025-08-b.csv | tr -d '[:space:]')
+          test "$actual_size" = '2493086' || { echo "::error::Unexpected file size: $actual_size"; exit 1; }
+          actual_blob=$(git hash-object recovery/2025-08-b.csv)
+          test "$actual_blob" = 'ffbefbaca56761ee180074d0feb5d83553527c7e' || { echo "::error::Unexpected Git blob: $actual_blob"; exit 1; }
+          cd recovery
+          sha256sum 2025-08-b.csv > 2025-08-b.csv.sha256
+          echo "source_commit=5884d253a5267fb240b7a8df6fa9e4d49a905167" > source_receipt.txt
+          echo "expected_git_blob=ffbefbaca56761ee180074d0feb5d83553527c7e" >> source_receipt.txt
+          echo "verified_git_blob=$actual_blob" >> source_receipt.txt
+          echo "verified_bytes=$actual_size" >> source_receipt.txt
+      - name: Publish a short-lived verified recovery artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: crmt-opencem-2025-08-b-verified
+          path: recovery/
+          retention-days: 1
+          if-no-files-found: error
