@@ -14,7 +14,7 @@ The five historical TRAIN seeds (1001–1005) each have eight conditions (C0/C1 
 
 The earlier audit `docs/R9_HISTORICAL_TRAIN_INPUT_AUDIT_TR_20261023.md` said "metadata discrepancies 0", which omitted the source-code provenance check. This assertion **must not be interpreted as 40/40 frozen-commit confirmation**. The present file supersedes that overly broad reading. The historical summary itself stays unchanged.
 
-## Independent source-byte paired pilots: 2 / 20
+## Independent source-byte paired pilots: 3 / 20
 
 The existing fail-closed `r9_train_pair_preflight.py` has been executed against four *original Drive-downloaded* historical conditions, verifying all original three CSV SHA-256 against their individual `run_summary.json` and checking 12,600 unique TRAIN controller–block ledger rows, 256 distinct controllers and archive membership:
 
@@ -22,8 +22,9 @@ The existing fail-closed `r9_train_pair_preflight.py` has been executed against 
 |---|---|---|---|---|---|
 | seed1001/C0_A0 F0 versus F1 | 6/6 CSV PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600 rows; max_cpu_ms: 12,599 rows |
 | seed1002/C0_A0 F0 versus F1 | 6/6 CSV PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600 rows; max_cpu_ms: 12,600 rows |
+| seed1002/C0_A1 F0 versus F1 (**adaptive allocation**) | 6/6 CSV PASS | PASS | PASS, 12,600 rows | Different | mean_cpu_ms: 12,600 rows; max_cpu_ms: 12,600 rows |
 
-Non-CPU fields including `cap_violation_pct_total`, `lfp_cycle_loss_pct`, `ramp95_kw_per_min`, and `flip_per_day` are equal **only for these two byte-verified matched pairs**. It is incorrect to infer the same for the 18 unverified pairs.
+Non-CPU fields including `cap_violation_pct_total`, `lfp_cycle_loss_pct`, `ramp95_kw_per_min`, and `flip_per_day` are equal **only for these three byte-verified matched pairs**. It is incorrect to infer the same for the 17 unverified pairs.
 
 Timing columns vary; equality of controller–block simulation budget is **not equality of elapsed time, CPU cost, memory or bootstrap computation**. No inferential F0/F1 performance superiority is established.
 
