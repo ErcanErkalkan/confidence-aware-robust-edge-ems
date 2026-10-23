@@ -50,6 +50,15 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - Eski 78 internal TEST bloğu ve OPSD replay, yeni bağımsız kör TEST olarak yeniden adlandırılamaz.
 - Arşiv büyüklüğü ve nihai K20 kontrolcü seçimi aynı nesne değildir. Yeni mekanizma üstünlüğü, istatistiksel anlamlılık ve saha performansı iddiaları doğrulanmamıştır.
 
+## R9 retrospektif TRAIN kaynak denetimi (23 Ekim 2026)
+
+- Google Drive'da 5 seed × 8 koşul = **40/40** ayrı TRAIN koşulunda `run_summary.json`, `candidate_metrics.csv`, `ledger.csv`, `optimizer_front.csv` bulundu (**160** dosya). Beş seed için kaynak yol/boyut envanteri `reproducibility/r9_historical_train_sources_20261023/seed1001.csv` … `seed1005.csv` altında.
+- **40/40** run summary dosyasında seed, koşul, TRAIN split, 256 aday, 12.600 controller–block bütçesi ve C/F/A mod etiketleri denetlendi. 20 eşleştirilmiş F0/F1 çifti için **ledger SHA kimlikleri 20/20 aynı**, ancak `candidate_metrics.csv` ham SHA kimlikleri **20/20 farklı**. Bu ilk bulgu run-summary **beyan edilen hashler** üzerindendir.
+- Örnek `seed1001, C0, A0` çifti için iki klasörün üçer CSV'si kaynak hashleriyle **6/6** eşleşti. 12.600×2 satır için ledger, dört bilimsel amaç ve tüm timing-dışı metrikler aynı; ham CSV farkları yalnız `mean_cpu_ms` (12.600 satır) ve `max_cpu_ms` (12.599 satır). Diğer **19 çift henüz bağımsız byte düzeyinde** yeniden incelenmedi.
+- 20 çiftte tarihsel doğal arşiv ortalamaları **F0=83,60**, **F1=226,95**, **F1−F0=+143,35**. Bu eşit kapasite B deneyinin sonucu değildir.
+- Kaynak doğrulama kodu: [TRAIN pair preflight](../tools/r9_equal_capacity_20261023/r9_train_pair_preflight.py); sentetik regresyon [12 test](../tests/test_r9_train_pair_preflight.py); [kanıt raporu](R9_HISTORICAL_TRAIN_INPUT_AUDIT_TR_20261023.md). Kod gerçek TRAIN verisi üzerinde 1 çift için çalıştı ve GitHub Actions pytest kontrolü başarılıdır.
+- **R9 deneyi HENÜZ ÇALIŞTIRILMADI.** B/K, backfill, C riskine göre dört amaç için TRAIN agregasyonu, tek birincil hipotez ve bağımsız yeni TEST veri kilidi hâlâ açık; **NO-GO**.
+
 ## Repo – Drive ayrımı ve yeniden üretilebilirlik
 
 - GitHub `main` **güncel geliştirilen kaynak/metadata** konumudur. Büyük ham veri dosyaları ve deney sonuçları Git deposuna yüklenmez.
