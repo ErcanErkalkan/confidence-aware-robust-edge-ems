@@ -1,0 +1,63 @@
+{
+  "audit": "R9 historical TRAIN ledger equality source check; no TEST",
+  "date": "2026-10-23",
+  "source_manifest": "reproducibility/r9_historical_train_sources_20261023/seed1001.csv",
+  "pairs": [
+    {
+      "seed": "seed1001",
+      "C": 0,
+      "A": 0,
+      "F0_rows": 12600,
+      "F1_rows": 12600,
+      "F0_unique": 12600,
+      "F1_unique": 12600,
+      "F0_only": 0,
+      "F1_only": 0,
+      "identical_pairs": true,
+      "F0_drive_id": "1wGVxA45-3yNqBtm8kMbKv-QQ5pUP8b44",
+      "F1_drive_id": "1xbF5Q4icUsmUfxvAyvZy6KvROyWhvtF9"
+    },
+    {
+      "seed": "seed1001",
+      "C": 0,
+      "A": 1,
+      "F0_rows": 12600,
+      "F1_rows": 12600,
+      "F0_unique": 12600,
+      "F1_unique": 12600,
+      "F0_only": 0,
+      "F1_only": 0,
+      "identical_pairs": true,
+      "F0_drive_id": "1gVC7mkCw-_qAEU6J6PnwhqHBVkl1aMkC",
+      "F1_drive_id": "1A0Kmr0PIH80qAjJNgxwVBIqklBPNh_Zm"
+    },
+    {
+      "seed": "seed1001",
+      "C": 1,
+      "A": 0,
+      "F0_rows": 12600,
+      "F1_rows": 12600,
+      "F0_unique": 12600,
+      "F1_unique": 12600,
+      "F0_only": 0,
+      "F1_only": 0,
+      "identical_pairs": true,
+      "F0_drive_id": "11Zp1hSeAmZx0n91zaEJtHcvZzJUTXSJq",
+      "F1_drive_id": "1gNoxH2GaXc8Q84YwcSIcH15pofR0-OAe"
+    },
+    {
+      "seed": "seed1001",
+      "C": 1,
+      "A": 1,
+      "F0_rows": 12600,
+      "F1_rows": 12600,
+      "F0_unique": 12600,
+      "F1_unique": 12600,
+      "F0_only": 0,
+      "F1_only": 0,
+      "identical_pairs": true,
+      "F0_drive_id": "1WUsKE7xgL6ZSHKNcJp4U3EyOps0vHBvw",
+      "F1_drive_id": "1tutaRVImdNkiYaRttC9Jc_gALs27LMIC"
+    }
+  ]
+}
