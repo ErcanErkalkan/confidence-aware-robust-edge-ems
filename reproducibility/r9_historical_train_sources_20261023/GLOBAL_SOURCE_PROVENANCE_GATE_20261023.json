@@ -1,0 +1,223 @@
+{
+  "audit_date": "2026-10-23",
+  "scope": "historical TRAIN only, no R9 new evaluation nor independent TEST",
+  "conditions": 40,
+  "pairs": [
+    {
+      "seed": 1001,
+      "C": 0,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 143,
+      "f1_archive": 250,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1001,
+      "C": 0,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 29,
+      "f1_archive": 177,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1001,
+      "C": 1,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 146,
+      "f1_archive": 249,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1001,
+      "C": 1,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 18,
+      "f1_archive": 236,
+      "unresolved_source_commit": true
+    },
+    {
+      "seed": 1002,
+      "C": 0,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 149,
+      "f1_archive": 249,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1002,
+      "C": 0,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 25,
+      "f1_archive": 170,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1002,
+      "C": 1,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 157,
+      "f1_archive": 248,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1002,
+      "C": 1,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 16,
+      "f1_archive": 238,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1003,
+      "C": 0,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 134,
+      "f1_archive": 245,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1003,
+      "C": 0,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 25,
+      "f1_archive": 167,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1003,
+      "C": 1,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 142,
+      "f1_archive": 245,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1003,
+      "C": 1,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 15,
+      "f1_archive": 234,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1004,
+      "C": 0,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 150,
+      "f1_archive": 249,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1004,
+      "C": 0,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 27,
+      "f1_archive": 180,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1004,
+      "C": 1,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 143,
+      "f1_archive": 249,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1004,
+      "C": 1,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 22,
+      "f1_archive": 240,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1005,
+      "C": 0,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 145,
+      "f1_archive": 246,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1005,
+      "C": 0,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 30,
+      "f1_archive": 182,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1005,
+      "C": 1,
+      "A": 0,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 139,
+      "f1_archive": 248,
+      "unresolved_source_commit": false
+    },
+    {
+      "seed": 1005,
+      "C": 1,
+      "A": 1,
+      "raw_ledger_sha_equal": true,
+      "raw_metrics_sha_equal": false,
+      "f0_archive": 17,
+      "f1_archive": 237,
+      "unresolved_source_commit": false
+    }
+  ],
+  "conditions_with_declared_expected_source_commit": 39,
+  "conditions_with_missing_or_nonmatching_source_commit": [
+    {
+      "seed": 1001,
+      "condition": "C1_F1_A1",
+      "found": "UNRECORDED_LOCAL_SHA"
+    }
+  ],
+  "claimed_controller_block_evaluations": 504000,
+  "pairs_with_matching_declared_ledger_hashes": 20,
+  "pairs_with_matching_declared_metrics_hashes": 0,
+  "raw_bytes_science_fields_verified_pilot_pairs": [
+    "seed1001/C0_A0",
+    "seed1002/C0_A0"
+  ],
+  "methodological_gate": "BLOCKED_UNTIL_SINGLE_CELL_SOURCE_PROVENANCE_RESOLVED_AND_R9_PREREG_LOCKED"
+}
