@@ -1,0 +1,47 @@
+{
+  "source": "R16_ARCHIVED_ORIGINAL_SHA_VERIFIED_SEEN_TRAIN_ONLY",
+  "rows": [
+    {
+      "seed": 1001,
+      "n_controller_blocks": 12600,
+      "candidate_n": 256,
+      "day_count_min": 9,
+      "day_count_max": 106,
+      "F0_F1_same_source_science": true,
+      "fixed_pooled_objective_support_documented": false,
+      "verified_finite_dependence_lag_m": null,
+      "verified_stationarity": false,
+      "candidate_day_complete_across_256": false,
+      "decision": "BLOCKED_REAL_OPEN_CEM_NOT_CERTIFIABLE",
+      "data": "HISTORICALLY_SEEN_TRAIN_NOT_NEW_TEST"
+    },
+    {
+      "seed": 1004,
+      "n_controller_blocks": 12600,
+      "candidate_n": 256,
+      "day_count_min": 5,
+      "day_count_max": 106,
+      "F0_F1_same_source_science": true,
+      "fixed_pooled_objective_support_documented": false,
+      "verified_finite_dependence_lag_m": null,
+      "verified_stationarity": false,
+      "candidate_day_complete_across_256": false,
+      "decision": "BLOCKED_REAL_OPEN_CEM_NOT_CERTIFIABLE",
+      "data": "HISTORICALLY_SEEN_TRAIN_NOT_NEW_TEST"
+    },
+    {
+      "seed": 1005,
+      "n_controller_blocks": 12600,
+      "candidate_n": 256,
+      "day_count_min": 5,
+      "day_count_max": 106,
+      "F0_F1_same_source_science": true,
+      "fixed_pooled_objective_support_documented": false,
+      "verified_finite_dependence_lag_m": null,
+      "verified_stationarity": false,
+      "candidate_day_complete_across_256": false,
+      "decision": "BLOCKED_REAL_OPEN_CEM_NOT_CERTIFIABLE",
+      "data": "HISTORICALLY_SEEN_TRAIN_NOT_NEW_TEST"
+    }
+  ]
+}
