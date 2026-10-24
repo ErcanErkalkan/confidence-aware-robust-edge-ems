@@ -1,0 +1,45 @@
+{
+  "protocol": "CRMT-R20-COST-COMPARISON-v0.1-DRAFT",
+  "date": "2026-10-24",
+  "locked": false,
+  "data": "TRAIN_ONLY; earlier exposures excluded from any new independent TEST claim",
+  "primary_r19_estimand": "F1_MINUS_F0_AUDIT_TRAIN_MISS_RATE_B10",
+  "experiment_E1": {
+    "question": "At equal discovery controller-block events and B=K=10 exported shortlist, what fidelity and native costs differ?",
+    "c": 1,"a": 1,"b": 10,"k": 10,"backfill": false,
+    "per_arm_controller_block_evaluations": 12600,
+    "candidate_pool": 256,
+    "pairing_required": "exact sorted (candidate_id, block_id), 4 objectives match at source SHA verified condition",
+    "separate_audit": "All 256 candidates on disjoint common AUDIT-TRAIN blocks, sealed after selection",
+    "reported_metrics": ["R19 audit missed Pareto fraction","native archive size","archive pair comparisons","bootstrap calls","separate simulator/optimizer/archive/selection/audit process CPU and wall","process peak RSS","tracked Python archive peak allocation"],
+    "resource_equivalence_claim": "NOT_ALLOWED: equal evaluations and exported B10 do not give equal native memory or total compute",
+    "measurement_required": "clean comparable hardware, predeclared environment fingerprint, paired order randomization, non-overlapping phase timers and repeated runs"
+  },
+  "experiment_E2": {
+    "question": "Sensitivity under a predeclared equal total CPU or wall-time resource cap",
+    "status": "PROPOSED_ONLY_NOT_EXECUTED",
+    "requires_new_design": "If F1 spends more archive compute, simulator evaluation budgets may differ; this is a distinct estimand and cannot be mixed with E1",
+    "cpu_equivalence_margin": null,
+    "wall_time_cap_ms": null,
+    "hardware_profile_locked": false,
+    "execution_allowed": false
+  },
+  "historical_reanalysis": {
+    "source": "CRMT_R16_Tum_Kalan_Ciftler_Gercek_Veri_Kanit_Paketi.zip",
+    "locally_available_pairs_C1A1": ["seed1001_C1_A1","seed1004_C1_A1","seed1005_C1_A1"],
+    "source_fields": ["n_ticks","mean_cpu_ms","max_cpu_ms"],
+    "simulator_proxy_formula": "sum over raw TRAIN controller-block records of n_ticks*mean_cpu_ms; per-tick reported proxy, not wall time or historical archive CPU",
+    "historical_native_archive_cpu": null,
+    "historical_total_wall_time": null
+  },
+  "benchmark": {
+    "source_modules": ["risk.py","dominance.py","archive.py"],
+    "git_blob_sha_verified": true,
+    "replayed_train_candidate_subpools": [8,16,32],
+    "n_boot": 200,
+    "historical_boot_config_match": false,
+    "status": "EXPLORATORY_SMALL_SUBSET_MICROBENCHMARK_ONLY",
+    "prohibit_256_extrapolation": true
+  },
+  "gates": {"real_30_seed_R19_run":"NOT_RUN","new_unseen_TEST":"NO_GO","historical_missing_execution_SHA":"UNRESOLVED","edge_hardware_validation":"NOT_RUN"}
+}
