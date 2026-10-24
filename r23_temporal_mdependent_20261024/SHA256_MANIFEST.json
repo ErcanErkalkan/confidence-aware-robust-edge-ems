@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-24",
+  "stage": "R23_SYNTHETIC_CONDITIONAL_FINITE_DEPENDENCE_PROTOTYPE",
+  "not_new_test": true,
+  "file_sha256": {
+    "README_TR.md": "323769aa0a795e8da1bcfec1ef5b7c09e85e719655bd65e563170b0daa08a89a",
+    "config/R23_METHOD_AND_GATES.json": "2882b9b74248e561f71c38e579f4087f75e43b60d916fcc617e3c777fdc738ad",
+    "docs/R23_BILIMSEL_TEK_NIK_RAPOR_TR.md": "c7699b2c332c6ecca0e28743fb0ed38e76f2d10970237eb5962b0d4a1ba432cd",
+    "reference_inputs/R16_ORIGINAL_SOURCE_BUNDLE.zip": "15a1a6aff3ca4410ccad420b261f50480d89d5effb3038a461dab04fb44255bc",
+    "reference_snapshot/crmt_edge_ems/__init__.py": "7bce4b031b9a21c6044000df4a071e72aa479d0123ead1782305828ab657d40b",
+    "reference_snapshot/crmt_edge_ems/archive.py": "a91ce017f213623d15790cda5b2df8e4d9dcf6ec1740953e42ce940c6473e7eb",
+    "reference_snapshot/crmt_edge_ems/dominance.py": "f559973b2d4f9fad8117009cef7e36aebecb28f6591c997ce3bd0f70d1c0f38a",
+    "reference_snapshot/crmt_edge_ems/risk.py": "aac11ae04fada78a865ccc5c32c6a582cf473ff7dd48bd7b49990897f446ac16",
+    "results/R23_DECISION_STATUS.json": "e47caad57eadcc422c964d2cfedb4eb437c75716e55fe2d0963308f974b51808",
+    "results/R23_EXPERIMENT.json": "5320d10ee0d7496a35e5dbba599267a16713769ce768ff589f4729aab8499f03",
+    "results/R23_PER_REPETITION.csv": "d6d26142c0bd6fd3e1ad0c8cbc149e0ab79ff5003406a90febb7894f4e2e7f24",
+    "results/R23_REAL_TRAIN_GATE.json": "6a36c4fac03425d616c2be5ad65f22ac00ad5712972e8740f203f88ba289ca26",
+    "results/R23_SUMMARY.csv": "ab1257f1fe19d3b93feed1309c0df8cab819f9b43988784fc4b2404273c922df",
+    "results/run_console.txt": "7254cf360c0ac928ffc2300ef3bc8bc6325da46a37089f34103cdc91323021e9",
+    "tests/test_r23.py": "e30c56d6939761d58c75b519fd43efbe10e1e0c593904c32f9bfba409d2bb1d7",
+    "tools/build_release.py": "deae439cc05adc8595059483e75e785e5be05a5314305a36a8921cb9cbc69730",
+    "tools/r23_certifier.py": "1e36a47643b3a12bed66e5801e5834555defe5c9a9386c13f63c505ff43e2744",
+    "tools/run_r23.py": "5d2fd63c4bc7d885617116468cea4460fe9eec4632965f7b52b2257227287a58",
+    "tools/verify_package.py": "098b1331fff0db0745d26cf7e2b9b2f8ac28636d761f1d7687d6b8c71f15b740"
+  }
+}
