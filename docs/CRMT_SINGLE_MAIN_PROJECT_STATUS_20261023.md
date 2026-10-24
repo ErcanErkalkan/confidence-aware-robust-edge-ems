@@ -86,3 +86,15 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - [ ] Yeni bağımsız TEST'in protokole uygun çalıştırılması ve makalenin yeni kanıtlarla güncellenmesi.
 
 **Ana kural:** Depoda yalnız `main` dalı bulunur. Her yeni uygulama ve düzeltme yalnız `main`e girer; ikinci bir aktif araştırma dalı oluşturulmaz. Bu dosyanın son commit'i, geçmiş deney kanıtlarını yeniden etiketlemez.
+
+## Current evidence addendum — 24 October 2026 (R18)
+
+**This is a current-state addendum, not a rewriting of historical 23 October receipts.** The previous 8/20 byte-audit figure above describes the earlier GitHub snapshot, not current cumulative archive-membership coverage.
+
+- [R18 canonical evidence report](CRMT_R18_CURRENT_STATUS_20261024.md) and [20-pair membership receipt](../reproducibility/r18_archive_membership_20261024/R18_MEMBERSHIP_20.csv) are now the current **TRAIN archive membership** summary.
+- R18 fetched original F0/F1 optimizer-front candidate-ID sets for **20/20 historical seed×C×A pairs**; 12 pairs have locally rehashed original front bytes bundled in the Drive R18 package, and 8 pairs have remote source-membership readouts only (no current R18 local raw-byte recheck).
+- **18/20 pairs** have F0 set included in F1; two are exceptions: `seed1001/C0/A0` and `seed1001/C1/A0`, each with F0-only `CRMT-c0089`. Never claim universal F0 subset F1.
+- Historical natural archive means are **F0=83.60**, **F1=226.95**. This is not an equal-native-B performance study. Identical historical K20 selections do not demonstrate a beneficial F effect.
+- The original `seed1001/C1_F1_A1` **runtime Git SHA remains unresolved**, even though the R17 post-hoc checkout audit verified frozen HEAD `be575632...`; do not modify the immutable `run_summary.json` marker `UNRECORDED_LOCAL_SHA`.
+- R9 prospective method lock, complete exposure non-leakage, new independent unseen TEST and independently reviewed preregistration remain **BLOCKED**; EAAI prospective performance **NO-GO**. R10–R13 remain synthetic exploratory work and ASOC v12 preparation is not proof of actual portal submission.
+- Source ZIP and R18 verification scripts: [Google Drive R18 control folder](https://drive.google.com/drive/folders/13v08AhC4ktFHlxrEDNUQ0_LUt0jye6a-). The original historical source files and experimental artifacts have not been changed by this addendum.
