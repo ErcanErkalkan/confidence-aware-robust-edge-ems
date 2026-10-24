@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-24",
+  "stage": "R21_STEP3",
+  "reference_original_code": "THREE_GIT_BLOBS_VERIFIED_UNMODIFIED",
+  "synthetic_repetitions_per_scenario": 80,
+  "n_scenarios": 5,
+  "n_methods": 4,
+  "synthetic_records": 1600,
+  "historical_seen_train_C1A1_seeds": [1001, 1004, 1005],
+  "historical_real_source_sha_and_science_pairing": "VERIFIED",
+  "calibrated_archive_FWER_5pct": "NOT_ESTABLISHED",
+  "serial_iid_and_short_moving_block_coverage": "FAILED_IN_TESTED_SCENARIOS",
+  "unresolved_original_git_execution_commit": "seed1001_C1_F1_A1",
+  "R19_30_new_optimizer_seeds": "NOT_RUN",
+  "equal_total_cpu": "NOT_ESTABLISHED",
+  "independent_new_TEST": "NO_GO",
+  "deployment_safety": "NOT_ESTABLISHED",
+  "source_mutated": false
+}
