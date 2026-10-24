@@ -25,7 +25,10 @@ All **20/20** F0/F1 paired `optimizer_front.csv` archives have been compared by 
 
 **Corrected claim:** F1 is *not always* a superset of F0. This corrects blanket statements in previous R15–R16 conversational summaries; original source artifacts remain untouched.
 
-**Evidence tier:** 12 of the 20 pairs have locally packed SHA-256-checked original `optimizer_front.csv` bytes in the R18 ZIP (10 R16 pairs plus 2 R17 pairs). The other 8 pairs were directly compared via their original Drive content but their 16 source CSV bytes are **not** packaged into R18; a fresh local byte audit of those 8 is **not** claimed. Historical separate R9 receipts and R16 10-pair full TRAIN source checks remain distinct.
+**R18-v2 current evidence tier (supersedes the original R18-v1 paragraph):** All **20/20** F0/F1 pairs are now backed by **40/40 locally packaged original `optimizer_front.csv` files**. Their locally calculated SHA-256 values match the original run-summary SHA fields or the historical GitHub source-provenance reviews derived from those immutable summaries. Their candidate-ID membership comparisons were independently recalculated from those 40 source files. The R18-v1 package (12 local pairs + 8 connector-only pairs) remains on Drive as a preserved historical snapshot; use the separately named **R18-v2 full 40-file source package** for current replication. This closes optimizer-front source integrity and membership coverage, not all controller-block evaluation artifacts or missing run-time Git provenance.
+
+- [Current R18-v2 technical report and 40-source-file ZIP](https://drive.google.com/drive/folders/13v08AhC4ktFHlxrEDNUQ0_LUt0jye6a-)
+- [Current 20-pair membership receipt](../reproducibility/r18_archive_membership_20261024/R18_MEMBERSHIP_20.csv) — 20/20 locally sourced front pairs.
 
 ## Critical remaining blockers (do not relabel as closed)
 
@@ -40,6 +43,6 @@ Historical R7/R8 F0/F1 K20 selections were identical across all 20 pairs. Under 
 
 ### Reproduction
 
-Download the linked R18 Drive ZIP; execute `python tools/audit_r18.py` and `python -m unittest discover -s tests -v`. The package includes original, locally SHA-verified CSV evidence for 12 paired fronts, 12 tests, a full 20-pair membership receipt, and fail-closed provenance / prospective-TEST gates.
+Download the linked R18 Drive ZIP; execute `python tools/audit_r18.py` and `python -m unittest discover -s tests -v`. The current R18-v2 package includes original, locally SHA-verified CSV evidence for all 20 paired fronts (40 files), 12 tests, a full 20-pair membership receipt, and fail-closed provenance / prospective-TEST gates.
 
 **Provenance boundary:** Canonical GitHub main is live metadata/code; frozen run code SHA is not redefined by this documentation commit. The original frozen experiment outputs are unchanged.
