@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-24",
+  "stage": "R23_FINITE_DEPENDENCE_POOLED_CVAR_METHOD_PROTOTYPE",
+  "source_type": "EXPLORATORY_SYNTHETIC_AND_HISTORICALLY_SEEN_TRAIN",
+  "synthetic_method_records": 480,
+  "synthetic_scenarios": 8,
+  "n_repetitions_each": 30,
+  "methodology_tests": 33,
+  "original_CVAR_estimator_matched": true,
+  "conditional_guarantee": "SIMULTANEOUS_FWER_LE_0_05_UNDER_PRECOMMITTED_BOUNDED_STRICT_STATIONARY_KNOWN_M_DEPENDENT_COMPLETE_DAILY_VECTORS_FIXED_SINGLE_LOOK",
+  "independence_assumptions_field_verified": false,
+  "real_open_cem_finite_m_proven": false,
+  "real_open_cem_band_support_verified": false,
+  "real_open_cem_certified": false,
+  "r19_primary_B10_changed": false,
+  "r19_prospective_30_seeds": "NOT_RUN",
+  "r20_equal_total_compute": "NOT_ESTABLISHED",
+  "original_seed1001_C1_F1_A1_run_git_sha": "UNRECORDED_LOCAL_SHA",
+  "independent_new_TEST": "NO_GO",
+  "physical_deployment": "NO_GO",
+  "original_source_mutated": false
+}
