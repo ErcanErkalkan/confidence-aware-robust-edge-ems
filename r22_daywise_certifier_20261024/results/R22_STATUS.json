@@ -1,0 +1,22 @@
+{
+  "stage": "R22_CONDITIONAL_DAYWISE_SIMULTANEOUS_ARCHIVE_CERTIFIER",
+  "date": "2026-10-24",
+  "algorithm_source": "NEW_RESEARCH_PROTOTYPE_SEPARATE_FROM_FROZEN_MAIN",
+  "theorem": "CONDITIONAL_DKW_UNION_BOUND_AT_ALPHA_0.05_FOR_IID_BOUNDED_DAILY_AGGREGATE_CANDIDATE_OBJECTIVE_MARGINALS",
+  "not_the_original_estimand": "DAILY_TWO_INVERTER_AVERAGE_CHANGES_POOLED_BLOCK_CVAR",
+  "source_original_modules": "GIT_BLOBS_MATCH_ORIGINAL",
+  "repetitions_per_synthetic_scenario": 60,
+  "number_of_scenarios": 7,
+  "synthetic_panels": 420,
+  "historical_real_train_sources_checked": [1001, 1004, 1005],
+  "historical_new_qualification": "NONE",
+  "real_train_iid_and_support_proven": false,
+  "physical_deployment_safety": "NO_GO",
+  "r19_new_30_seeds": "NOT_RUN",
+  "r19_capacity_10_unchanged": true,
+  "r20_total_cpu_equivalence": "NOT_ESTABLISHED",
+  "r21_broad_serial_calibration": "NOT_CLOSED",
+  "original_seed1001_C1_F1_A1_execution_sha": "UNRECORDED_LOCAL_SHA",
+  "independent_new_test": "NO_GO",
+  "revision_policy": "ALL_ORIGINAL_GITHUB_SRC_AND_HISTORIC_EXPERIMENTS_IMMUTABLE"
+}
