@@ -1,0 +1,8 @@
+scenario,n_days,n_repetitions,n_measured,n_blocked,n_certified_decisions,decision_rate,status,false_removal_count,false_removal_rate,false_removal_wilson_upper,false_pair_count,false_pair_rate,false_pair_wilson_upper,band_undercoverage_count,band_undercoverage_rate,band_undercoverage_wilson_upper,mean_retained,point_false_removal_rate
+iid_easy_200,200,60,60,0,0,0.0,ABSTAIN_CAPACITY_UNCERTAINTY,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,5.0,0.0
+iid_easy_4000,4000,60,60,0,60,1.0,CERTIFIED_SELECTION_CONDITIONAL_IID,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,3.0,0.0
+iid_near_200,200,60,60,0,0,0.0,ABSTAIN_CAPACITY_UNCERTAINTY,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,5.0,0.0
+iid_near_4000,4000,60,60,0,0,0.0,ABSTAIN_CAPACITY_UNCERTAINTY,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,0,0.0,0.06017185214208986,5.0,0.0
+serial_easy_200,200,60,0,60,0,0.0,BLOCKED_IID_DAY_EVIDENCE_UNVERIFIED,,,,,,,,,,,0.0
+serial_easy_4000,4000,60,0,60,0,0.0,BLOCKED_IID_DAY_EVIDENCE_UNVERIFIED,,,,,,,,,,,0.0
+missing_iid_200,200,60,0,60,0,0.0,BLOCKED_MISSING_OR_NONFINITE,,,,,,,,,,,
