@@ -1,0 +1,24 @@
+{
+  "created": "2026-10-24",
+  "scope": "NEW_METHOD_PROTOTYPE_NOT_NEW_TEST",
+  "sha256_files": {
+    "README_TR.md": "e6552f374c120e7ae6da7845f02f5d141f206a961e685c16d95452b57f140c00",
+    "config/R22_GUARDRAILS.json": "320649133f93bfe44525fe92586b0e5d16cd7cb1a63c5cd3fd9a126e187d1988",
+    "docs/R22_TURKCE_BILIMSEL_RAPOR.md": "aed11fecfdd0fdfb5ea3567a22b2136d41347402537d4110369c839b138caa13",
+    "reference_inputs_R16.zip": "15a1a6aff3ca4410ccad420b261f50480d89d5effb3038a461dab04fb44255bc",
+    "reference_snapshot/crmt_edge_ems/__init__.py": "7bce4b031b9a21c6044000df4a071e72aa479d0123ead1782305828ab657d40b",
+    "reference_snapshot/crmt_edge_ems/archive.py": "a91ce017f213623d15790cda5b2df8e4d9dcf6ec1740953e42ce940c6473e7eb",
+    "reference_snapshot/crmt_edge_ems/dominance.py": "f559973b2d4f9fad8117009cef7e36aebecb28f6591c997ce3bd0f70d1c0f38a",
+    "reference_snapshot/crmt_edge_ems/risk.py": "aac11ae04fada78a865ccc5c32c6a582cf473ff7dd48bd7b49990897f446ac16",
+    "results/R22_EXPERIMENT.json": "c7e1f03405a171f365c1e73238d67362e3736e7f032e3e5d32b781b7d566a7a1",
+    "results/R22_PER_REPETITION.csv": "72171f01e5850ba8dbba42198e1cd022b8e91e107a22c392d132c3105ed8ceb9",
+    "results/R22_REAL_TRAIN_DAY_AUDIT.json": "2118d6c354f14a2d46682e16bd15926e53e93fd6322df359a7101d9ef7a6d433",
+    "results/R22_STATUS.json": "8e392f945d24463ab33b719303cbb3db7dfa84831920a8d7b11fdd578b8b05d3",
+    "results/R22_SUMMARY.csv": "ab70db758b4fec91b7f3eb825f975bf6c74320741bfc6c95d09627224cb0badd",
+    "tests/test_r22.py": "13ddfd746ffbca65ed29e1f9520ff35c02dacfc1a9c7c9bcfc842570568f59a8",
+    "tools/build_package.py": "16a5e8b321cdc99f8b194d29d01053b598352a0278aea4074a573296d11c9b16",
+    "tools/day_certifier.py": "c4ac58ff7c749b8efdc6148e0ac5c0a7c4fc8f1188d3f5dcecd229fe87050b6d",
+    "tools/run_r22.py": "a4654d6347a3b01f4c4dc8f32781c98c2fedea85fd26df2fee6b8bb2e307bb6b",
+    "tools/verify_outputs.py": "0e4bebb46d00bbd2e3056f559b2b799fa0dba61da40532a7832de135f7f18820"
+  }
+}
