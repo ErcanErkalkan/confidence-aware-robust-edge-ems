@@ -1,0 +1,37 @@
+{
+  "protocol_id": "CRMT-R21-DEPENDENCE-ARCHIVE-FWER-EXPLORATORY-20261024-v1",
+  "date": "2026-10-24",
+  "locked": false,
+  "source_type": "UNMODIFIED_GITHUB_REFERENCE_RISK_DOMINANCE_ARCHIVE_AND_SEEN_OPENCEM_TRAIN",
+  "source_git_blob_sha1": {
+    "risk.py": "edee0d3361691535330419d0203757d0b3624638",
+    "dominance.py": "c0fa644839407aaf1ac388a5082435a3a446be29",
+    "archive.py": "bb644663febea3990ebeb23f47e403ab0c8070f3"
+  },
+  "hypotheses_diagnostic_only": [
+    "legacy paired IID bootstrap may under-cover simultaneous archive-wide risk dominance",
+    "strong serial correlation may invalidate all studied IID and finite-block approximations",
+    "avoiding false elimination may cause native archive occupancy to exceed memory capacity"
+  ],
+  "model": "normal Gaussian marginal with shared and independent AR(1) components (stationary)",
+  "rho_by_scenario": {"clear_iid":0,"near_iid":0,"near_serial":0.87,"flat_serial":0.87,"near_serial_partial":0.87},
+  "scenarios": ["clear_iid","near_iid","near_serial","flat_serial","near_serial_partial"],
+  "repetitions_per_scenario": 80,
+  "n_candidates": 5,
+  "n_objectives": 4,
+  "n_blocks": 48,
+  "missing_rate_in_partial": 0.28,
+  "n_boot": 350,
+  "alpha": 0.05,
+  "moving_block_lengths_sensitivity": [3,6,12],
+  "default_moving_block_length": 6,
+  "methods": ["point_pareto","legacy_reference_iid","maxT_shared_iid","maxT_shared_moving_block"],
+  "archive_capacity_diagnostic": 3,
+  "oracle_definition": "population risk E[L]+0.5*E[L|L>=q90]=1.5*mean+0.5*sd*phi(Phi_inv(.9))/.1 for each Gaussian marginal",
+  "inferential_guarantee": "NONE_PROVEN; empirical Monte Carlo only",
+  "real_train_evidence": "READ_ONLY_SEEN_R16_C1A1_SEEDS_1001_1004_1005",
+  "historical_sha_missing": "seed1001_C1_F1_A1 original runtime SHA remains UNRECORDED_LOCAL_SHA",
+  "relationship_to_R19": "different diagnostic scenario and capacity; not the R19 confirmatory B=10 primary contrast",
+  "new_independent_test": "NO_GO",
+  "code_modification_of_frozen_CRMT": false
+}
