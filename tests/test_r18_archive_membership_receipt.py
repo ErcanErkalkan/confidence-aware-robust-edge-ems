@@ -1,6 +1,6 @@
 """Integrity assertions for the *derived R18 receipt*, not source-byte re-auditing.
 
-The CSV's 8 remote-only pairs do NOT become locally SHA-verified by this test.
+The CSV now records 20 locally source-SHA-audited front pairs in R18-v2; this test checks the derived receipt, not the source bytes.
 For original source-byte checks use the separately archived R18 Drive package.
 """
 from pathlib import Path
@@ -43,8 +43,8 @@ def test_r18_archive_intersection_math_and_scope():
             locally_checked += 1
         else:
             assert row["source_evidence_scope"] == "DRIVE_CONNECTOR_MEMBERSHIP_ONLY_NOT_LOCALLY_PACKED"
-    assert locally_checked == 12
-    assert len(rows) - locally_checked == 8
+    assert locally_checked == 20
+    assert len(rows) - locally_checked == 0
     assert exceptions == [(1001, 0, 0, "CRMT-c0089"), (1001, 1, 0, "CRMT-c0089")]
 
 
