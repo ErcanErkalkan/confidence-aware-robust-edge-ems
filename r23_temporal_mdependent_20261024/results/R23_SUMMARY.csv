@@ -1,0 +1,17 @@
+scenario,model,n_days,method,repetitions,n_measured,n_blocked,false_removal_events,false_removal_rate,capacity_decisions,capacity_decision_rate,mean_retained,mean_risk_band_width
+iid_easy_600,iid,600,hoeffding,30,30,0,0,0.0,0,0.0,5.0,2.688513377570513
+iid_easy_600,iid,600,empirical_bernstein,30,30,0,0,0.0,0,0.0,5.0,1.9297481461683865
+iid_easy_2000,iid,2000,hoeffding,30,30,0,0,0.0,0,0.0,5.0,2.0911303643232957
+iid_easy_2000,iid,2000,empirical_bernstein,30,30,0,0,0.0,30,1.0,3.0,0.8582894682847486
+iid_easy_4000,iid,4000,hoeffding,30,30,0,0,0.0,30,1.0,3.0,1.6992486180927189
+iid_easy_4000,iid,4000,empirical_bernstein,30,30,0,0,0.0,30,1.0,3.0,0.6095093552427743
+ma2_easy_2000,finite_MA,2000,hoeffding,30,30,0,0,0.0,0,0.0,5.0,2.6856965193916054
+ma2_easy_2000,finite_MA,2000,empirical_bernstein,30,30,0,0,0.0,0,0.0,5.0,1.8950787398462958
+ma2_easy_4000,finite_MA,4000,hoeffding,30,30,0,0,0.0,0,0.0,5.0,2.3514132837099977
+ma2_easy_4000,finite_MA,4000,empirical_bernstein,30,30,0,0,0.0,30,1.0,3.0,1.1526976822297612
+ma2_near_4000,finite_MA,4000,hoeffding,30,30,0,0,0.0,0,0.0,5.0,2.4810284866808927
+ma2_near_4000,finite_MA,4000,empirical_bernstein,30,30,0,0,0.0,0,0.0,5.0,1.278241522491158
+ar1_unverified_400,AR1,400,hoeffding,30,0,30,,,,0.0,,
+ar1_unverified_400,AR1,400,empirical_bernstein,30,0,30,,,,0.0,,
+missing_600,missing,600,hoeffding,30,0,30,,,,0.0,,
+missing_600,missing,600,empirical_bernstein,30,0,30,,,,0.0,,
