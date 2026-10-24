@@ -98,3 +98,13 @@ CRMT (Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid 
 - The original `seed1001/C1_F1_A1` **runtime Git SHA remains unresolved**, even though the R17 post-hoc checkout audit verified frozen HEAD `be575632...`; do not modify the immutable `run_summary.json` marker `UNRECORDED_LOCAL_SHA`.
 - R9 prospective method lock, complete exposure non-leakage, new independent unseen TEST and independently reviewed preregistration remain **BLOCKED**; EAAI prospective performance **NO-GO**. R10–R13 remain synthetic exploratory work and ASOC v12 preparation is not proof of actual portal submission.
 - Source ZIP and R18 verification scripts: [Google Drive R18 control folder](https://drive.google.com/drive/folders/13v08AhC4ktFHlxrEDNUQ0_LUt0jye6a-). The original historical source files and experimental artifacts have not been changed by this addendum.
+
+## 24 October 2026 R18-v2 final source-front byte audit
+
+The earlier R18 addendum below the 23 October historic status accurately described the **R18-v1** intermediate snapshot (12 locally rehashed pairs and 8 connector-read pairs). **R18-v2 has superseded that current coverage**: all 40 original `optimizer_front.csv` files for 20 matched F0/F1 historical TRAIN pairs are now included in the independently runnable R18-v2 ZIP and their local SHA-256 values match recorded original-run-summary or original-summary-derived source review checksums. The 20 paired membership outcomes were recomputed from all 40 local files. The old original TRAIN outputs are unchanged.
+
+- Current report: [R18-v2 original-archive SHA / membership coverage](CRMT_R18_CURRENT_STATUS_20261024.md).
+- Current source-checked receipt: [R18 20-pair membership CSV](../reproducibility/r18_archive_membership_20261024/R18_MEMBERSHIP_20.csv).
+- Original-source package and 12 locally successful regression tests: [R18-v2 Drive folder](https://drive.google.com/drive/folders/13v08AhC4ktFHlxrEDNUQ0_LUt0jye6a-), file `CRMT_R18_V2_Tum20Cift_KaynakSHA_Dogrulanmis_20261024.zip`.
+- **18/20** F0 archives are subsets of F1; two exceptions `seed1001/C0/A0` and `seed1001/C1/A0` each contain F0-only `CRMT-c0089`.
+- The source-code execution moment for `seed1001/C1_F1_A1` remains **UNRESOLVED**, not repaired by post-hoc HEAD evidence. Prospective equal-B/K strategy, independent unseen TEST, human-reviewed preregistration and physical safety are still **BLOCKED**. EAAI new superiority claim remains **NO-GO**.
