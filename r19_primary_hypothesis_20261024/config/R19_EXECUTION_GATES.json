@@ -1,0 +1,15 @@
+{
+  "as_of_date": "2026-10-24",
+  "artifact": "CRMT_R19_PRIMARY_HYPOTHESIS",
+  "scope": "FIRST_P0_SCIENTIFIC_QUESTION_AND_PROTOTYPE_ONLY",
+  "gates": [
+    {"gate": "G1_PRIMARY_QUESTION", "status": "DESIGN_COMPLETE_DRAFT", "requirement": "one C1/A1 fixed F1 minus F0 B10 empirical reference missed fraction"},
+    {"gate": "G2_VERIFIABLE_TWO_PHASE_CODE", "status": "25_LOCAL_TESTS_PASS", "requirement": "raw discovery objectives, equal ledgers, split group, deterministic selection lock, full audit rescore and paired seeds"},
+    {"gate": "G3_EXTERNAL_PREREG_AND_SPLIT", "status": "BLOCKED", "requirement": "source and exposure lock, temporal embargo, externally timestamped prior registration, research approval and statistical power"},
+    {"gate": "G4_30_NEW_TRAIN_SEEDS", "status": "NOT_RUN", "requirement": "30 new true independent optimizer seeds and all candidate audit rescoring"},
+    {"gate": "G5_NEW_INDEPENDENT_TEST_AND_DEPLOYMENT", "status": "NO_GO", "requirement": "unseen independent real new data, physical mapping and safety, total CPU/memory limits"}
+  ],
+  "known_runtime_original_sha_missing": "seed1001_C1_F1_A1",
+  "historical_source_sha_mutated": false,
+  "never_relabel_historical_test_as_new": true
+}
