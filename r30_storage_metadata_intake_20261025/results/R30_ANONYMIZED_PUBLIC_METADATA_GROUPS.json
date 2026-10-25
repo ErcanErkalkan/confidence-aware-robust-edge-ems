@@ -1,0 +1,61 @@
+{
+  "version": "R30_PUBLIC_METADATA_20261025",
+  "evidence_grade": "PUBLIC_PROVIDER_CSV_TEXT_EXTRACTION_NOT_ORIGINAL_PROVIDER_BYTES",
+  "source_public_metadata_url": "https://dataport.pecanstreet.org/static/metadata.csv",
+  "source_metadata_dictionary_url": "https://www.pecanstreet.org/wp-content/uploads/2019/04/Dataport-metadata-dictionary.pdf",
+  "source_extraction_method": "Tavily advanced text extraction; escaped underscores normalized; flattened records reconstructed by reviewed R29 boundary parser",
+  "provider_original_csv_bytes_download_success": false,
+  "original_csv_sha256": null,
+  "text_derivative_sha256": null,
+  "n_public_records": 2072,
+  "n_public_metadata_fields": 130,
+  "n_unique_home_resident_pair_ids": 2072,
+  "n_distinct_physical_homes_verified": null,
+  "n_metadata_candidates": 385,
+  "candidate_rule": "pv=yes AND grid=yes AND solar=yes AND egauge_1min start/end present AND advertised 1min availability >0%",
+  "all_385": {
+    "n": 385,
+    "advertised_ge90_percent": 308,
+    "advertised_ge95_percent": 258,
+    "metadata_window_ge30_days": 385,
+    "minimum_window_days": 119.96,
+    "maximum_window_days": 5328.25
+  },
+  "battery1": {
+    "n": 6,
+    "advertised_ge90_percent": 5,
+    "advertised_ge95_percent": 4,
+    "metadata_window_ge30_days": 6,
+    "minimum_window_days": 930.25,
+    "maximum_window_days": 5271.25
+  },
+  "energy_storage_system": {
+    "n": 1,
+    "advertised_ge90_percent": 0,
+    "advertised_ge95_percent": 0,
+    "metadata_window_ge30_days": 1,
+    "minimum_window_days": 1566.75,
+    "maximum_window_days": 1566.75
+  },
+  "storage_flag_union": {
+    "n": 7,
+    "advertised_ge90_percent": 5,
+    "advertised_ge95_percent": 4,
+    "metadata_window_ge30_days": 7,
+    "minimum_window_days": 930.25,
+    "maximum_window_days": 5271.25
+  },
+  "storage_flag_intersection": 0,
+  "no_storage_flag_among_385": 378,
+  "dataid_versus_home": "2019 Pecan Street metadata dictionary states dataid uniquely identifies home-resident pair, not physical building",
+  "grid_semantics": "provider dictionary defines grid = use - gen, not the contractual import capacity",
+  "battery_flag_semantics": "metadata flags do not assert observed SOC, LFP chemistry, BESS controls or truly synchronized native time-series",
+  "provider_data_dictionary_revision": "2019 public PDF; newer energy_storage_system columns not specifically defined in reviewed PDF",
+  "actual_complete_controller_day_windows_verified": 0,
+  "raw_homes_time_series_read": 0,
+  "independent_new_TEST": "NO_GO",
+  "source_accepted_for_R19": false,
+  "license_external_AI_processing_verified": false,
+  "external_preregistration_completed": false,
+  "new_optimizer_executions": 0
+}
