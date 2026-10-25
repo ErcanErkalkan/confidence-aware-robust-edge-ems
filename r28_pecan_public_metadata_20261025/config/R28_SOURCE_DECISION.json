@@ -1,0 +1,44 @@
+{
+  "version": "R28-v1",
+  "scope": "EXTERNAL_PUBLIC_METADATA_ONLY_NO_LICENSED_RAW_NO_NEW_TEST",
+  "date": "2026-10-25",
+  "public_metadata": {
+    "source": "https://dataport.pecanstreet.org/metatable",
+    "verified_columns": ["dataid", "pv", "egauge_1min_min_time", "egauge_1min_max_time", "egauge_1min_data_availability", "grid", "solar"],
+    "site_id_level_rows_available_in_public_page": true,
+    "complete_metadata_csv_downloaded": false,
+    "whole_cohort_row_count_independently_recomputed": null,
+    "reconstructed_grid_solar_metadata_candidates": null,
+    "raw_participant_data_downloaded": false,
+    "battery_soc_in_public_table_confirmed": false,
+    "contractual_cap_in_public_table_confirmed": false,
+    "controller_flip_events_in_public_table_confirmed": false,
+    "qualifier": "Positive metadata columns and 1min windows are not proof of complete synchronized measured raw site streams."
+  },
+  "pecan_license": {
+    "source": "https://www.pecanstreet.org/dataport/licenses/",
+    "licensing_contact": "licensing@pecanstreet.org",
+    "university_free_sites_advertised": 75,
+    "university_free_funded_research_allowed": false,
+    "university_funded_faculty_column_price_usd": 10000,
+    "conflict_in_same_column": "Tier label says University-Funded Faculty Research while listed restriction says No funded research",
+    "classification_resolution": "REQUIRES_PROVIDER_WRITTEN_REPLY",
+    "university_account_application": "NOT_SUBMITTED",
+    "written_approval_for_external_AI_processing": false,
+    "draft_email_sent": false
+  },
+  "brazil_star": {
+    "record": "https://zenodo.org/records/3959739",
+    "public_record_has_license_heading_without_resolved_license": true,
+    "per_record_license": "NOT_VERIFIED",
+    "zenodo_default_license_does_not_prove_record_license": true,
+    "original_raw_downloaded": false,
+    "author_permission_email_sent": false,
+    "native_grid_import_and_contract_cap": "NOT_DOCUMENTED"
+  },
+  "R19_B10_prospective_protocol_externally_locked": false,
+  "R19_new_optimizer_seeds": 0,
+  "new_independent_TEST": "NO_GO",
+  "provider_contact_next_step": "REQUEST_WRITTEN_LICENSE_AND_COHORT_AVAILABILITY_CLARIFICATION",
+  "original_R27_files": "UNCHANGED"
+}
