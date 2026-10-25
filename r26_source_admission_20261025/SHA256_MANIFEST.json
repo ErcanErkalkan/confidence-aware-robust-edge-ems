@@ -1,0 +1,20 @@
+{
+  "stage": "R26_PUBLIC_SOURCE_METADATA_AND_EVIDENCE_GATE",
+  "created": "2026-10-25",
+  "file_sha256": {
+    "README_TR.md": "2f1dab6ee2f005414e8fcda0a48778984fb05ada25dfca7bc1755636bb506303",
+    "config/R26_EXTERNAL_REVIEW_TEMPLATE.json": "5ed03f5d3b68f09def5bec64e51bbb1a963b51f6d53a4820d9f5a2d721c7d955",
+    "config/R26_SOURCE_CANDIDATES.json": "9c18ebde785b84eee5a0c2cd79cbe5ee216eda8425fc99d35ea66a85acc9d211",
+    "docs/R26_KAYNAK_UYGUNLUK_RAPORU_TR.md": "7f6584f61fee0bf1e4ee925eb885c00b9fe99c1a46cca2c1e1d39246eab48b1a",
+    "reference_inputs/R25_ORIGINAL_EVIDENCE.zip": "79afa8245d9d1f78afa08eb81a3618bc3c01cf147bfbdccd4de85f23117024be",
+    "results/R26_SOURCE_DECISIONS.csv": "943e7df144ab2785f716430da62d71fbbaa1ea0024a10ffd87b11201a5419902",
+    "results/R26_SOURCE_GATE.json": "20a2a26707a4c9abfeeb19dfa5eb865bb638e2b68106fd41302ce77c055714d9",
+    "tests/test_r26_source_gate.py": "49f7586d00206b5ca40ca89ec10112f55f45c9df9094e9c77a7aea834ebf8b27",
+    "tools/build_release.py": "0a7bf1842375efb832f832364742f6938c193abe72284d5635377252b2d7ee02",
+    "tools/r26_schema_probe.py": "02cf1972240e69d30ba68478e7fbfce9c1346f3c040a88414c06aa7249445fac",
+    "tools/r26_source_gate.py": "506b028d637200c811aca52b76d8170030256a77ecf3ec835172079dc6a608e1",
+    "tools/verify_release.py": "c16891382fc2053f5986489167e5a7a5c08d507d5283d165e5f020ee2efdf441"
+  },
+  "actual_new_raw_downloads": 0,
+  "new_test": "NO_GO"
+}
