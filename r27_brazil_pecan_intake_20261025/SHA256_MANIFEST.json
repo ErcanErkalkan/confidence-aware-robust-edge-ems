@@ -1,0 +1,18 @@
+{
+  "version": "R27_20261025",
+  "scope": "PUBLISHER_METADATA_ONLY_NOT_RAW_NOT_TEST",
+  "sha256_files": {
+    "README_TR.md": "657bbb8c4a1b44ef61b02f1d70e6a44e640a817565769bf4fc4f01513768017d",
+    "config/R27_VERIFIED_PUBLISHER_METADATA.json": "754617bf97b409399901ce47ffa704bfd52b43a8e8f30367d6f2a9e897c6d486",
+    "docs/PECAN_STREET_ACADEMIC_INQUIRY_EN.md": "40082e97c32a8740a58de202cfc71a6bed83f007a15871f177460ab45b90a0c4",
+    "docs/R27_BRAZIL_STAR_PECAN_KANIT_RAPORU_TR.md": "a715c9da42eae6999bfd9fb432a456482195642ea397e75f40c324d4f02e86e4",
+    "reference/R26_SOURCE_CANDIDATES_ORIGINAL.json": "9c18ebde785b84eee5a0c2cd79cbe5ee216eda8425fc99d35ea66a85acc9d211",
+    "reference/R26_SOURCE_GATE_ORIGINAL.json": "20a2a26707a4c9abfeeb19dfa5eb865bb638e2b68106fd41302ce77c055714d9",
+    "results/R27_SOURCE_AND_RIGHTS_STATUS.json": "2632573ccdd86e79efd5814e47ce6bf4aa6ef99f71f3b59d93aea9d67ab58962",
+    "tests/test_r27.py": "def7ca0ad785e5928ec562d3325ec65568be05d8797621b7fce23b5318de558e",
+    "tools/access_gate.py": "8711e4e79ce284e0507ef1b5d9e70c98cc7f7e84433488f7a68547a119f33553",
+    "tools/brazil_zip_audit.py": "cd6c17becaed6be8de0a3e20f1b604a710aa5736c970813df9456271cd30577a"
+  },
+  "no_real_raw_data": true,
+  "no_independent_test": true
+}
