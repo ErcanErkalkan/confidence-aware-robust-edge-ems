@@ -1,0 +1,26 @@
+{
+  "version": "R24-v1",
+  "date": "2026-10-25",
+  "source_role": "HISTORICAL_SEEN_TRAIN_ONLY_NOT_NEW_TEST",
+  "source_files_sha256": {
+    "README_TR.md": "480e80f67601ab9caf903489221e6f8eb0732dd4488a0eaa6f03b812080b0856",
+    "config/R19_PRIMARY_PROTOCOL_UNCHANGED.json": "47815ffe56921e11c2272341ce9320e7bd45c9337e1c5cb90cff57dde63a1a88",
+    "config/R24_EXECUTION_GATES.json": "db216a889f534e9bea2ede36de3572ec0203a29d7b06d0c711ec9fcc1e770ad6",
+    "docs/R24_BILIMSEL_DEGERLENDIRME_TR.md": "13a7973ecce368ac4f4cb3bbe890c0407ed4d8f4a15432ba6523851e2a04b1ad",
+    "reference_inputs/R16_ORIGINAL_SOURCE_BUNDLE.zip": "15a1a6aff3ca4410ccad420b261f50480d89d5effb3038a461dab04fb44255bc",
+    "reference_snapshot/crmt_edge_ems/__init__.py": "7bce4b031b9a21c6044000df4a071e72aa479d0123ead1782305828ab657d40b",
+    "reference_snapshot/crmt_edge_ems/archive.py": "a91ce017f213623d15790cda5b2df8e4d9dcf6ec1740953e42ce940c6473e7eb",
+    "reference_snapshot/crmt_edge_ems/dominance.py": "f559973b2d4f9fad8117009cef7e36aebecb28f6591c997ce3bd0f70d1c0f38a",
+    "reference_snapshot/crmt_edge_ems/risk.py": "aac11ae04fada78a865ccc5c32c6a582cf473ff7dd48bd7b49990897f446ac16",
+    "results/R24_B10_AND_DAY_COVERAGE.csv": "a4a355f2361b2fd5d33ce219ef232133d7fe6bf47819ea334529945da94ba342",
+    "results/R24_PREFLIGHT_DRY_RUN.json": "2197b068f4054c7a8d84c5b8215c6f9f631765404b48fd47cb01ead80dd2b620",
+    "results/R24_REAL_TRAIN_BRIDGE.json": "71d4b9cd13c676a0cd8877c46cc2224c426b3881954aecb2e9f7e7152f709979",
+    "tests/test_r24.py": "1c75dca5fab41ece414a0048e847b4a5cdab905c928a188976135c9ef8be71c8",
+    "tools/package_r24.py": "66deffa3b927a08682a62ada56ef80a12408e5697db6e0a74ebe043e193bb6e2",
+    "tools/r24_audit.py": "e2afcdaeef44024a24cb8db7611c585e34509891df3ed07cf6bfb7fff1cbdd9f",
+    "tools/r24_preflight.py": "2c80a6f523d070dbece6a183042d10ae339be4a6e8ea36e3b2475ff033193d7c",
+    "tools/verify_r24.py": "ceb892f955bc035e0fcbd2610f433980fb87ca2c59660d99b5c0b7f7c351c43e"
+  },
+  "source_n": 17,
+  "warning": "Unchanged historical R16 ZIP is research source, not new independent TEST. Original seed1001 F1 Git commit unresolved."
+}
