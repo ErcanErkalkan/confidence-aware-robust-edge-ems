@@ -1,0 +1,24 @@
+{
+  "version": "R24-v1",
+  "created": "2026-10-25",
+  "status": "SOURCE_VERIFIED_DESCRIPTIVE_ONLY_NOT_PREREGISTERED",
+  "R19_primary": {"C": 1, "A": 1, "B": 10, "K": 10, "backfill": false, "risk_q": 0.9, "tail_weight": 0.5, "original_draft_changed": false},
+  "historical": {"seeds": [1001,1004,1005], "verified_source": "R16_ORIGINAL_SOURCE_BUNDLE.zip", "role": "EXPOSED_TRAIN_ONLY", "frozen_sources_modified": false},
+  "new_study_requirements": {
+    "optimizer_seeds": "2001..2030; sample size subject to prospective power approval",
+    "discovery_evals_per_arm_seed": 12600,
+    "audit_shared_blocks_per_controller_seed": 60,
+    "audit_256_controllers_events_seed": 15360,
+    "candidate_count": 256,
+    "common_two_inverter_days_if_two_measurements_per_day": 30,
+    "candidate_selection": "lock before audit results are generated or viewed",
+    "split_separation": "independent day/site grouping plus research-justified embargo and independent provenance",
+    "external_timestamped_lock": "NOT_VERIFIED; Git SHA and input Boolean alone insufficient",
+    "assumption_assurance": "structural evidence and independent review for finite m, stationarity, and physical support; never infer theorem from ACF",
+    "total_CPU_and_native_archive_memory": "NOT_ESTABLISHED",
+    "independent_new_blind_test": "MISSING",
+    "physical_safety": "NOT_ESTABLISHED"
+  },
+  "decision": "BLOCKED_PROSPECTIVE_CONFIRMATION_AND_DEPLOYMENT",
+  "original_seed1001_F1_execution_git_sha": "UNRECORDED_LOCAL_SHA"
+}
