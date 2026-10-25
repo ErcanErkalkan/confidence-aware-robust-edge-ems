@@ -1,0 +1,20 @@
+{
+  "version": "R30-20261025-v1",
+  "evidence_grade": "PUBLIC_METADATA_TRANSFORMED_TEXT_AND_OFFICIAL_DICTIONARY_NOT_ORIGINAL_CSV",
+  "file_sha256": {
+    "README_TR.md": "13ee917d283c97b3fa5a9052b10e0d2303112e69d1f54a0eab05bf6c9a7bdb2b",
+    "config/R30_DECISION_GATES.json": "a5e622cd573dfd370c50134f0755a3ca0f3aba1aafcf41d3ffb31135443665e2",
+    "docs/PECAN_LICENSE_INQUIRY_REVISION_EN.md": "87787024d7085bfcbf9dccfe4285af964cf46584841e0783eaa5da99fba12d3e",
+    "docs/R30_BILIMSEL_KANIT_VE_YOL_HARITASI_TR.md": "b8e22719754dbc22e4e683f390d27dc4c8ba3a2da2ed112695203fe3b4c809c5",
+    "results/R29_REFERENCE_AGGREGATES_UNMODIFIED.json": "57dd870c0ca4b964b347f40779dbd9a9d6a87e762359989c6c663595e0b65ea3",
+    "results/R30_ANONYMIZED_PUBLIC_METADATA_GROUPS.json": "ea8dded1825d20a2c862398229d4638196e2de6cfd37dee9019e815765e99e0b",
+    "results/R30_ZENODO_LICENSE_AND_DOWNLOAD_STATUS.json": "07b93f14f5a7c730da4a7053f2b426c250c9e9f0c0b79ae203d79ab4207dfa3b",
+    "tests/test_r30_metadata.py": "bd9e556f2b0176210812ef241e4661ad8a71033ee981e1269efd44afea28bd56",
+    "tests/test_r30_receipts.py": "8503b0bd87a8af08fc8f08375db26b3a556b3763b9a519400ff672bb1ea40083",
+    "tools/r30_metadata_gate.py": "677292481b02b942a5967be2a3abaea7a0c25bd57bc47dc07f399ce3c82cedf5",
+    "tools/verify_release.py": "ce3001a324c5fc37910b34870c0f67ce235d23bb9458b60837c3b7c5c5aa4ef5"
+  },
+  "raw_provider_csv_downloaded": false,
+  "brazil_star_raw_zip_downloaded": false,
+  "R19_independent_TEST": "NO_GO"
+}
