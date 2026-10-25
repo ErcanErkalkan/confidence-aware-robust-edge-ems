@@ -1,0 +1,12 @@
+{
+  "id": "R19_UNTRUSTED_RECEIPT",
+  "severity": "P0",
+  "affected_legacy_function": "score_audit",
+  "demonstration": "An input-controlled https URL plus committed_before_audit=true is accepted by the legacy R19 exploratory scoring path; no host-verified independent timestamp is checked.",
+  "R25_mitigation": "R25 refuses automatic confirmatory scoring and independently checks a pinned Ed25519 public-key signature while still requiring external evidence review.",
+  "original_R19_source_immutable": true,
+  "new_external_attestor_configured": false,
+  "new_confirmatory_results": false,
+  "legacy_score_audit_also_labels_outputs_exploratory": true,
+  "warning": "No independent authority is automatically attested. A signed receipt can be backdated by its signer; registry/source provenance must be verified externally."
+}
