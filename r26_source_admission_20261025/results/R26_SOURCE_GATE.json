@@ -1,0 +1,210 @@
+{
+  "stage": "R26_SOURCE_CANDIDATE_PUBLIC_METADATA_REVIEW",
+  "date": "2026-10-25",
+  "catalog_sha256": "161d8dbe579232511b62ac39056316ec8fb7022524975662c1af82ae03af0e74",
+  "candidate_count": 8,
+  "source_approved_count": 0,
+  "candidates": [
+    {
+      "candidate_id": "BRAZIL_STAR",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://zenodo.org/records/3959739",
+      "reasons": [
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "NATIVE_CADENCE_TOO_COARSE_OR_UNKNOWN_FOR_2MIN_CONTROL",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": null,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "3b884d9dddd22da16f944236f8c59926a7cb4fc101eab2e3cfdf18f60682aab7",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "SOFIE_ILMENAU",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://zenodo.org/records/21699601",
+      "reasons": [
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "NATIVE_CADENCE_TOO_COARSE_OR_UNKNOWN_FOR_2MIN_CONTROL",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_HAS_BATTERY_SOC",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": null,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "4de5676699cebed0db8ab6b4a6562de80d57c2f0749a57a08a796197ca04ac61",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "PORTO_DAILY_EMS",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://zenodo.org/records/15394961",
+      "reasons": [
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "NATIVE_CADENCE_TOO_COARSE_OR_UNKNOWN_FOR_2MIN_CONTROL",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": 60,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "2f23ad39a49f6141a89b478d8cd9f3a514e067c01525b7b0a8ba22ee16d6115f",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "MCUT_ISLANDED",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://zenodo.org/records/21212713",
+      "reasons": [
+        "SOURCE_ACCESS_NOT_OPEN",
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": 1,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "1bf4c043d9352dd88b84ce0068abf4de3f6980832bb4d90f2af6df0b76fa2ddf",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "PVDAQ_NLR",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://data.openei.org/submissions/4568",
+      "reasons": [
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "NATIVE_CADENCE_TOO_COARSE_OR_UNKNOWN_FOR_2MIN_CONTROL",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_HAS_LOAD",
+        "MISSING_VERIFIED_HAS_BATTERY_SOC",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "MISSING_VERIFIED_SITE_LEVEL",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": 15,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "41e433cef43594edd45e6b2f52cffd1dfe14d097d086934144a57ea31646fbb0",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "PECAN_DATAPORT",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://www.pecanstreet.org/dataport/",
+      "reasons": [
+        "SOURCE_ACCESS_NOT_OPEN",
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_HAS_BATTERY_SOC",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": 1,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "f9e42df361527d799c7665c246850a39868b76d8c0fb71c76a45cec6153cee3e",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "AUSGRID_SOLAR_HOMES",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://ieee-pes-data-sharing.org/datasets/detail/5795a399-f06e-4747-b518-cb9d961616a2",
+      "reasons": [
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "NATIVE_CADENCE_TOO_COARSE_OR_UNKNOWN_FOR_2MIN_CONTROL",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_HAS_BATTERY_SOC",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "MISSING_VERIFIED_SITE_LEVEL",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": 30,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "e482f522a6acebb6d3a097196c06c1b7578a6e9cc19dd298d2d339fb9a3a7d4a",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    },
+    {
+      "candidate_id": "UNSW_ENERGY_DATA_PLATFORM",
+      "status": "NO_GO_EXTERNAL_SOURCE_AND_PROTOCOL_EVIDENCE",
+      "source_url": "https://unsw-ceem.github.io/DARTH-docs/edp/",
+      "reasons": [
+        "SOURCE_ACCESS_NOT_OPEN",
+        "LICENSE_NOT_ACCEPTED",
+        "DATA_USE_IN_THIS_ENV_UNVERIFIED_OR_PROHIBITED",
+        "RAW_BYTES_AND_CHECKSUM_NOT_VERIFIED",
+        "INDEPENDENT_EXPOSURE_AND_SOURCE_NOT_ATTESTED",
+        "NATIVE_CADENCE_TOO_COARSE_OR_UNKNOWN_FOR_2MIN_CONTROL",
+        "MISSING_VERIFIED_HAS_GRID_BOUNDARY",
+        "MISSING_VERIFIED_HAS_BATTERY_SOC",
+        "MISSING_VERIFIED_DOCUMENTED_OBJECTIVE_MAPPING",
+        "R25_EXTERNAL_PREREGISTRATION_AND_INDEPENDENT_REVIEW_NOT_VERIFIED"
+      ],
+      "native_cadence_minutes": 5,
+      "source_downloaded_and_locally_sha_verified": false,
+      "raw_sha256": null,
+      "source_metadata_fingerprint_sha256": "8e464554272bf8dc9685f1c8dae9fa4046931d052c6c6cb960804417987bc77a",
+      "independent_test_eligible": false,
+      "prospective_R19_AUDIT_eligible": false,
+      "claim": "PUBLIC_METADATA_REVIEW_NOT_ACTUAL_DATA_ADMISSION"
+    }
+  ],
+  "historical_excluded_sources": [
+    "OPENCEM_INTERNAL_2026",
+    "OPSD_REPLAY_2026"
+  ],
+  "original_r19_B10_unchanged": true,
+  "actual_new_sources_ingested": 0,
+  "new_independent_test": "NO_GO",
+  "prospective_optimization": "NOT_RUN",
+  "external_preregistration": "NOT_VERIFIED",
+  "disclaimer": "The license, independence, cadence and engineering semantics need independent documentary/raw-byte review; no caller flags can certify these.",
+  "historical_source_receipt": {
+    "R16_inside_R25_sha256": "15a1a6aff3ca4410ccad420b261f50480d89d5effb3038a461dab04fb44255bc",
+    "R19_sha256": "47815ffe56921e11c2272341ce9320e7bd45c9337e1c5cb90cff57dde63a1a88",
+    "R25_container_sha256": "79afa8245d9d1f78afa08eb81a3618bc3c01cf147bfbdccd4de85f23117024be",
+    "verified_as": "SEEN_HISTORICAL_TRAIN_ONLY"
+  }
+}
