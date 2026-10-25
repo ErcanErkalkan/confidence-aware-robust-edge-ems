@@ -1,0 +1,21 @@
+{
+  "status": "BLANK_UNAPPROVED_HUMAN_REVIEW_TEMPLATE",
+  "date_prepared": "2026-10-25",
+  "candidate_source_id": null,
+  "external_data_custodian_organization": null,
+  "independent_exposure_reviewer": null,
+  "source_license_full_text_url": null,
+  "permission_to_process_in_this_AI_environment": null,
+  "verified_original_raw_sha256": null,
+  "site_and_period_separation_verified": false,
+  "physical_mapping_four_objectives_approved": false,
+  "native_two_minute_or_faster_sampling_verified": false,
+  "recorded_raw_capture_time_from_independent_authority": null,
+  "protocol_seed_power_plan_reviewed": false,
+  "separate_new_test_group_sealed": false,
+  "independent_preregistration_url": null,
+  "independent_timestamp_verification": null,
+  "r25_approved_attestor_public_key_hex": null,
+  "signed_external_receipt": null,
+  "do_not_fill_for_the_user": "A locally generated JSON file is not authoritative source custody. No real approval has been performed."
+}
