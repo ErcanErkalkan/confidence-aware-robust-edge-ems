@@ -1,0 +1,35 @@
+{
+  "review_date": "2026-10-25",
+  "research_stage": "R27_EXTERNAL_PUBLIC_METADATA_ONLY_NO_RAW",
+  "brazil_star": {
+    "zenodo_record": "https://zenodo.org/records/3959739",
+    "doi": "10.5281/zenodo.3959739",
+    "file_name": "Brazil_STAR_Microgrid_Monitoring.zip",
+    "file_size_reported_bytes": 6674556,
+    "file_md5_published": "b4f4bad22ba1d896937cfe555f41b25c",
+    "sensors": ["Battery", "PV", "IAM"],
+    "sites": ["STAR-A", "STAR-B", "STAR-C", "STAR-D"],
+    "record_license_verified": false,
+    "raw_bytes_downloaded": false,
+    "raw_sha256": null,
+    "grid_kw_measured_from_official_documentation": false,
+    "native_sampling_minutes": null,
+    "independent_test_eligible": false
+  },
+  "pecan_street": {
+    "university_access": "https://www.pecanstreet.org/access/",
+    "public_license_tiers": "https://www.pecanstreet.org/dataport/licenses/",
+    "university_signup": "https://dataport.pecanstreet.org/",
+    "free_university_homes": 75,
+    "free_university_funded_research_permitted": false,
+    "university_research_identity_verification_required": true,
+    "account_created": false,
+    "license_signed": false,
+    "AI_environment_transfer_permission_verified": false,
+    "native_site_power_SOC_validated": false,
+    "independent_test_eligible": false
+  },
+  "R19_design_still_unlocked": true,
+  "new_optimizer_seeds_run": 0,
+  "new_independent_TEST_status": "NO_GO"
+}
