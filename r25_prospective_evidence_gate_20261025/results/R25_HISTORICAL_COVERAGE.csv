@@ -1,0 +1,4 @@
+historical_seed,observed_full_common_days,minimum_planned_audit_days,day_shortfall_vs_planned,B10_shared,source_role,r19_prospective_run_eligible
+1001,9,30,21,6,SEEN_TRAIN_ONLY,False
+1004,5,30,25,9,SEEN_TRAIN_ONLY,False
+1005,5,30,25,7,SEEN_TRAIN_ONLY,False
