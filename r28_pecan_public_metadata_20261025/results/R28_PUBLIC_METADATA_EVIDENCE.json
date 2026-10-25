@@ -1,0 +1,42 @@
+{
+  "record": "R28_PUBLIC_WEB_METADATA_ONLY",
+  "date": "2026-10-25",
+  "provider_metatable_url": "https://dataport.pecanstreet.org/metatable",
+  "provider_license_url": "https://www.pecanstreet.org/dataport/licenses/",
+  "provider_signup_url": "https://dataport.pecanstreet.org/",
+  "provider_tos_url": "https://www.pecanstreet.org/pecan-street-inc-dataport-website-terms-of-service/",
+  "verified_public_metadata_columns": [
+    "dataid", "pv", "grid", "solar",
+    "egauge_1min_min_time", "egauge_1min_max_time", "egauge_1min_data_availability",
+    "egauge_1s_min_time", "egauge_1s_max_time", "egauge_1s_data_availability"
+  ],
+  "metadata_page_example_households_visible": true,
+  "metadata_csv_original_bytes_acquired": false,
+  "full_metadata_population_analyzed": false,
+  "native_site_battery_soc_confirmed": false,
+  "physical_four_objectives_equivalent": false,
+  "one_minute_timestamp_metadata_means_actual_complete_series": false,
+  "verified_new_raw_time_series": 0,
+  "provider_pecan_license_contradiction": {
+    "column_label": "University-Funded Faculty Research",
+    "price_usd_as_listed": 10000,
+    "same_column_restriction": "No funded research",
+    "resolution": "WRITTEN_PROVIDER_CLARIFICATION_REQUIRED"
+  },
+  "brazil_star": {
+    "zenodo_record": "https://zenodo.org/records/3959739",
+    "rights_heading_no_specific_record_license_in_web_text": true,
+    "license_verification": "UNRESOLVED",
+    "raw_data_inspected": false
+  },
+  "pecan_email": {
+    "draft_created_in_connected_gmail": true,
+    "email_sent": false,
+    "target_address": "licensing@pecanstreet.org",
+    "draft_ids_withheld_from_public_release": true
+  },
+  "source_admission": "NO_GO",
+  "r19_prospective_runs": "NOT_RUN",
+  "r19_externally_preregistered": false,
+  "independent_new_TEST": "NO_GO"
+}
