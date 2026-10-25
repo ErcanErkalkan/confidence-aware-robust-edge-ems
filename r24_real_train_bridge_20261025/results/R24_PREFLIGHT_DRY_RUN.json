@@ -1,0 +1,18 @@
+{
+  "status": "PLAN_SHAPE_VALID_EXTERNAL_EVIDENCE_STILL_REQUIRED",
+  "role": "HYPOTHETICAL_DRY_RUN_NOT_NEW_REAL_AUDIT",
+  "local_payload_sha256": "54cb2c00b8bef9bdf0ac9698e078c4fddaecb52247242b17ba2a506a3c4ba2f6",
+  "seed": 2001,
+  "candidate_n": 256,
+  "audit_block_n": 60,
+  "audit_day_n": 30,
+  "audit_events_n": 15360,
+  "discovery_and_audit_days_disjoint": true,
+  "external_immutable_pre_registration_verified": false,
+  "actual_prospective_source_SHA_verified": false,
+  "stationarity_proven": false,
+  "finite_m_proven": false,
+  "r23_certificate_eligible": false,
+  "physical_deployment_authorized": false,
+  "warning": "A syntactically valid ledger can be fabricated; time-of-creation, real data collection, independence and prospective lock require external verification."
+}
