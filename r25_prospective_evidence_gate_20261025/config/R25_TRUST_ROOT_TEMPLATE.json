@@ -1,0 +1,15 @@
+{
+  "version": "R25-v1",
+  "role": "TEMPLATE_NOT_AN_APPROVED_TRUST_ROOT",
+  "independently_approved_attestor_public_key_ed25519_hex": null,
+  "attestor_legal_identity": null,
+  "attestor_organization": null,
+  "externally_verifiable_registration_url": null,
+  "approving_reviewer": null,
+  "source_license_permission": null,
+  "source_exposure_register_approved": false,
+  "research_protocol_independently_preregistered": false,
+  "audit_input_capture_after_registration_verified": false,
+  "time_stamp_source_not_user_supplied": false,
+  "notes": "Never place a private key or a self-issued test key in this file; a signature is not independent source or temporal provenance."
+}
