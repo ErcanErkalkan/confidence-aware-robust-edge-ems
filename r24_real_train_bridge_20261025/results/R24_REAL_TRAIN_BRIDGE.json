@@ -1,0 +1,365 @@
+{
+  "version": "R24-v1",
+  "date": "2026-10-25",
+  "data_scope": "EXPOSED_HISTORICAL_TRAIN_ONLY_NOT_NEW_TEST",
+  "snapshot_original_blobs": {
+    "risk.py": "edee0d3361691535330419d0203757d0b3624638",
+    "dominance.py": "c0fa644839407aaf1ac388a5082435a3a446be29",
+    "archive.py": "bb644663febea3990ebeb23f47e403ab0c8070f3"
+  },
+  "r19_protocol_sha256": "47815ffe56921e11c2272341ce9320e7bd45c9337e1c5cb90cff57dde63a1a88",
+  "rows": [
+    {
+      "seed": 1001,
+      "stage": "HISTORICAL_SEEN_TRAIN_DESCRIPTIVE_ONLY",
+      "source_raw_SHA_verified": true,
+      "paired_objectives_match": true,
+      "original_git_sha_F0": "be5756321617087ca421a639d60a99513f29d889",
+      "original_git_sha_F1": "UNRECORDED_LOCAL_SHA",
+      "n_candidate_block_events": 12600,
+      "n_candidates": 256,
+      "natural_archive_F0": 18,
+      "natural_archive_F1": 236,
+      "F0_selected_B10": [
+        "CRMT-c0178",
+        "CRMT-c0234",
+        "CRMT-c0251",
+        "CRMT-c0132",
+        "CRMT-c0110",
+        "CRMT-c0173",
+        "CRMT-c0099",
+        "CRMT-c0228",
+        "CRMT-c0080",
+        "CRMT-c0097"
+      ],
+      "F1_selected_B10": [
+        "CRMT-c0178",
+        "CRMT-c0234",
+        "CRMT-c0212",
+        "CRMT-c0251",
+        "CRMT-c0132",
+        "CRMT-c0110",
+        "CRMT-c0158",
+        "CRMT-c0241",
+        "CRMT-c0050",
+        "CRMT-c0173"
+      ],
+      "B10_shared": 6,
+      "B10_arm_specific": 4,
+      "B10_identical": false,
+      "historical_K20_identical_as_previous_R9_receipt": true,
+      "observed_loss_extrema_not_prospective_bounds": {
+        "cap_violation_pct_total": {
+          "seen_min": 0.0,
+          "seen_max": 1.5277777777777777,
+          "support_prospectively_justified": false
+        },
+        "lfp_cycle_loss_pct": {
+          "seen_min": 0.0,
+          "seen_max": 0.0015551666912306033,
+          "support_prospectively_justified": false
+        },
+        "ramp95_kw_per_min": {
+          "seen_min": 0.0015999999999999977,
+          "seen_max": 0.34800142813308504,
+          "support_prospectively_justified": false
+        },
+        "flip_per_day": {
+          "seen_min": 0.0,
+          "seen_max": 146.0,
+          "support_prospectively_justified": false
+        }
+      },
+      "original_csv_sha_F0": {
+        "candidate_metrics.csv": "900571c4ea375a2c172d15df3503c55ccb78d0f6e099ee4a47db99565e7f124e",
+        "optimizer_front.csv": "b7a154ba7c8cad073e61f377cbd945e4a199fc4fc3d597157d50daa5736965c4",
+        "ledger.csv": "af89c582f6e366fa2ac2e30189f3df25a88a35824c2cbf2d4e76638777eeaf1d"
+      },
+      "original_csv_sha_F1": {
+        "candidate_metrics.csv": "4e6e3975cbb6d52736ebf44de9d7c0d0e5e15641fbfdfdc66348f2e1d5e24c0d",
+        "optimizer_front.csv": "01f3423e08e6c2c62df3e1253d3d3f72882b2c129b32de10625a514376b68d8d",
+        "ledger.csv": "af89c582f6e366fa2ac2e30189f3df25a88a35824c2cbf2d4e76638777eeaf1d"
+      },
+      "min_days_candidate": 9,
+      "median_days_candidate": 20.0,
+      "max_days_candidate": 106,
+      "min_two_inverter_days_candidate": 9,
+      "median_two_inverter_days_candidate": 20.0,
+      "max_two_inverter_days_candidate": 104,
+      "min_blocks_candidate": 18,
+      "median_blocks_candidate": 40.0,
+      "max_blocks_candidate": 210,
+      "global_common_days_any_inverter": 9,
+      "global_complete_two_inverter_days_256": 9,
+      "global_common_blocks_256": 18,
+      "all_complete_days_list": [
+        "2025-08-02",
+        "2025-08-30",
+        "2025-08-31",
+        "2025-09-01",
+        "2025-09-02",
+        "2025-09-03",
+        "2025-09-04",
+        "2025-09-05",
+        "2025-09-06"
+      ],
+      "fully_aligned_30_day_audit_available_in_historical_records": false,
+      "R23_real_certification": "BLOCKED_NO_AUTHENTICATED_STATIONARITY_FINITE_M_FIXED_SUPPORT_AND_COMPLETE_PANEL",
+      "R19_future_TRAIN_AUDIT": "NOT_EXECUTED_NO_EXTERNAL_PRELOCK",
+      "independent_blind_TEST": "NO_GO"
+    },
+    {
+      "seed": 1004,
+      "stage": "HISTORICAL_SEEN_TRAIN_DESCRIPTIVE_ONLY",
+      "source_raw_SHA_verified": true,
+      "paired_objectives_match": true,
+      "original_git_sha_F0": "be5756321617087ca421a639d60a99513f29d889",
+      "original_git_sha_F1": "be5756321617087ca421a639d60a99513f29d889",
+      "n_candidate_block_events": 12600,
+      "n_candidates": 256,
+      "natural_archive_F0": 22,
+      "natural_archive_F1": 240,
+      "F0_selected_B10": [
+        "CRMT-c0255",
+        "CRMT-c0235",
+        "CRMT-c0069",
+        "CRMT-c0164",
+        "CRMT-c0211",
+        "CRMT-c0247",
+        "CRMT-c0177",
+        "CRMT-c0133",
+        "CRMT-c0160",
+        "CRMT-c0038"
+      ],
+      "F1_selected_B10": [
+        "CRMT-c0255",
+        "CRMT-c0235",
+        "CRMT-c0069",
+        "CRMT-c0164",
+        "CRMT-c0211",
+        "CRMT-c0247",
+        "CRMT-c0177",
+        "CRMT-c0133",
+        "CRMT-c0160",
+        "CRMT-c0120"
+      ],
+      "B10_shared": 9,
+      "B10_arm_specific": 1,
+      "B10_identical": false,
+      "historical_K20_identical_as_previous_R9_receipt": true,
+      "observed_loss_extrema_not_prospective_bounds": {
+        "cap_violation_pct_total": {
+          "seen_min": 0.0,
+          "seen_max": 1.5277777777777777,
+          "support_prospectively_justified": false
+        },
+        "lfp_cycle_loss_pct": {
+          "seen_min": 0.0,
+          "seen_max": 0.0015607774723190553,
+          "support_prospectively_justified": false
+        },
+        "ramp95_kw_per_min": {
+          "seen_min": 0.0015999999999999977,
+          "seen_max": 0.3480003286929985,
+          "support_prospectively_justified": false
+        },
+        "flip_per_day": {
+          "seen_min": 0.0,
+          "seen_max": 146.0,
+          "support_prospectively_justified": false
+        }
+      },
+      "original_csv_sha_F0": {
+        "candidate_metrics.csv": "cb9acebfaa9de672c42b3bb452b82721a9e3aab12190cb8ebfb9587244c974f6",
+        "optimizer_front.csv": "892da717b657c9be847e0eacfdf9faf723675a946586504ac6d29bfa257c476e",
+        "ledger.csv": "dac181630a304e3012d8d6baa4583e7fbe7ff653898644909c9d6d54fc5a9d77"
+      },
+      "original_csv_sha_F1": {
+        "candidate_metrics.csv": "42959d60b1ec76b32e04a53d4030710c0ef29673b62e7e24930b1bc67c987c4b",
+        "optimizer_front.csv": "7ffbdd33d096b783a43d77eb0551d1a7b244701be44622a16833396fb625b86f",
+        "ledger.csv": "dac181630a304e3012d8d6baa4583e7fbe7ff653898644909c9d6d54fc5a9d77"
+      },
+      "min_days_candidate": 5,
+      "median_days_candidate": 20.0,
+      "max_days_candidate": 106,
+      "min_two_inverter_days_candidate": 5,
+      "median_two_inverter_days_candidate": 20.0,
+      "max_two_inverter_days_candidate": 104,
+      "min_blocks_candidate": 10,
+      "median_blocks_candidate": 40.0,
+      "max_blocks_candidate": 210,
+      "global_common_days_any_inverter": 5,
+      "global_complete_two_inverter_days_256": 5,
+      "global_common_blocks_256": 10,
+      "all_complete_days_list": [
+        "2025-08-02",
+        "2025-08-30",
+        "2025-08-31",
+        "2025-09-01",
+        "2025-09-02"
+      ],
+      "fully_aligned_30_day_audit_available_in_historical_records": false,
+      "R23_real_certification": "BLOCKED_NO_AUTHENTICATED_STATIONARITY_FINITE_M_FIXED_SUPPORT_AND_COMPLETE_PANEL",
+      "R19_future_TRAIN_AUDIT": "NOT_EXECUTED_NO_EXTERNAL_PRELOCK",
+      "independent_blind_TEST": "NO_GO"
+    },
+    {
+      "seed": 1005,
+      "stage": "HISTORICAL_SEEN_TRAIN_DESCRIPTIVE_ONLY",
+      "source_raw_SHA_verified": true,
+      "paired_objectives_match": true,
+      "original_git_sha_F0": "be5756321617087ca421a639d60a99513f29d889",
+      "original_git_sha_F1": "be5756321617087ca421a639d60a99513f29d889",
+      "n_candidate_block_events": 12600,
+      "n_candidates": 256,
+      "natural_archive_F0": 17,
+      "natural_archive_F1": 237,
+      "F0_selected_B10": [
+        "CRMT-c0192",
+        "CRMT-c0094",
+        "CRMT-c0206",
+        "CRMT-c0245",
+        "CRMT-c0026",
+        "CRMT-c0083",
+        "CRMT-c0237",
+        "CRMT-c0241",
+        "CRMT-c0172",
+        "CRMT-c0078"
+      ],
+      "F1_selected_B10": [
+        "CRMT-c0192",
+        "CRMT-c0094",
+        "CRMT-c0206",
+        "CRMT-c0245",
+        "CRMT-c0026",
+        "CRMT-c0083",
+        "CRMT-c0237",
+        "CRMT-c0204",
+        "CRMT-c0033",
+        "CRMT-c0180"
+      ],
+      "B10_shared": 7,
+      "B10_arm_specific": 3,
+      "B10_identical": false,
+      "historical_K20_identical_as_previous_R9_receipt": true,
+      "observed_loss_extrema_not_prospective_bounds": {
+        "cap_violation_pct_total": {
+          "seen_min": 0.0,
+          "seen_max": 1.5277777777777777,
+          "support_prospectively_justified": false
+        },
+        "lfp_cycle_loss_pct": {
+          "seen_min": 0.0,
+          "seen_max": 0.001558244905474006,
+          "support_prospectively_justified": false
+        },
+        "ramp95_kw_per_min": {
+          "seen_min": 0.0015999999999999977,
+          "seen_max": 0.3480035885995838,
+          "support_prospectively_justified": false
+        },
+        "flip_per_day": {
+          "seen_min": 0.0,
+          "seen_max": 146.0,
+          "support_prospectively_justified": false
+        }
+      },
+      "original_csv_sha_F0": {
+        "candidate_metrics.csv": "8e86c8c96160fc4322fd2b6b9964535636f051a666637c6af307dc0ff15abc38",
+        "optimizer_front.csv": "02e82273fdd2b41845b04989e9fd6244dde7ec2e72a39090642dec3199a86705",
+        "ledger.csv": "acd5643b071721d1b68e80f2f906f8a3548058fe15d116eee63aee18ef202609"
+      },
+      "original_csv_sha_F1": {
+        "candidate_metrics.csv": "4b73b70eb370ce8e30d75fe9fcee597cd1624df96ff448fca7272825697923a2",
+        "optimizer_front.csv": "5216d15daf594a4ecf6f816da6252808542b5f2ebb8113bc15a1bc94ef5a3a81",
+        "ledger.csv": "acd5643b071721d1b68e80f2f906f8a3548058fe15d116eee63aee18ef202609"
+      },
+      "min_days_candidate": 5,
+      "median_days_candidate": 20.0,
+      "max_days_candidate": 106,
+      "min_two_inverter_days_candidate": 5,
+      "median_two_inverter_days_candidate": 20.0,
+      "max_two_inverter_days_candidate": 104,
+      "min_blocks_candidate": 10,
+      "median_blocks_candidate": 40.0,
+      "max_blocks_candidate": 210,
+      "global_common_days_any_inverter": 5,
+      "global_complete_two_inverter_days_256": 5,
+      "global_common_blocks_256": 10,
+      "all_complete_days_list": [
+        "2025-08-02",
+        "2025-08-30",
+        "2025-08-31",
+        "2025-09-01",
+        "2025-09-02"
+      ],
+      "fully_aligned_30_day_audit_available_in_historical_records": false,
+      "R23_real_certification": "BLOCKED_NO_AUTHENTICATED_STATIONARITY_FINITE_M_FIXED_SUPPORT_AND_COMPLETE_PANEL",
+      "R19_future_TRAIN_AUDIT": "NOT_EXECUTED_NO_EXTERNAL_PRELOCK",
+      "independent_blind_TEST": "NO_GO"
+    }
+  ],
+  "n_sources": 3,
+  "n_new_seed_runs": 0,
+  "all_three_B10_different": true,
+  "all_three_real_R23_blocked": true,
+  "claims": {
+    "independent_p_value": null,
+    "new_AUDIT_score": null,
+    "field_safety": null,
+    "real_R23_coverage_guarantee": null
+  },
+  "future_30_seed_plan": {
+    "discovery_per_arm_per_seed": 12600,
+    "new_seeds": [
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029,
+      2030
+    ],
+    "r19_B": 10,
+    "audit_blocks_per_all_256": 60,
+    "audit_events_per_seed": 15360,
+    "audit_events_all_30_seeds": 460800,
+    "audit_common_two_inverter_days_if_daily_paired": 30,
+    "discovery_events_per_arm_all_30_seeds": 378000,
+    "audit_role": "FUTURE_SEPARATE_TRAIN_AUDIT_NOT_NEW_INDEPENDENT_TEST",
+    "equal_total_CPU": "NOT_ESTABLISHED"
+  },
+  "gates": {
+    "real_R23_finite_m": "BLOCKED_NO_EXTERNAL_PROOF",
+    "loss_bounds": "BLOCKED_NOT_PRECOMMITTED",
+    "source_common_day_coverage": "BLOCKED_FOR_FULL_256",
+    "r19_B10_historical": "DESCRIPTIVE_ONLY_NOT_PREREGISTERED",
+    "R19_confirmation": "NOT_RUN",
+    "original_seed1001_F1_git_sha": "UNRECORDED_LOCAL_SHA",
+    "new_independent_TEST": "NO_GO",
+    "deployment": "NO_GO"
+  }
+}
