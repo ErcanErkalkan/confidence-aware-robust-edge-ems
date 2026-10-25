@@ -1,0 +1,55 @@
+{
+  "stage": "R27_PUBLISHER_METADATA_RIGHTS_AND_SENSOR_AUDIT",
+  "sources": {
+    "BRAZIL_STAR": {
+      "published_data_file": "Brazil_STAR_Microgrid_Monitoring.zip",
+      "published_md5": "b4f4bad22ba1d896937cfe555f41b25c",
+      "license": "RECORD_RIGHTS_NOT_RESOLVED_FOR_THIS_AUDIT",
+      "officially_documented_sensors": [
+        "Battery: current, Ah, SOC, cycles, voltage, power, charge/discharge energy",
+        "PV: voltage, power, energy, operating-state code",
+        "IAM: real/reactive power, voltage, meter ID"
+      ],
+      "grid_kw": "NOT_DOCUMENTED",
+      "contracted_grid_cap": "NOT_DOCUMENTED",
+      "total_site_load_from_all_IAM": "UNVERIFIED_COVERAGE",
+      "sampling_frequency": "NOT_VERIFIED_FROM_RAW",
+      "physical_objectives": "NOT_EQUIVALENT_TO_4_ORIGINAL_CRMT_LOSSES",
+      "reuse_status": "REQUEST_RECORD_LICENSE_AND_RAW_RIGHTS_BEFORE_AI_INGEST",
+      "source_url": "https://zenodo.org/records/3959739"
+    },
+    "PECAN_STREET": {
+      "free_university_scope": "75 homes: Austin 25, New York 25, California 25, plus ISO data",
+      "free_university_price": "$0",
+      "free_university_funded_research": "NOT_PERMITTED",
+      "faculty_funded_tier_price_listed": "$10,000 (publisher public pricing page, subject to current agreement)",
+      "institutional_tier_price_listed": "$15,000 (publisher public pricing page, subject to current agreement)",
+      "university_access_process": "institutional email and affiliation evidence, provider review",
+      "ai_processing_sharing": "NOT_PREAPPROVED_BY_PUBLIC_WEBPAGE",
+      "battery_soc_per_site": "CHECK_PROVIDER_COHORT",
+      "grid_meter_per_site": "CHECK_PROVIDER_COHORT",
+      "requested_native_cadence": "<=2min measured native (not interpolation)",
+      "physical_objectives": "NOT_VALIDATED",
+      "source_url": "https://www.pecanstreet.org/dataport/licenses/",
+      "rights_decision": "AWAIT_PERSONAL_INSTITUTIONAL_LICENSE_APPROVAL"
+    }
+  },
+  "raw_brazil_star_downloaded": false,
+  "pecan_account_verified": false,
+  "publisher_license_verified_for_ai_use": false,
+  "new_dataset_accepted": false,
+  "physical_four_objective_equivalence_verified": false,
+  "independent_pre_registration": "NOT_VERIFIED",
+  "r19_30_seed_runs": "NOT_RUN",
+  "unseen_independent_TEST": "NO_GO",
+  "next_actions": [
+    "obtain express license and permitted AI-analysis terms for Brazil STAR before raw inspection",
+    "confirm Pecan Street research funding category and request academic data access",
+    "verify native site sensors, split/exposure history, and >=2-minute frequency on real raw samples",
+    "obtain independent human/external protocol preregistration before new optimizer runs"
+  ],
+  "test_suite": "30_tests_local_passed",
+  "original_R26_archive_sha256": "6bebd34c7390ff9b75bc550ad416913ac2ca565d63b466d0cf4ae8668ecd20a9",
+  "underlying_source_attempt": "BRAZIL_STAR_ORIGINAL_ZIP_DOWNLOAD_FAILED_NO_RAW_BYTES_ANALYZED",
+  "actual_original_file_sha256": null
+}
