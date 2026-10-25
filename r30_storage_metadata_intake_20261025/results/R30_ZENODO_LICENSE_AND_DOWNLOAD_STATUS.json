@@ -1,0 +1,16 @@
+{
+  "record": "https://zenodo.org/records/3959739",
+  "record_api_url": "https://zenodo.org/api/records/3959739",
+  "license_id_from_prior_record_specific_secondary_API_extraction": "cc-by-4.0",
+  "current_turn_api_response_original_bytes_downloaded": false,
+  "publisher_raw_zip_url_tried": "https://zenodo.org/records/3959739/files/Brazil_STAR_Microgrid_Monitoring.zip?download=1",
+  "publisher_raw_zip_direct_download_success": false,
+  "publisher_raw_zip_size_advertised": 6674556,
+  "publisher_md5_advertised": "b4f4bad22ba1d896937cfe555f41b25c",
+  "local_original_raw_sha256": null,
+  "sensor_systems_publisher_described": ["Battery", "PV", "IAM"],
+  "metered_grid_and_contract_cap_documented": false,
+  "R19_four_objective_equivalence": false,
+  "classification": "POTENTIAL_SECONDARY_ISLANDED_OOD_ONLY_NOT_NEW_TEST",
+  "note": "The official full binary has not been obtained in this runtime. Record-specific license id observed previously is not a substitute for original raw data or a direct archival API receipt."
+}
