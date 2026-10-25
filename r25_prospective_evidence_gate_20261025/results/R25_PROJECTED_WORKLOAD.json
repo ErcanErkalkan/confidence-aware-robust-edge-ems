@@ -1,0 +1,22 @@
+{
+  "scope": "PROVISIONAL_NONEXECUTED_R19_C1A1_30_SEED_PLAN",
+  "seeds": 30,
+  "controllers": 256,
+  "equal_discovery_evaluations_per_arm_per_seed": 12600,
+  "per_arm_discovery_across_30_seeds": 378000,
+  "shared_discovery_across_30_seeds_if_reused": 378000,
+  "audit_common_full_days_per_seed": 30,
+  "audit_blocks_per_seed": 60,
+  "audit_events_per_seed": 15360,
+  "audit_events_across_30_seeds": 460800,
+  "combined_unique_eval_budget_if_arm_evaluations_reused": 838800,
+  "combined_eval_budget_if_F0_and_F1_discovery_rerun_separately": 1216800,
+  "qualifications": [
+    "TRAIN only, new real source missing",
+    "no new optimizer or audit runs performed",
+    "not equal archive total CPU or native memory",
+    "source exposure independence not established",
+    "30 planned seeds not power-approved",
+    "no independent blind TEST"
+  ]
+}
