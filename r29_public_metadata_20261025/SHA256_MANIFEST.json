@@ -1,0 +1,15 @@
+{
+  "version": "R29-v1",
+  "date": "2026-10-25",
+  "sha256": {
+    "README_TR.md": "9707a4f36824c977c18933ad7e41134a08c48c66f8fc704b9c4835cfb14fea83",
+    "docs/R29_GERCEK_METADATA_VE_LISANS_INCELEMESI_TR.md": "66f43b658288e67f154bac17c7b0eb25fa1e0f5f1ffb3e4da969b3dc415f92a9",
+    "results/R29_BRAZIL_STAR_LICENSE_EVIDENCE.json": "a8cdef990025392a66d1223f6bb341d2c628e47ce6b96995e02ced3eba972d5c",
+    "results/R29_PUBLIC_PECAN_AGGREGATES.json": "57dd870c0ca4b964b347f40779dbd9a9d6a87e762359989c6c663595e0b65ea3",
+    "tests/test_public_cohort_audit.py": "9695114fe2fee090b6db4b806a329045b5ef6e745edaa01079e5bfd4cffbd683",
+    "tests/test_r29_receipts.py": "1da2782145cf9a42e9765aeedfba45dd2cbbe840b9d26d6d838b35303d64654b",
+    "tools/public_cohort_audit.py": "ea1a4e3c7352edaf23ec031787f269266e02393811e4afdf1965f8556330b440",
+    "tools/verify_release.py": "f41907befd52df077dad274ff1c73d5374d8a0cd1781ab137fe6a16b3851f49f"
+  },
+  "scope": "PUBLIC_METADATA_TEXT_DERIVED_AGGREGATES_ONLY_NO_RAW_NO_TEST"
+}
