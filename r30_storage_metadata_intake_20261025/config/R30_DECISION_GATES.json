@@ -1,0 +1,27 @@
+{
+  "version": "R30-v1",
+  "date": "2026-10-25",
+  "design_parent": "R19 C1/A1, B=K=10, 256 pool, four physical objectives, unchanged unlocked draft",
+  "source_rules": {
+    "public_metadata_only": true,
+    "file_hash_local_is_not_publisher_source_attestation": true,
+    "dataid_is_home_resident_pair": true,
+    "provider_native_timestamp_alignment_required": true,
+    "complete_target_day_blocks_required": true,
+    "grid_contract_cap_required": true,
+    "battery_SOC_and_LFP_chemistry_required": true,
+    "controller_action_history_required": true,
+    "independent_external_preregistration_required": true,
+    "right_to_process_licensed_participant_series_in_AI_tools_required": true,
+    "raw_rows_and_public_record_ids_must_not_be_published": true
+  },
+  "gates": {
+    "public_385_metadata_cohort": "DESCRIPTIVE_ONLY",
+    "storage_union_7_records": "PUBLIC_METADATA_ONLY",
+    "site_level_and_unique_physical_home_matching": "UNVERIFIED",
+    "same_timestamp_PV_GRID_BESS_SOC": "UNVERIFIED",
+    "R23_finite_m_dependence": "UNVERIFIED",
+    "R19_prospective_30_seeds": "NOT_RUN",
+    "unseen_independent_TEST": "NO_GO"
+  }
+}
