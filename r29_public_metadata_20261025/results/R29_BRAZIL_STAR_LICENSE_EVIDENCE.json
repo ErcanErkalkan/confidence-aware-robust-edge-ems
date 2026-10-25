@@ -1,0 +1,21 @@
+{
+  "stage":"R29_ZENODO_RECORD_SPECIFIC_LICENSE_METADATA_SECONDARY_EXTRACTED_API",
+  "record_url":"https://zenodo.org/records/3959739",
+  "record_api":"https://zenodo.org/api/records/3959739",
+  "doi":"10.5281/zenodo.3959739",
+  "record_id":3959739,
+  "license_id_observed_in_extracted_api_content":"cc-by-4.0",
+  "license_corroboration":"Third-party search index also labels brazil_star CC BY 4.0; direct Zenodo HTML rights field rendered blank; direct API byte acquisition/repeatable JSON archiving unavailable",
+  "rights_summary":"CC BY 4.0 generally permits reuse and adaptation subject to attribution and license terms; source-specific repository record API was the evidence, not platform default",
+  "published_zip_filename":"Brazil_STAR_Microgrid_Monitoring.zip",
+  "published_zip_bytes":6674556,
+  "published_zip_md5":"b4f4bad22ba1d896937cfe555f41b25c",
+  "original_zip_bytes_downloaded":false,
+  "original_zip_sha256":null,
+  "native_time_cadence_checked":false,
+  "measured_grid_kw_available":false,
+  "contract_cap_known":false,
+  "four_original_R19_objectives_equivalent":false,
+  "new_independent_TEST":"NO_GO",
+  "note":"Source-specific license can be independently rechecked using the official Zenodo record API. License does not establish measured grid import/export or new independent validation."
+}
