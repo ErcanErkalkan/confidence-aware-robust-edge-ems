@@ -1,0 +1,19 @@
+{
+  "version": "R28-v1",
+  "created": "2026-10-25",
+  "scope": "PUBLIC_METADATA_ONLY_WITH_UNSENT_PROVIDER_INQUIRIES",
+  "files": {
+    "README_TR.md": "9f8401e1d9be8a61a798582d8504bdecc14eeda0a36436f5c828ce75ac9ee1d8",
+    "config/R28_SOURCE_DECISION.json": "0286fb9ff711638dd3f8cba01d9570df37db69fcc44b0004e320d6b8ab497c1a",
+    "docs/BRAZIL_STAR_RIGHTS_REQUEST_EN.md": "0ca990dfa3de2607a76f9b2c78dcb147e5f1d86c1ab4d13f113fad84924b6778",
+    "docs/PECAN_LICENSE_CLARIFICATION_EMAIL_EN.md": "e609dabd22f4738a9babc5e9f5427b332737ef526a147b9c053433df6e701327",
+    "docs/R28_TEKNIK_RAPOR_TR.md": "152c1ee6db722073b5d8e64ed4e33ee677914d016cde74fa278a7a517c4f13fc",
+    "results/R28_PUBLIC_METADATA_EVIDENCE.json": "17321b3e1e9c2f521fce04d777975faf17e229900e8f7c4956cb596ef63a2f74",
+    "tests/test_metadata_gate.py": "c6f372ba15961c69cab60d5f4776c986455bb0c26bc3e8cd01a628c13e34c9fa",
+    "tests/test_receipts.py": "0976aa1d2a856dd104e1dcbca6307802435e862719ae6ccfecec22c92bfdd992",
+    "tools/metadata_gate.py": "1f87ba3dea5c7e6540cea1bc18e78a37c8ba54ede0490c118bcc2764d3a85c23",
+    "tools/verify_release.py": "f535b1bbc62ab3d9388d1fde12e9eee884b88ed04a15b14a4745f730340077da"
+  },
+  "new_raw_data_count": 0,
+  "new_TEST": "NO_GO"
+}
