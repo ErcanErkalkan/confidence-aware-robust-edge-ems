@@ -1,0 +1,32 @@
+{
+  "version": "R25-v1",
+  "date": "2026-10-25",
+  "research_scope": "PROTOCOL_HARDENING_AND_SEEN_TRAIN_REANALYSIS_NO_NEW_TEST",
+  "files": {
+    "README_TR.md": "88ee8749b8109f7a2f0299cd31146f549f3bb8955ebd0d85cb7e2db859810482",
+    "config/R19_PRIMARY_PROTOCOL_UNCHANGED.json": "47815ffe56921e11c2272341ce9320e7bd45c9337e1c5cb90cff57dde63a1a88",
+    "config/R25_TRUST_ROOT_TEMPLATE.json": "fccdd0b97d20d64a92bfdc40124d96364435b8170e5ad87324b74d5599974f5f",
+    "docs/R25_TURKCE_BILIMSEL_VE_TEK_NIK_RAPOR.md": "2003e6f18330c8e188c8661f683362cb7bd2ec08f4842a35d188759cf757cdd2",
+    "reference_inputs/R16_ORIGINAL_SOURCE_BUNDLE.zip": "15a1a6aff3ca4410ccad420b261f50480d89d5effb3038a461dab04fb44255bc",
+    "reference_snapshot/R24_REAL_TRAIN_BRIDGE.json": "71d4b9cd13c676a0cd8877c46cc2224c426b3881954aecb2e9f7e7152f709979",
+    "reference_snapshot/crmt_edge_ems/__init__.py": "7bce4b031b9a21c6044000df4a071e72aa479d0123ead1782305828ab657d40b",
+    "reference_snapshot/crmt_edge_ems/archive.py": "a91ce017f213623d15790cda5b2df8e4d9dcf6ec1740953e42ce940c6473e7eb",
+    "reference_snapshot/crmt_edge_ems/dominance.py": "f559973b2d4f9fad8117009cef7e36aebecb28f6591c997ce3bd0f70d1c0f38a",
+    "reference_snapshot/crmt_edge_ems/risk.py": "aac11ae04fada78a865ccc5c32c6a582cf473ff7dd48bd7b49990897f446ac16",
+    "reference_snapshot/primary_hypothesis_R19.py": "079a03cafba61e5be6edb57edd2c61ace5e48f308d5671af5dc7e3870219067e",
+    "reference_snapshot/r24_audit.py": "e2afcdaeef44024a24cb8db7611c585e34509891df3ed07cf6bfb7fff1cbdd9f",
+    "results/R25_HISTORICAL_COVERAGE.csv": "96138c7fce30fc78a39030783bad4d2b54eaae39fbfc020a9c82bcf9a92733ca",
+    "results/R25_LIVE_BLOCKER_STATUS.json": "335814872e4c05054954053919b3bb39ccb50471e0d44f57cf0cd51dbde3bca8",
+    "results/R25_PROJECTED_WORKLOAD.json": "36a90052e7fefa46a5af521663d05da479fe08f64f0791dad5e2655a58a0b622",
+    "results/R25_R19_UNTRUSTED_RECEIPT_FINDING.json": "641003a2bafa3b46ea07294a963fd4f3ede58318e4e6d4ffa1d9e45425d18bf6",
+    "results/R25_REAL_SOURCE_GATES.json": "335814872e4c05054954053919b3bb39ccb50471e0d44f57cf0cd51dbde3bca8",
+    "tests/test_r25_protocol.py": "a22829a256a08a5bee44f2ee9e862ab45f0971f0aa19214614ff81273fa63641",
+    "tools/build_release.py": "1f806b60ccc3ad5db54168ff04804147812ff7066f873b26cdbb24138da5cb33",
+    "tools/r24_source_verifier.py": "e2afcdaeef44024a24cb8db7611c585e34509891df3ed07cf6bfb7fff1cbdd9f",
+    "tools/r25_cli.py": "6fcc91a58a0396e62522c855f52e1530a626aa17e5e564fce208dacc0e236ea7",
+    "tools/r25_protocol_gate.py": "2df8889bc429780059fcf07c27e74666d4ab2316b005bb5b5c72bded697ad8cd"
+  },
+  "external_preregistration": "NOT_VERIFIED",
+  "r19_new_seeds": "NOT_RUN",
+  "independent_test": "NO_GO"
+}
