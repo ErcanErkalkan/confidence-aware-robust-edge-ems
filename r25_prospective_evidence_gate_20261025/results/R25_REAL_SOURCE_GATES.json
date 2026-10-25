@@ -1,0 +1,22 @@
+{
+  "stage": "R25_PROSPECTIVE_HARDENING",
+  "date": "2026-10-25",
+  "historical_seen_data_status": "DESCRIPTIVE_SEEN_TRAIN_NOT_PROSPECTIVE",
+  "historical_day_shortfalls": [
+    21,
+    25,
+    25
+  ],
+  "old_R19_score_audit_self_declared_receipt": "NOT_A_TRUSTED_INDEPENDENT_SEAL",
+  "r25_pinned_independent_attestor_key": null,
+  "external_pre_registration": "NOT_VERIFIED",
+  "independent_source_catalog": "NOT_RECEIVED",
+  "new_2001_2030_runs": "NOT_RUN",
+  "new_AUDIT_events": "NONE",
+  "r23_field_certification": "NO_GO",
+  "r19_confirmatory_result": "NO_GO",
+  "blinded_independent_TEST": "NO_GO",
+  "hardware_deployment": "NO_GO",
+  "R19_B10_unchanged": true,
+  "next_required_action": "Independent source inventory and approved preregistration before new optimizer runs."
+}
