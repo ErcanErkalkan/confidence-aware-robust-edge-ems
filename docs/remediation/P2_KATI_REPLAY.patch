@@ -1,0 +1,195 @@
+diff --git a/src/crmt_edge_ems/strict_replay_v2.py b/src/crmt_edge_ems/strict_replay_v2.py
+new file mode 100644
+index 0000000..8c8c07d
+--- /dev/null
++++ b/src/crmt_edge_ems/strict_replay_v2.py
+@@ -0,0 +1,91 @@
++"""Opt-in fail-closed replay v2 for FUTURE experiments, not historical reruns.
++
++The historical ReplayBlock/ReplayEvaluator/RiskConfig definitions remain unchanged.
++This module does not grant preregistration or independent TEST authorization.
++"""
++from __future__ import annotations
++
++from dataclasses import dataclass
++import math
++import numpy as np
++import pandas as pd
++
++from .contracts import ContractError, OBJECTIVES, finite_array, integer, strict_risk
++from .replay import ReplayBlock, ReplayEvaluator
++from .risk import RiskConfig
++
++
++@dataclass(frozen=True)
++class StrictReplayBlock(ReplayBlock):
++    """Use only with predeclared cadence and scientific partition metadata."""
++
++    cadence_minutes: int = 2
++    expected_ticks: int | None = None
++
++    def validated_profile(self) -> pd.DataFrame:
++        if not isinstance(self.block_id, str) or not self.block_id.strip():
++            raise ContractError('strict replay requires a nonempty block ID')
++        integer(self.cadence_minutes, 'cadence_minutes', 1)
++        if self.expected_ticks is not None:
++            integer(self.expected_ticks, 'expected_ticks', 2)
++        if not isinstance(self.profile, pd.DataFrame):
++            raise ContractError('profile must be a pandas DataFrame')
++        required = {'timestamp', 'base_kw', 'peak_flag'}
++        if not required.issubset(self.profile.columns):
++            raise ContractError('profile missing required columns')
++        p = self.profile.copy()
++        if len(p) < 2 or (self.expected_ticks is not None and len(p) != self.expected_ticks):
++            raise ContractError('replay block length/declared support mismatch')
++        if any(not pd.api.types.is_numeric_dtype(p[c]) for c in ('base_kw', 'peak_flag')):
++            raise ContractError('base_kw/peak_flag must have numeric dtype, not strings')
++        if pd.api.types.is_bool_dtype(p['peak_flag']):
++            raise ContractError('peak_flag must be explicit 0/1 numbers')
++        base = finite_array(p['base_kw'].to_numpy(), 'base_kw', ndim=1)
++        peak = finite_array(p['peak_flag'].to_numpy(), 'peak_flag', ndim=1)
++        if not np.isin(peak, [0, 1]).all():
++            raise ContractError('peak_flag must contain exact 0 or 1, without coercion')
++        try:
++            timestamps = pd.DatetimeIndex(pd.to_datetime(p['timestamp'], errors='raise'))
++        except (ValueError, TypeError, OverflowError) as exc:
++            raise ContractError('invalid replay timestamps') from exc
++        if timestamps.tz is None or timestamps.hasnans or timestamps.has_duplicates or not timestamps.is_monotonic_increasing:
++            raise ContractError('timestamps must be timezone-aware, complete, unique and ordered')
++        ns = timestamps.as_unit('ns').asi8
++        expected_step_ns = self.cadence_minutes * 60 * 1_000_000_000
++        if not np.all(np.diff(ns) == expected_step_ns):
++            raise ContractError('replay cadence mismatch or missing time window')
++        p['timestamp'] = timestamps
++        p['base_kw'] = base
++        p['peak_flag'] = peak.astype(np.int64)
++        return p
++
++
++class StrictReplayEvaluator(ReplayEvaluator):
++    """Explicit opt-in; cannot silently use weaker legacy replay validation."""
++
++    def evaluate_block(self, params, block, *, candidate_id):
++        if not isinstance(block, StrictReplayBlock):
++            raise ContractError('future replay requires StrictReplayBlock')
++        block.validated_profile()  # Must preflight before ledger reservation.
++        return super().evaluate_block(params, block, candidate_id=candidate_id)
++
++    def evaluate(self, params, blocks, *, candidate_id):
++        blocks = list(blocks)
++        if not blocks or any(not isinstance(b, StrictReplayBlock) for b in blocks):
++            raise ContractError('nonempty sequence of StrictReplayBlock required')
++        ids = [b.block_id for b in blocks]
++        if len(ids) != len(set(ids)):
++            raise ContractError('duplicate replay block ID')
++        for block in blocks:
++            block.validated_profile()  # Reject bad later blocks before budget reservation.
++        return super().evaluate(params, blocks, candidate_id=candidate_id)
++
++    @staticmethod
++    def aggregate(metrics: pd.DataFrame, risk: RiskConfig = RiskConfig()) -> dict[str, float]:
++        if not isinstance(metrics, pd.DataFrame) or tuple(risk.objectives) != OBJECTIVES:
++            raise ContractError('strict aggregation requires four canonical objectives')
++        if any(c not in metrics.columns for c in OBJECTIVES):
++            raise ContractError('missing objective columns')
++        matrix = finite_array(metrics[list(OBJECTIVES)].to_numpy(), 'strict replay objective matrix', ndim=2)
++        score = strict_risk(matrix, q=risk.q, tail_weight=risk.tail_weight)
++        return dict(zip(OBJECTIVES, map(float, score), strict=True))
+diff --git a/tests/test_p2_strict_replay.py b/tests/test_p2_strict_replay.py
+new file mode 100644
+index 0000000..768af2d
+--- /dev/null
++++ b/tests/test_p2_strict_replay.py
+@@ -0,0 +1,92 @@
++"""Read-only engineering regressions: historical implementation left intact."""
++import math
++import numpy as np
++import pandas as pd
++import pytest
++from crmt_edge_ems.contracts import ContractError, OBJECTIVES
++from crmt_edge_ems.replay import ReplayBlock
++from crmt_edge_ems.risk import aggregate_objectives
++from crmt_edge_ems.strict_replay_v2 import StrictReplayBlock, StrictReplayEvaluator
++from crmt_edge_ems.parameter_space import fixed_controller_parameters
++from jer_microgrid.config import SiteConfig
++
++
++def profile():
++    return pd.DataFrame({'timestamp': pd.date_range('2026-01-01', periods=10, freq='2min', tz='UTC'),
++                         'base_kw': [5.0]*10, 'peak_flag': [0]*10})
++
++
++def block(p=None, **kwargs):
++    return StrictReplayBlock(block_id='B01', profile=profile() if p is None else p,
++                             split='TRAIN', cadence_minutes=2, expected_ticks=10, **kwargs)
++
++
++def test_fractional_peak_flag_rejected_even_though_legacy_accepts():
++    p = profile(); p['peak_flag']=p['peak_flag'].astype(float); p.loc[3, 'peak_flag'] = .5
++    assert ReplayBlock('legacy',p).validated_profile().loc[3,'peak_flag'] == .5
++    with pytest.raises(ContractError, match='exact 0 or 1'): block(p).validated_profile()
++
++
++def test_nonfinite_load_rejected_even_though_legacy_accepts():
++    p=profile();p.loc[0,'base_kw']=float('inf')
++    assert math.isinf(ReplayBlock('legacy',p).validated_profile().loc[0,'base_kw'])
++    with pytest.raises(ContractError, match='finite'): block(p).validated_profile()
++
++
++@pytest.mark.parametrize('fault', ['timestamp_naive','duplicate','gap','offgrid','NaT','extra_row', 'peak_string','peak_missing','wrong_peak','base_string', 'nonfinite_nan','nonfinite_neg_inf'])
++def test_bad_profile_rejected(fault):
++    p=profile()
++    if fault=='timestamp_naive': p['timestamp']=p['timestamp'].dt.tz_localize(None)
++    elif fault=='duplicate': p.loc[1,'timestamp']=p.loc[0,'timestamp']
++    elif fault=='gap': p.loc[5:,'timestamp'] += pd.Timedelta(minutes=2)
++    elif fault=='offgrid': p.loc[5,'timestamp'] += pd.Timedelta(seconds=1)
++    elif fault=='NaT': p.loc[0,'timestamp']=pd.NaT
++    elif fault=='extra_row': p=pd.concat([p,p.iloc[-1:]], ignore_index=True)
++    elif fault=='peak_string': p['peak_flag']=p['peak_flag'].astype(str)
++    elif fault=='peak_missing': p.loc[4,'peak_flag']=np.nan
++    elif fault=='wrong_peak': p.loc[2,'peak_flag']=2
++    elif fault=='base_string': p['base_kw']=p['base_kw'].astype(str)
++    elif fault=='nonfinite_nan': p.loc[2,'base_kw']=np.nan
++    elif fault=='nonfinite_neg_inf': p.loc[2,'base_kw']=-np.inf
++    with pytest.raises(ContractError): block(p).validated_profile()
++
++
++def test_good_profile_retains_exact_support_and_values():
++    p=block().validated_profile()
++    assert len(p)==10 and p['peak_flag'].dtype.kind in 'iu'
++    assert p['base_kw'].eq(5).all() and p['timestamp'].dt.tz is not None
++
++
++def test_strict_aggregate_rejects_any_nonfinite_objective():
++    p=pd.DataFrame([{key:1.0 for key in OBJECTIVES},{key:np.nan for key in OBJECTIVES}])
++    assert all(math.isclose(x,1.5) for x in aggregate_objectives(p).values())
++    with pytest.raises(ContractError, match='finite'):
++        StrictReplayEvaluator.aggregate(p)
++
++
++def test_strict_aggregate_valid_score_exact_formula():
++    p=pd.DataFrame([{key:float(i) for key in OBJECTIVES} for i in (1,2,3,4)])
++    r=StrictReplayEvaluator.aggregate(p)
++    assert all(math.isclose(x, 2.5+.5*4) for x in r.values())
++
++
++def test_scientific_replay_must_use_strict_block():
++    ev=StrictReplayEvaluator(SiteConfig(ts_hours=2/60))
++    with pytest.raises(ContractError, match='StrictReplayBlock'):
++        ev.evaluate(fixed_controller_parameters(),[ReplayBlock('legacy',profile())],candidate_id='test')
++
++
++def test_evaluator_preflights_all_blocks_before_simulating():
++    ev=StrictReplayEvaluator(SiteConfig(ts_hours=2/60))
++    p=profile(); p['peak_flag']=p['peak_flag'].astype(float); p.loc[1,'peak_flag']=.5
++    valid=block()
++    invalid=StrictReplayBlock(block_id='B02',profile=p,cadence_minutes=2,expected_ticks=10)
++    with pytest.raises(ContractError, match='exact 0 or 1'):
++        ev.evaluate(fixed_controller_parameters(),[valid,invalid],candidate_id='test')
++
++
++def test_one_actual_controller_replay_and_metrics():
++    site=SiteConfig(ts_hours=2/60)
++    ev=StrictReplayEvaluator(site)
++    p=ev.evaluate(fixed_controller_parameters(site),[block()],candidate_id='test')
++    assert len(p)==1 and np.isfinite(p[list(OBJECTIVES)].to_numpy()).all()

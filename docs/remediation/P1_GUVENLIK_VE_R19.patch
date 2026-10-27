@@ -1,0 +1,274 @@
+diff --git a/src/crmt_edge_ems/r19_feasibility.py b/src/crmt_edge_ems/r19_feasibility.py
+new file mode 100644
+index 0000000..da776de
+--- /dev/null
++++ b/src/crmt_edge_ems/r19_feasibility.py
+@@ -0,0 +1,50 @@
++"""R19 *design-time geometry only*. No AUDIT/TEST data may be inspected here.
++
++Exact, sharp upper bound on paired MissRate difference when two shortlists
++contain exactly K distinct candidates from the same N-candidate pool.
++
++Not a change to the original R19 preregistered draft or a performance claim.
++"""
++from __future__ import annotations
++from dataclasses import dataclass,asdict
++import math
++from .contracts import ContractError, integer
++
++@dataclass(frozen=True)
++class ShortlistGeometry:
++    pool_size: int
++    shortlist_size: int
++    pareto_size: int
++    practical_effect_threshold: float
++    min_true_pareto_hits: int
++    max_true_pareto_hits: int
++    sharp_max_abs_delta_miss: float
++    effect_geometrically_possible: bool
++    numerical_step_per_hit: float
++    status: str='PLANNING_SENSITIVITY_ONLY_NOT_CONFIRMATORY'
++
++    def to_dict(self): return asdict(self)
++
++
++def geometry(pareto_size: int, *, pool_size: int=256, shortlist_size: int=10,
++             practical_effect_threshold: float=0.05)->ShortlistGeometry:
++    n=integer(pool_size,'pool_size',1)
++    k=integer(shortlist_size,'shortlist_size',1)
++    p=integer(pareto_size,'pareto_size',1)
++    if k>n or p>n: raise ContractError('pool must contain shortlist and Pareto set')
++    e=practical_effect_threshold
++    if isinstance(e,bool) or not isinstance(e,(int,float)) or not math.isfinite(e) or not 0<e<=1:
++        raise ContractError('finite practical effect in (0,1] required')
++    # Inclusion/exclusion in a fixed N-element universe.
++    low=max(0,k-(n-p))
++    high=min(k,p)
++    sharp=(high-low)/p
++    return ShortlistGeometry(n,k,p,float(e),low,high,sharp,
++         sharp+1e-14 >= e,1/p)
++
++
++def design_grid(*, pool_size=256, shortlist_size=10, practical_effect_threshold=0.05):
++    n=integer(pool_size,'pool_size',1)
++    return [geometry(p,pool_size=n,shortlist_size=shortlist_size,
++                     practical_effect_threshold=practical_effect_threshold).to_dict()
++            for p in range(1,n+1)]
+diff --git a/src/crmt_edge_ems/safety/__init__.py b/src/crmt_edge_ems/safety/__init__.py
+index 3d87e74..bd8e325 100644
+--- a/src/crmt_edge_ems/safety/__init__.py
++++ b/src/crmt_edge_ems/safety/__init__.py
+@@ -36,19 +36,31 @@ class SafetyLimits:
+             raise ContractError('invalid scenario safety limits')
+         if self.basis!='SCENARIO_ASSUMPTIONS_NOT_CERTIFIED': raise ContractError('no certified physical authority is installed')
+ 
+-    def veto(self,*,soc,command_kw,base_kw,previous_command_kw=0.0,switches=0,elapsed_seconds=0.0):
++    def veto(self,*,soc,command_kw,base_kw,previous_command_kw=0.0,switches=0,elapsed_seconds=0.0,
++             dynamic_import_cap_kw=None,dynamic_export_cap_kw=None):
+         codes=[]
+         try:
+             vals=finite_array([soc,command_kw,base_kw,previous_command_kw,elapsed_seconds],'telemetry',ndim=1)
+             integer(switches,'switches')
+         except (ContractError,TypeError,ValueError): return ('INVALID_OR_MISSING_TELEMETRY',)
+         if elapsed_seconds<0: codes.append('INVALID_ELAPSED_TIME')
++        if dynamic_import_cap_kw is not None or dynamic_export_cap_kw is not None:
++            if dynamic_import_cap_kw is None or dynamic_export_cap_kw is None:
++                return ('INVALID_DYNAMIC_GRID_CAP',)
++            try:
++                caps=finite_array([dynamic_import_cap_kw,dynamic_export_cap_kw], 'dynamic grid caps',ndim=1)
++            except (ContractError,TypeError,ValueError):
++                return ('INVALID_DYNAMIC_GRID_CAP',)
++            if np.any(caps<0): return ('INVALID_DYNAMIC_GRID_CAP',)
++        else: caps=None
+         if not self.soc_min<=soc<=self.soc_max: codes.append('SOC_OUT_OF_RANGE')
+         if command_kw < -self.charge_kw or command_kw>self.discharge_kw: codes.append('INVERTER_POWER_LIMIT')
+         next_soc=soc-self.dt_hours*command_kw/(self.energy_kwh*self.eta_discharge) if command_kw>=0 else soc-self.dt_hours*command_kw*self.eta_charge/self.energy_kwh
+         if not self.soc_min-1e-12<=next_soc<=self.soc_max+1e-12: codes.append('SOC_TRANSITION_LIMIT')
+         grid=base_kw-command_kw
+-        if grid>self.import_kw+1e-12 or grid < -self.export_kw-1e-12: codes.append('GRID_LIMIT')
++        effective_import=min(self.import_kw,float(caps[0])) if caps is not None else self.import_kw
++        effective_export=min(self.export_kw,float(caps[1])) if caps is not None else self.export_kw
++        if grid>effective_import+1e-12 or grid < -effective_export-1e-12: codes.append('GRID_LIMIT')
+         if abs(command_kw-previous_command_kw)>self.ramp_kw_per_min*self.dt_hours*60+1e-12: codes.append('COMMAND_RAMP_LIMIT')
+         if switches>self.max_switches: codes.append('SWITCH_LIMIT')
+         if elapsed_seconds>self.step_timeout_seconds: codes.append('STEP_TIMEOUT')
+@@ -77,8 +89,18 @@ def simulate_checked(profile, controller, site, limits):
+     if not np.isin(peak,[0,1]).all(): raise SafetyBlocked(('PROFILE_PEAK_FLAG',))
+     pairs=((site.e_nom_kwh,limits.energy_kwh),(site.ts_hours,limits.dt_hours),(site.eta_ch,limits.eta_charge),(site.eta_dis,limits.eta_discharge))
+     if any(not math.isclose(a,b,rel_tol=0,abs_tol=1e-12) for a,b in pairs): raise SafetyBlocked(('SITE_LIMIT_MISMATCH',))
++    # Fail closed when the scenario veto is less restrictive than the source
++    # site's documented physical constraints. The historical EMS is unchanged.
++    site_safety=((getattr(site,'soc_min',limits.soc_min),limits.soc_min,'minimum'),
++                 (getattr(site,'soc_max',limits.soc_max),limits.soc_max,'maximum'))
++    if (limits.soc_min < site_safety[0][0]-1e-12 or
++        limits.soc_max > site_safety[1][0]+1e-12 or
++        limits.charge_kw > getattr(site,'p_ch_max',limits.charge_kw)+1e-12 or
++        limits.discharge_kw > getattr(site,'p_dis_max',limits.discharge_kw)+1e-12 or
++        limits.ramp_kw_per_min*limits.dt_hours*60 > getattr(site,'r_max_kw_per_tick',float('inf'))+1e-12):
++        raise SafetyBlocked(('SITE_LIMIT_MISMATCH',))
+     if getattr(controller,'is_cloud_dependent',False) or controller.__class__.__name__=='LinearMPCQPController': raise SafetyBlocked(('UNSUPPORTED_CONTROLLER_INTERFACE',))
+-    controller.reset(); soc=site.soc_init; previous=0.0; last_nonzero=0; switches=0; rows=[]
++    controller.reset(); soc=site.soc_init; previous=0.0; previous_mode=None; switches=0; rows=[]
+     for t in range(len(base)):
+         start=time.perf_counter()
+         try: command,debug=controller.step(t,base[:t+1],soc,int(peak[t]))
+@@ -88,16 +110,22 @@ def simulate_checked(profile, controller, site, limits):
+             if isinstance(command,(bool,np.bool_)) or not np.isscalar(command) or not math.isfinite(command): raise ValueError()
+             command=float(command)
+         except (TypeError,ValueError): raise SafetyBlocked(('NONFINITE_OR_INVALID_COMMAND',))
+-        direction=int(np.sign(command))
+-        if direction and last_nonzero and direction!=last_nonzero: switches+=1
+-        if direction: last_nonzero=direction
+-        codes=limits.veto(soc=soc,command_kw=command,base_kw=float(base[t]),previous_command_kw=previous,switches=switches,elapsed_seconds=elapsed)
++        # Match jer_microgrid.metrics.compute_metrics flip_per_day: mode changes,
++        # including IDLE↔PS, count; command-sign reversals alone are insufficient.
++        if not isinstance(debug,dict) or not isinstance(debug.get('mode'),str) or not debug['mode'].strip():
++            raise SafetyBlocked(('INVALID_CONTROLLER_MODE',))
++        mode=debug['mode']
++        if previous_mode is not None and mode!=previous_mode: switches+=1
++        previous_mode=mode
++        import_cap,export_cap=compute_caps(int(peak[t]),site)
++        if not np.isfinite([import_cap,export_cap]).all() or min(import_cap,export_cap)<0: raise SafetyBlocked(('INVALID_DYNAMIC_GRID_CAP',))
++        codes=limits.veto(soc=soc,command_kw=command,base_kw=float(base[t]),previous_command_kw=previous,switches=switches,elapsed_seconds=elapsed,
++            dynamic_import_cap_kw=import_cap,dynamic_export_cap_kw=export_cap)
+         if codes: raise SafetyBlocked(codes)
+         next_soc=soc-limits.dt_hours*command/(limits.energy_kwh*limits.eta_discharge) if command>=0 else soc-limits.dt_hours*command*limits.eta_charge/limits.energy_kwh
+-        import_cap,export_cap=compute_caps(int(peak[t]),site)
+-        if not np.isfinite([import_cap,export_cap]).all(): raise SafetyBlocked(('NONFINITE_GRID_CAP',))
+         rows.append({'timestamp':ts[t],'base_kw':base[t],'cmd_kw':command,'grid_kw':base[t]-command,'soc':soc,'soc_next':next_soc,
+             'p_imp_cap':import_cap,'p_exp_cap':export_cap,
+-            'cpu_ms':elapsed*1000,'mode':debug.get('mode','RG'),'rg_state':debug.get('rg_state','MID')})
++            'cpu_ms':elapsed*1000,'mode':mode,'rg_state':debug.get('rg_state','MID')})
+         soc=next_soc; previous=command
+-    return SimResult(pd.DataFrame(rows),{'safety_basis':limits.basis,'status':'SCENARIO_VETO_PASSED','switches':switches})
++    return SimResult(pd.DataFrame(rows),{'safety_basis':limits.basis,'status':'SCENARIO_VETO_PASSED',
++        'switches':switches,'switch_policy':'MODE_TRANSITIONS_MATCH_FLIP_PER_DAY'})
+diff --git a/src/data_adapters/external_source_gate.py b/src/data_adapters/external_source_gate.py
+index ecef4da..7dd00d4 100644
+--- a/src/data_adapters/external_source_gate.py
++++ b/src/data_adapters/external_source_gate.py
+@@ -32,11 +32,29 @@ def source_admission(record, *, evidence_root=None):
+             rejected.append(field)
+             license_blocked |= field in {'license','ai_cloud_permissions'}
+         download_blocked |= field=='official_download' and e['basis']=='UNAVAILABLE'
++    # Model-only assertions cannot establish real-world source identity,
++    # measurement availability, licensing, cloud rights, or exposure history.
++    AUTHORITY_FIELDS={'source_identity','official_download','license','ai_cloud_permissions','historical_exposure'}
++    MEASUREMENT_FIELDS={'pv_measurement','load_measurement','grid_measurement','battery_presence','battery_soc','battery_chemistry','battery_power','grid_contract_limits','controller_action_observability','timestamp_resolution','continuous_coverage'}
++    for field in AUTHORITY_FIELDS|MEASUREMENT_FIELDS:
++        if evidence[field]['basis']=='PREDECLARED_MODEL':
++            missing.append(field+':independent_primary_evidence_required')
+     mappings=record['objective_mapping']
+     if set(mappings)!={'cap_violation_pct_total','lfp_cycle_loss_pct','ramp95_kw_per_min','flip_per_day'}: raise ContractError('all four objectives must be mapped')
++    required_mapping={
++        'cap_violation_pct_total':{'grid_measurement','grid_contract_limits'},
++        'lfp_cycle_loss_pct':{'battery_soc','battery_chemistry','battery_power'},
++        'ramp95_kw_per_min':{'timestamp_resolution','grid_measurement'},
++        'flip_per_day':{'timestamp_resolution','controller_action_observability'},
++    }
+     for objective,fields in mappings.items():
+         if not isinstance(fields,list) or not fields or any(f not in REQUIRED for f in fields): raise ContractError('invalid physical objective mapping')
+         if any(evidence[f]['basis'] in {'UNKNOWN','UNAVAILABLE','PROHIBITED'} for f in fields): missing.append('objective:'+objective)
++        if not required_mapping[objective].issubset(fields): missing.append('objective:'+objective+':physical_dependency_mapping')
++    # Until an independent provider/license authenticator exists, an internally
++    # hashed document cannot be classified as an accepted external source.
++    if not missing and not rejected and not license_blocked and not download_blocked:
++        missing.append('independent_provider_authenticity_and_license_attestation')
+     status='LICENSE_BLOCKED' if license_blocked else 'DOWNLOAD_BLOCKED' if download_blocked else 'REJECTED' if rejected else 'INSUFFICIENT_EVIDENCE' if missing else 'ACCEPTED'
+     return {'schema_version':1,'classification':status,'missing':sorted(set(missing)),'prohibited':rejected,
+         'source_id':record['source_id'],'record_sha256':digest(record),
+diff --git a/tests/test_crmt_p1_regressions.py b/tests/test_crmt_p1_regressions.py
+new file mode 100644
+index 0000000..e9f8903
+--- /dev/null
++++ b/tests/test_crmt_p1_regressions.py
+@@ -0,0 +1,89 @@
++import math
++from dataclasses import replace
++import numpy as np
++import pandas as pd
++import pytest
++from crmt_edge_ems.contracts import ContractError
++from crmt_edge_ems.safety import SafetyBlocked, SafetyLimits, simulate_checked
++from crmt_edge_ems.r19_feasibility import geometry, design_grid
++from jer_microgrid.config import SiteConfig
++from jer_microgrid.metrics import compute_metrics
++
++
++def limits(site=None, *, max_switches=10):
++    s=site or SiteConfig()
++    return SafetyLimits(soc_min=s.soc_min,soc_max=s.soc_max,
++        charge_kw=s.p_ch_max,discharge_kw=s.p_dis_max,energy_kwh=s.e_nom_kwh,
++        eta_charge=s.eta_ch,eta_discharge=s.eta_dis,dt_hours=s.ts_hours,
++        import_kw=40,export_kw=40,ramp_kw_per_min=20,max_switches=max_switches,
++        step_timeout_seconds=10)
++
++
++def profile(n=3):
++    return pd.DataFrame({'timestamp':pd.date_range('2026-01-01',periods=n,freq='min',tz='UTC'),
++                         'base_kw':[10.]*n,'peak_flag':[0]*n})
++
++class Modes:
++    def __init__(self,modes): self.modes=modes
++    def reset(self): pass
++    def step(self,t,*args): return 0.0,{'mode':self.modes[t],'rg_state':'MID'}
++
++
++def test_mode_flips_match_existing_metric_and_switch_veto():
++    site=SiteConfig()
++    assert 'SWITCH_LIMIT' in str(pytest.raises(SafetyBlocked,simulate_checked,
++        profile(),Modes(['PS','RG','PS']),site,limits(site,max_switches=1)).value)
++    result=simulate_checked(profile(),Modes(['PS','RG','PS']),site,limits(site,max_switches=2))
++    assert result.meta['switches']==2
++    assert result.meta['switch_policy']=='MODE_TRANSITIONS_MATCH_FLIP_PER_DAY'
++    # The research metric uses mode transitions / duration in days.
++    metric=compute_metrics(result.series,site)['flip_per_day']
++    assert math.isclose(metric,2/(3*site.ts_hours/24))
++
++
++def test_constant_mode_does_not_trigger_veto():
++    site=SiteConfig()
++    result=simulate_checked(profile(),Modes(['PS','PS','PS']),site,limits(site,max_switches=0))
++    assert result.meta['switches']==0
++
++
++def test_battery_site_limits_cannot_be_weaker_in_veto():
++    site=SiteConfig(soc_min=.35,soc_max=.75)
++    bad=replace(limits(site),soc_min=.2)
++    with pytest.raises(SafetyBlocked,match='SITE_LIMIT_MISMATCH'):
++        simulate_checked(profile(2),Modes(['RG','RG']),site,bad)
++    bad2=replace(limits(site),discharge_kw=site.p_dis_max+1)
++    with pytest.raises(SafetyBlocked,match='SITE_LIMIT_MISMATCH'):
++        simulate_checked(profile(2),Modes(['RG','RG']),site,bad2)
++
++
++def test_mode_without_valid_metadata_fails_closed():
++    site=SiteConfig()
++    with pytest.raises(SafetyBlocked,match='INVALID_CONTROLLER_MODE'):
++        simulate_checked(profile(2),Modes([None,'PS']),site,limits(site))
++
++@pytest.mark.parametrize('p,expected',[ (1,1.),(10,1.),(200,.05),(201,10/201),
++                                       (246,10/246),(247,9/247),(255,1/255),(256,0.) ])
++def test_exact_sharp_delta_bound(p,expected):
++    g=geometry(p)
++    assert math.isclose(g.sharp_max_abs_delta_miss,expected,rel_tol=0,abs_tol=1e-14)
++    assert g.effect_geometrically_possible == (p<=200)
++
++
++def test_bound_is_attainable_by_two_legitimate_k10_sets():
++    n=256;k=10
++    for p in range(1,n+1):
++        ref=set(range(p));outside=set(range(p,n))
++        all_hits=list(ref)[:min(k,p)]
++        best=set((all_hits+list(outside))[:k])
++        worst=set((list(outside)+list(ref))[:k])
++        assert len(best)==len(worst)==k
++        actual=abs(len(best&ref)-len(worst&ref))/p
++        assert math.isclose(actual,geometry(p).sharp_max_abs_delta_miss,abs_tol=1e-14)
++
++
++def test_geometry_invalid_configs_rejected():
++    for kw in ({'pareto_size':0},{'pareto_size':257},{'pareto_size':256,'shortlist_size':257},
++               {'pareto_size':20,'practical_effect_threshold':float('nan')},
++               {'pareto_size':20,'practical_effect_threshold':0}):
++        with pytest.raises(ContractError): geometry(**kw)
