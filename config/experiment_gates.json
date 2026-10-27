@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "CONFIRMATORY_STATUS": "NO_GO",
+  "locked": false,
+  "gates": [
+    {
+      "gate": "G0_SOURCE_INTEGRITY",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "Current source byte manifest, clean execution commit, environment lock; original execution-SHA exception retained",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G1_DATA_SEMANTICS",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "Provider measurements, lineage, physical assumptions and independent review",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G2_METHOD_AND_CAPACITY",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "Approved R19 fixed contract and B10 policy; calibration claim separately justified",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G3_SPLIT_AND_EXPOSURE",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "Authoritative source/exposure inventory, day/group split and embargo review",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G4_POWER_AND_PREREGISTRATION",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "Approved effect/SD/power plan, fixed seed list and independent preregistration receipt",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G5_DISCOVERY_AUDIT_EXECUTION",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "G0\u2013G4 externally passed and authorized immutable protocol",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G6_INDEPENDENT_TEST",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "New eligible unexposed data, license, safety and independent operational TEST plan",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    },
+    {
+      "gate": "G7_MANUSCRIPT_RELEASE",
+      "status": "BLOCKED_EXTERNAL",
+      "required_evidence": "Verified claim evidence, completed manuscript review and explicit release authorization",
+      "verification_method": "Local content hashes and rejection checks; independent authority NOT installed",
+      "evidence_hash": null,
+      "blocking_reason": "Required independently verifiable evidence/authority absent",
+      "reviewer_or_authority": null,
+      "last_checked": "2026-10-27T14:57:01.972777+00:00"
+    }
+  ]
+}

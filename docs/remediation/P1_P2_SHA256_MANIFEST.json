@@ -1,0 +1,47 @@
+[
+  {
+    "path": "CRMT_P1_GUVENLIK_VE_R19.patch",
+    "size": 16470,
+    "sha256": "41512617c21acc17fbb682ad9bab93a99213eb697d4854ca87ade8ba7a9f4304"
+  },
+  {
+    "path": "CRMT_P2_KATI_REPLAY.patch",
+    "size": 9837,
+    "sha256": "dcd7ddc692c0c9d58e81aad7fa95b7f332d9a550283774c1fcdd1b01598c5502"
+  },
+  {
+    "path": "README_TR.md",
+    "size": 3424,
+    "sha256": "d19628f2c716b3f98f58c014435a988a9b3e510ed2bcb08cf4640c5ac9031d1a"
+  },
+  {
+    "path": "evidence/P1_ORIGINAL_VS_PATCHED.json",
+    "size": 3132,
+    "sha256": "7109fd9f8e16ca5f6de4601b0f7d550d576b45c7dfc47a39f841d87125c54bce"
+  },
+  {
+    "path": "evidence/P2_FINAL_68.xml",
+    "size": 7770,
+    "sha256": "9982c123171f3fc7ff8d0aed4b9457186f7f58f41943557ab7eb6533a98bb644"
+  },
+  {
+    "path": "evidence/P2_VERIFICATION_STATUS.json",
+    "size": 451,
+    "sha256": "4cb72548437e1bd83cc608a6430c69e6da606f8525a416fee4e5002d0c00ef36"
+  },
+  {
+    "path": "evidence/R19_EFFECT_FEASIBILITY_GRID.csv",
+    "size": 27824,
+    "sha256": "c697bc83e136a981fe4950a03ff6c38c697578f7535b5a314b32a89282075602"
+  },
+  {
+    "path": "src/crmt_edge_ems/strict_replay_v2.py",
+    "size": 4798,
+    "sha256": "eb08d4fa787e2b830e0e28b698c05bbed9e58707c360240c3e7594b5f493e6b4"
+  },
+  {
+    "path": "tests/test_p2_strict_replay.py",
+    "size": 4457,
+    "sha256": "f792244b17a7480c8b89bd10cda6a8e14d1eb4df64161749eac3cdeb6446894e"
+  }
+]
