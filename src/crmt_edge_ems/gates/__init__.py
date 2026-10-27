@@ -37,9 +37,13 @@ def inspect_external_receipt(envelope, *, expected_binding, now=None):
     try:
         from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
         from cryptography.exceptions import InvalidSignature
+    except ImportError as exc:
+        raise ContractError('signature verifier unavailable; independent authorization remains blocked') from exc
+    try:
         message={k:v for k,v in envelope.items() if k!='signature_hex'}
         Ed25519PublicKey.from_public_bytes(bytes.fromhex(envelope['public_key_hex'])).verify(bytes.fromhex(envelope['signature_hex']),canonical(message))
-    except (ValueError,TypeError,InvalidSignature) as exc: raise ContractError('invalid receipt signature') from exc
+    except (ValueError,TypeError,InvalidSignature) as exc:
+        raise ContractError('invalid receipt signature') from exc
     raise ContractError('untrusted key: no externally verified authority registry installed; local signature cannot approve experiment')
 
 def gate_report(*, source_validation=None):
