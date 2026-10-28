@@ -1,0 +1,7 @@
+block_id,bins,full_720_contiguous,raw_frozen_value_match
+opencem:inv1:2025-08-02,720,True,True
+opencem:inv1:2025-08-30,718,False,True
+opencem:inv1:2025-08-31,720,True,True
+opencem:inv2:2025-08-02,720,True,True
+opencem:inv2:2025-08-30,718,False,True
+opencem:inv2:2025-08-31,720,True,True

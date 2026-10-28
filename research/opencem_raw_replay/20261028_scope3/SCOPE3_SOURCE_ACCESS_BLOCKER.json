@@ -1,0 +1,9 @@
+{
+  "file": "2025-09-b.csv",
+  "listed_drive_id": "1VF78Vxiy_9LtrP5aiQca3K0kIVxxPt7",
+  "provider_fetch_result": "404 File not found",
+  "raw_bytes_received": false,
+  "file_verified": false,
+  "retry_scope": "ONE_MATERIALIZE_PLUS_ONE_PROVIDER_FETCH",
+  "next_action": "Use original source repository or obtain restored permission, then verify exact pinned bytes before including"
+}

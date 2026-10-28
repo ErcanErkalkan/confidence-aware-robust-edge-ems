@@ -1,0 +1,27 @@
+{
+  "scope": "RETROSPECTIVE_EXPOSED_TRAIN_ENGINEERING_PILOT",
+  "main_commit": "2dcbaa49db42e7a0d4cb6edde3977f0384db1679",
+  "pilot_reruns": 112,
+  "pilot_reruns_successful": 112,
+  "pilot_rerun_failures": 0,
+  "repeated_F0_rows": 72,
+  "F0_second_run_numeric_exact_equal": true,
+  "source_existing_test_command": "PYTHONPATH=src python -m pytest -q tests/test_future_metrics_v2.py",
+  "source_existing_test_results": {
+    "passed": 9,
+    "failed": 0
+  },
+  "original_legacy_parity": {
+    "cap_violation_pct_total": 56,
+    "lfp_cycle_loss_pct": 112,
+    "ramp95_kw_per_min": 112,
+    "flip_per_day": 112,
+    "efcrf": 112,
+    "idod": 112
+  },
+  "manuscript_release_authorized": false,
+  "scientific_significance_tested": false,
+  "independent_test_run": false,
+  "data_ref": "CRMT_EAAI_EXACT_BIN_LINEAGE_20261020, historical candidate_metrics seed1001_C1_A1 F0/F1 same payload",
+  "commit_of_historic_execution_reconstructed": false
+}

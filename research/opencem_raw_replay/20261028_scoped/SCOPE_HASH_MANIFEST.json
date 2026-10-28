@@ -1,0 +1,37 @@
+{
+  "name": "CRMT-OpenCEM-raw-to-replay-scoped-20261028",
+  "scope": "TWO_OF_19_RAW_FILES_SIX_HISTORIC_BLOCKS",
+  "source_immutable_main": "2dcbaa49db42e7a0d4cb6edde3977f0384db1679",
+  "assets": {
+    "validate_raw_to_replay_scoped.py": {
+      "sha256": "6c497c695d2cbd752ce91d7f144f12299429745af9cc44f96e901fcbb23fdf1d",
+      "bytes": 9954
+    },
+    "VALIDATION_REPORT_TR.md": {
+      "sha256": "dd73282c443e178ea3c696fbc7741e905f7fa1613c144558322b3cb0657e250d",
+      "bytes": 3372
+    },
+    "RUN_INSTRUCTIONS_TR.md": {
+      "sha256": "64bdeb905080dbdc0cda7a995dd48869fa6192a13a1eda351e40a26e80af5ab5",
+      "bytes": 840
+    },
+    "results/SCOPED_RESULT.json": {
+      "sha256": "3d89a376b0ebef80fe6f62396d4d864b26e5ba3819ee62d7d49fd0d8d2d27d73",
+      "bytes": 2263
+    },
+    "results/SCOPED_RAW_TO_REPLAY_COMPARISON.csv": {
+      "sha256": "fa07c52116f34b2576ce442a0fbceaac1dc4c75b8265bee8c80c7607bf94e1d7",
+      "bytes": 451602
+    },
+    "results/SCOPED_FULL_DAY_VALIDATION.csv": {
+      "sha256": "22f9f489c292821515126bbefdd5dbbbcae7f0727aa43aea0bf7fe811e1ff3c2",
+      "bytes": 287
+    }
+  },
+  "original_raw_inputs": {
+    "2025-08-a.csv": "8feffe51d78b2b5ce007b1b602670e04306e77c9162c7f53c38376bb3ad3e3c8",
+    "2025-08-b.csv": "d889a3b06693d76a5d04cc21b4c6d2ce4edf29710a021438a7979a6ad31ae041"
+  },
+  "independent_test": false,
+  "source_modified": false
+}

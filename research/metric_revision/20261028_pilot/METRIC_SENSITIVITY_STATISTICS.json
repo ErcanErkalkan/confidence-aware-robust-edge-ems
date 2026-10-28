@@ -1,0 +1,139 @@
+{
+  "main_sha": "2dcbaa49db42e7a0d4cb6edde3977f0384db1679",
+  "historical_legacy_originals_overwritten": false,
+  "evidence_scope": "ENGINEERING_EXPLORATORY_REPLAY_OF_HISTORICAL_TRAIN_ACCEPTED_BINS; NOT ORIGINAL_EXECUTION; NOT PROSPECTIVE_OR_TEST",
+  "candidate_F0": 18,
+  "candidate_F1_pilot": 28,
+  "candidate_F1_original": 236,
+  "pilot_blocks": [
+    "opencem:inv1:2025-08-02",
+    "opencem:inv2:2025-08-02",
+    "opencem:inv1:2025-08-31",
+    "opencem:inv2:2025-08-31"
+  ],
+  "attempted_events": 112,
+  "successful_events": 112,
+  "failed_events": 0,
+  "results_not_historic_original_rerun": true,
+  "metrics_version_v2": "CRMT-METRICS-v2-RAINFLOW-TERMINAL-SOC",
+  "source_sha256": {
+    "source_zip": "220e79ad29b655e9817d77510ddcfa1ec31e3bed98112d133ff6d8b5e24869d3",
+    "lineage_zip": "bc8809c811c8538bde363dccd83f1096a01eb95e41daae3205bdbee1ace3be99",
+    "front_F0": "b7a154ba7c8cad073e61f377cbd945e4a199fc4fc3d597157d50daa5736965c4",
+    "front_F1": "01f3423e08e6c2c62df3e1253d3d3f72882b2c129b32de10625a514376b68d8d",
+    "historical_metrics": "900571c4ea375a2c172d15df3503c55ccb78d0f6e099ee4a47db99565e7f124e"
+  },
+  "code_sha256": {
+    "src/jer_microgrid/metrics.py": "fea9a667a28637c3d17db3cdf5e3929090cf9ffea71b4bac7ba12064a4f32dee",
+    "src/crmt_edge_ems/metrics_v2.py": "7153bfc277c199f939434b700796b7eb4e8e6494196df6e8bea38a8661a00e95",
+    "src/jer_microgrid/simulation.py": "a67be540b089336d63b2d4001c076048a6aff464dc52a2cb9f94e2ebf20353fa"
+  },
+  "measurement_contract": "Per-candidate/per-block same new simulated trajectory, evaluated by historical metric function and v2 metric function. Historical stored metrics independently cross-checked for mismatch.",
+  "limitations": [
+    "Four pre-exposed TRAIN blocks from one seed and a preselected F1 subset; no independent inference.",
+    "Historical per-tick SOC/command traces are not in the original stored metrics CSV.",
+    "An identical rerun relative to old historic execution is not assumed.",
+    "We do NOT silently alter original stored archive memberships or risk-weighted fronts.",
+    "All candidate site profiles use neutral peak flags as documented by OpenCEM adapter.",
+    "The 4-block arithmetic mean diagnostic is not the historical 12,600-event mean+CVaR optimizer target."
+  ],
+  "cap_violation_pct_total": {
+    "n": 112,
+    "delta_mean": 0.0,
+    "delta_median": 0.0,
+    "delta_min": 0.0,
+    "delta_max": 0.0,
+    "nonzero_gt_1e-12": 0,
+    "historic_legacy_parity_within_1e-9": 56,
+    "historic_legacy_parity_outside_1e-9": 56,
+    "max_abs_legacy_minus_original": 0.1388888888888889
+  },
+  "lfp_cycle_loss_pct": {
+    "n": 112,
+    "delta_mean": -0.00013899025585890955,
+    "delta_median": -7.536071773741812e-05,
+    "delta_min": -0.00045033407578690024,
+    "delta_max": 4.355904963335096e-05,
+    "nonzero_gt_1e-12": 112,
+    "historic_legacy_parity_within_1e-9": 112,
+    "historic_legacy_parity_outside_1e-9": 0,
+    "max_abs_legacy_minus_original": 9.942133921692076e-17
+  },
+  "ramp95_kw_per_min": {
+    "n": 112,
+    "delta_mean": 0.0,
+    "delta_median": 0.0,
+    "delta_min": 0.0,
+    "delta_max": 0.0,
+    "nonzero_gt_1e-12": 0,
+    "historic_legacy_parity_within_1e-9": 112,
+    "historic_legacy_parity_outside_1e-9": 0,
+    "max_abs_legacy_minus_original": 1.1102230246251565e-16
+  },
+  "flip_per_day": {
+    "n": 112,
+    "delta_mean": 0.0,
+    "delta_median": 0.0,
+    "delta_min": 0.0,
+    "delta_max": 0.0,
+    "nonzero_gt_1e-12": 0,
+    "historic_legacy_parity_within_1e-9": 112,
+    "historic_legacy_parity_outside_1e-9": 0,
+    "max_abs_legacy_minus_original": 0.0
+  },
+  "efcrf": {
+    "n": 112,
+    "delta_mean": -0.01094250247253761,
+    "delta_median": -0.005610067881798159,
+    "delta_min": -0.03608093215722827,
+    "delta_max": 0.003032051111023365,
+    "nonzero_gt_1e-12": 112,
+    "historic_legacy_parity_within_1e-9": 112,
+    "historic_legacy_parity_outside_1e-9": 0,
+    "max_abs_legacy_minus_original": 1.734723475976807e-16
+  },
+  "idod": {
+    "n": 112,
+    "delta_mean": 7.640263409166403e-05,
+    "delta_median": 3.729124197173916e-07,
+    "delta_min": -0.00017321859364363484,
+    "delta_max": 0.0005995763644431643,
+    "nonzero_gt_1e-12": 112,
+    "historic_legacy_parity_within_1e-9": 112,
+    "historic_legacy_parity_outside_1e-9": 0,
+    "max_abs_legacy_minus_original": 9.974659986866641e-17
+  },
+  "pilot_archive_diagnostics": {
+    "F0": {
+      "full_block_candidates": 18,
+      "old_pareto_count": 9,
+      "v2_pareto_count": 10,
+      "pareto_membership_changed": 1,
+      "old_dominance_pairs": 17,
+      "v2_dominance_pairs": 14,
+      "lost_dominance_pairs": 3,
+      "new_dominance_pairs": 0,
+      "diagnostic_only": "4-block arithmetic mean within fixed historical archive; NOT historical mean+CVaR Pareto or measured selection fidelity"
+    },
+    "F1": {
+      "full_block_candidates": 28,
+      "old_pareto_count": 12,
+      "v2_pareto_count": 13,
+      "pareto_membership_changed": 3,
+      "old_dominance_pairs": 37,
+      "v2_dominance_pairs": 36,
+      "lost_dominance_pairs": 4,
+      "new_dominance_pairs": 3,
+      "diagnostic_only": "4-block arithmetic mean within fixed historical archive; NOT historical mean+CVaR Pareto or measured selection fidelity"
+    }
+  },
+  "unit_counterexample": {
+    "soc_path": [
+      0.2,
+      0.8,
+      0.2
+    ],
+    "legacy_weighted_depth": 0.30000000000000004,
+    "v2_weighted_depth": 0.6000000000000001
+  }
+}
