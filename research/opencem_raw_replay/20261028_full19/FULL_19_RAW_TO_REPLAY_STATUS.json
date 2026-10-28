@@ -1,0 +1,72 @@
+{
+  "verification_status": "PASS_FULL_HISTORICAL_RAW_TO_FROZEN_REPLAY_REAGGREGATION",
+  "verification_time_utc": "2026-10-28T09:48:37.592089+00:00",
+  "scientific_scope": "PAST_EXPOSED_2025_2026_DATA_INTEGRITY_ONLY; NOT_REPRODUCTION_OF_ORIGINAL_CONTROLLER_TENSORS; NOT_NEW_TEST",
+  "pinned_opencem_source_ref": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+  "raw_partitions_verified": 19,
+  "raw_source_rows_read": 4021635,
+  "raw_source_rows_mapped": 3853508,
+  "recomputed_bins_frozen_matched": 292256,
+  "frozen_historical_blocks_matched": 406,
+  "full720_days_verified": 381,
+  "partial_days_rejected_as_full": 25,
+  "max_abs_value_diffs": {
+    "load_kw": 2.220446049250313e-16,
+    "pv_kw": 4.440892098500626e-16,
+    "base_kw": 4.440892098500626e-16
+  },
+  "scope_a_raw_parts": 12,
+  "scope_b_raw_parts": 8,
+  "duplicate_source_parts_between_scopes": 1,
+  "overlap_bins_checked": 21596,
+  "overlap_bin_value_disagreements": 0,
+  "split_counts": [
+    {
+      "split": "internal_test",
+      "blocks": 78,
+      "bins": 56152,
+      "full_days": 74
+    },
+    {
+      "split": "train",
+      "blocks": 210,
+      "bins": 151158,
+      "full_days": 195
+    },
+    {
+      "split": "validation",
+      "blocks": 118,
+      "bins": 84946,
+      "full_days": 112
+    }
+  ],
+  "mapping_issues": [],
+  "source_sha256": {
+    "2025-07-a.csv": "9094f34779cc58046eab3a3ab0bb6a355db5ec0e0fccc254dfae762d0855f907",
+    "2025-07-b.csv": "593710374069bea412d99c523b5ffa0fa4b115783646a3ac1b7ce3785af18c0c",
+    "2025-08-a.csv": "8feffe51d78b2b5ce007b1b602670e04306e77c9162c7f53c38376bb3ad3e3c8",
+    "2025-08-b.csv": "d889a3b06693d76a5d04cc21b4c6d2ce4edf29710a021438a7979a6ad31ae041",
+    "2025-09-a.csv": "e2f60da5cfe3bb869b953704c9fbd9b735955cfb2f240dde867b0e6e8989bd84",
+    "2025-09-b.csv": "b7b53d639118bb15d51ace5f092a71b9051b04eabaed705aac8be03e4de1e99e",
+    "2025-10-a.csv": "6711448655ada9492f543e1222ea3b9a0dc4c476b6cbecba28e66aed99b167f3",
+    "2025-10-b.csv": "a7af421ed900183830881f48ec55ebacff78df4972fd355b924243b7f96dbeaa",
+    "2025-11-a.csv": "e2eb2b90f6efcf2e29db1b7c56c9ef262e7fd6a060bd7dcb2234abae9b37d7f5",
+    "2025-11-b.csv": "5318e04823af7557f567075c65a3eefeac8088e0e233411ed4aa994a8f4eba43",
+    "2025-12-a.csv": "ca5369ae988c0152f84a8d3b421dcc48550e76b134bbfcca103b00134cd6a6f1",
+    "2025-12-b.csv": "6210aee0684791bf72a6209ca67f95c3bfac38967b1ed1380380b24378219d71",
+    "2026-01-a.csv": "954f80274c12655e07cbcd6528eec93b5df91d531a4a5acf6d50e798a74973b7",
+    "2026-01-b.csv": "76d0c89bd6deb06aac5c6529d6492b15021727910667f6a25c207878c8017dc8",
+    "2026-02-a.csv": "52a984caf0b909447841b37e4df78b55319adab726213755cfa7cbfe5bf6554c",
+    "2026-02-b.csv": "977fb93d8e42bb112b9b9fc2b5d90b716b04662a3a403c370d8806f55f70c1c1",
+    "2026-03-a.csv": "acfa5c11ecc2ed5cc661d0848292393595f08cdfcaa812a54dbbf879bbd21c02",
+    "2026-03-b.csv": "7e6e9ea0d2ae8b5d37b4635c6a95db41338b27a36a4f206f9aecfeb4ed513a5f",
+    "2026-04-a.csv": "ff57d4d2d6e74c55338c0955191d6bf158e5786bfe99f6f5ab894363ea1effcd"
+  },
+  "lineage_zip_sha256": "bc8809c811c8538bde363dccd83f1096a01eb95e41daae3205bdbee1ace3be99",
+  "historical_control_command_soc_tensors_verified": false,
+  "future_independent_test_executed": false,
+  "physical_ems_safety_validated": false,
+  "R19_prospective_authorized": false,
+  "scientific_go": "NO_GO",
+  "source_files_mutated": false
+}

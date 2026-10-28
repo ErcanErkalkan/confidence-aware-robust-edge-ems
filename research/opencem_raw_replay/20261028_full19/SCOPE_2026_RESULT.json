@@ -1,0 +1,105 @@
+{
+  "result": "PASS",
+  "source": "RAW_FROZEN_HISTORICAL_OPENCEM",
+  "source_ref": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+  "scientific_scope": "HISTORICALLY_EXPOSED_ENGINEERING_RAW_VALUE_LINEAGE_ONLY",
+  "raw_partitions_verified": 8,
+  "raw_partitions_expected": 19,
+  "source_rows_scanned": 2692814,
+  "source_rows_mapped": 2685858,
+  "frozen_mapping_rows": 3853508,
+  "bins_compared": 162694,
+  "historical_blocks_compared": 226,
+  "full720_days": 214,
+  "partial_days": 12,
+  "missing_aggregates": 0,
+  "column_checks": [
+    {
+      "name": "load_kw",
+      "max_abs_difference": 2.220446049250313e-16,
+      "mismatches": 0
+    },
+    {
+      "name": "pv_kw",
+      "max_abs_difference": 4.440892098500626e-16,
+      "mismatches": 0
+    },
+    {
+      "name": "base_kw",
+      "max_abs_difference": 4.440892098500626e-16,
+      "mismatches": 0
+    },
+    {
+      "name": "n_load",
+      "max_abs_difference": 0.0,
+      "mismatches": 0
+    },
+    {
+      "name": "n_pv",
+      "max_abs_difference": 0.0,
+      "mismatches": 0
+    },
+    {
+      "name": "n_distinct_raw_timestamps",
+      "max_abs_difference": 0.0,
+      "mismatches": 0
+    }
+  ],
+  "mapping_issues": [],
+  "sources": {
+    "2025-12-b.csv": {
+      "rows": 437384,
+      "mapped_rows": 437384,
+      "sha256": "6210aee0684791bf72a6209ca67f95c3bfac38967b1ed1380380b24378219d71",
+      "bytes": 101719386
+    },
+    "2026-01-a.csv": {
+      "rows": 410447,
+      "mapped_rows": 410447,
+      "sha256": "954f80274c12655e07cbcd6528eec93b5df91d531a4a5acf6d50e798a74973b7",
+      "bytes": 90934053
+    },
+    "2026-01-b.csv": {
+      "rows": 437504,
+      "mapped_rows": 437504,
+      "sha256": "76d0c89bd6deb06aac5c6529d6492b15021727910667f6a25c207878c8017dc8",
+      "bytes": 87396902
+    },
+    "2026-02-a.csv": {
+      "rows": 381161,
+      "mapped_rows": 381161,
+      "sha256": "52a984caf0b909447841b37e4df78b55319adab726213755cfa7cbfe5bf6554c",
+      "bytes": 76040384
+    },
+    "2026-02-b.csv": {
+      "rows": 266034,
+      "mapped_rows": 266034,
+      "sha256": "977fb93d8e42bb112b9b9fc2b5d90b716b04662a3a403c370d8806f55f70c1c1",
+      "bytes": 53416095
+    },
+    "2026-03-a.csv": {
+      "rows": 306828,
+      "mapped_rows": 306828,
+      "sha256": "acfa5c11ecc2ed5cc661d0848292393595f08cdfcaa812a54dbbf879bbd21c02",
+      "bytes": 61157328
+    },
+    "2026-03-b.csv": {
+      "rows": 327279,
+      "mapped_rows": 327279,
+      "sha256": "7e6e9ea0d2ae8b5d37b4635c6a95db41338b27a36a4f206f9aecfeb4ed513a5f",
+      "bytes": 65873772
+    },
+    "2026-04-a.csv": {
+      "rows": 126177,
+      "mapped_rows": 119221,
+      "sha256": "ff57d4d2d6e74c55338c0955191d6bf158e5786bfe99f6f5ab894363ea1effcd",
+      "bytes": 25122811
+    }
+  },
+  "lineage_zip_sha256": "bc8809c811c8538bde363dccd83f1096a01eb95e41daae3205bdbee1ace3be99",
+  "all_original_files_preserved": true,
+  "historical_controller_inputs_reproduced": false,
+  "new_independent_test": false,
+  "physical_safety_validated": false,
+  "prospective_r19_executed": false
+}
