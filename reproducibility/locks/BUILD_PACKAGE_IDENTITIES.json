@@ -1,0 +1,10 @@
+{
+  "checked_date": "2026-10-28",
+  "source": "Original PyPI JSON package metadata",
+  "scope": "Build package identities; not historical environment attestation",
+  "packages": [
+    {"name":"setuptools","version":"84.2.1","requires_python":">=3.10","wheel_sha256":"ca140b45d5325a9478f880e351484f62fef15f336462e449ca0c03c873d589c2"},
+    {"name":"wheel","version":"0.48.0","requires_python":">=3.9","wheel_sha256":"3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab"},
+    {"name":"packaging","version":"26.3","requires_python":">=3.9","wheel_sha256":"d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"}
+  ]
+}

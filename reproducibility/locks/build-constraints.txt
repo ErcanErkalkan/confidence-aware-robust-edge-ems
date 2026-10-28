@@ -1,0 +1,5 @@
+# Separate isolated build constraints; verified PyPI metadata 2026-10-28.
+# Runtime constraints do not control isolated builds in pip26.2.
+setuptools==84.2.1
+wheel==0.48.0
+packaging==26.3

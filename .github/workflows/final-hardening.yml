@@ -39,8 +39,11 @@ jobs:
           python -c "import os; from pathlib import Path; p=Path('.venv').resolve() / ('Scripts' if os.name == 'nt' else 'bin'); f=open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8'); print(p, file=f); f.close()"
       - name: Install package and test dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[dev,remediation]"
+          python -m pip install pip==26.2.2
+          mkdir -p reports/environment
+          python -m pip install -r "reproducibility/locks/ci-${{ matrix.os }}-python-${{ matrix.python }}.txt" --report reports/environment/runtime_install.json
+          python -m pip install -c "reproducibility/locks/ci-${{ matrix.os }}-python-${{ matrix.python }}.txt" --build-constraint reproducibility/locks/build-constraints.txt -e ".[dev,remediation]"
+          python -m pip check
       - name: Run complete repository test suite
         run: python -m pytest --junitxml=reports/test_results/junit.xml
       - name: Record exact environment
@@ -77,8 +80,11 @@ jobs:
           echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
       - name: Install package and test dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e ".[dev,remediation]"
+          python -m pip install pip==26.2.2
+          mkdir -p reports/environment
+          python -m pip install -r reproducibility/locks/ci-ubuntu-latest-python-3.12.txt --report reports/environment/runtime_install.json
+          python -m pip install -c reproducibility/locks/ci-ubuntu-latest-python-3.12.txt --build-constraint reproducibility/locks/build-constraints.txt -e ".[dev,remediation]"
+          python -m pip check
       - name: Run repository tests for report evidence
         run: python -m pytest --junitxml=reports/test_results/junit.xml
       - name: Recheck frozen source identities in fetched history
