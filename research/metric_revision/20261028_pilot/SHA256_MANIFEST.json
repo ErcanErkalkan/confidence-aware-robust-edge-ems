@@ -1,0 +1,34 @@
+{
+  "FAILED_RERUNS.csv": {
+    "bytes": 40,
+    "sha256": "33348cd8a4e74d7a8ef82b2d3ac14cd8582a4406df681744f5445a1295c59893"
+  },
+  "HISTORICAL_CLAIM_IMPACT_REPORT_TR.md": {
+    "bytes": 8067,
+    "sha256": "07005ff4357e14113f9c4ed1c70915f6d8a5ca96e71266e7f4e8fe8d4317d85b"
+  },
+  "LEGACY_VS_V2_OBJECTIVES.csv": {
+    "bytes": 78953,
+    "sha256": "14e6bb295daa68060f021f54205e5bf057b0de37c84c4f1cc8ab5a094fd1402c"
+  },
+  "METRIC_SENSITIVITY_STATISTICS.json": {
+    "bytes": 5423,
+    "sha256": "4763cc7a5aa668a21b2ab39145fbd4389d10a8452e2ea7059a646ffb963597c7"
+  },
+  "PILOT_PARETO_MEMBERSHIP.csv": {
+    "bytes": 7966,
+    "sha256": "99282deca026e08b522854e640cb3f4ce75436e4f93f76476e87e92fa68a59bc"
+  },
+  "RUN_INSTRUCTIONS_TR.md": {
+    "bytes": 1380,
+    "sha256": "94576aea975fef763934836fbe0c6481f77ad12dab8babb8fe07b6a12dc03cc0"
+  },
+  "VALIDATION_RECEIPT.json": {
+    "bytes": 939,
+    "sha256": "a9a91105dcd23ada86ef4aa7f8bae4a726c99f5101fd5f50fd5d436ca34864e0"
+  },
+  "analyze_historical_metric_impact.py": {
+    "bytes": 12124,
+    "sha256": "23c3090a758b1c09e76eb8ca79dbe59a121b1157fc9af9a0e4a1e492fcb91502"
+  }
+}
