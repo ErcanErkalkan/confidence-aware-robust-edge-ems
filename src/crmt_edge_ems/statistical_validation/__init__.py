@@ -128,9 +128,11 @@ def gaussian_paired_power(n, *, effect, paired_sd, alpha=0.05):
     if not math.isfinite(noncentrality):
         # Finite inputs can overflow their ratio. The limiting model power is 1.
         return 1.0
+    # Reflect the lower tail instead of evaluating nct.cdf(-threshold, +ncp),
+    # which can return NaN in SciPy for valid moderate noncentralities.
     power = float(
         stats.nct.sf(threshold, n-1, noncentrality)
-        + stats.nct.cdf(-threshold, n-1, noncentrality)
+        + stats.nct.sf(threshold, n-1, -noncentrality)
     )
     if not math.isfinite(power):
         raise ContractError("Gaussian power calculation did not produce a finite result")
