@@ -1,0 +1,23 @@
+﻿question,subject,status,evidence
+1,Current source identity,PARTIAL,"Current byte manifest, base commit and environment captured; historical drift8 and future execution lock remain."
+2,160 source artifacts,VERIFIED_COMPLETE,160/160 new direct rehashes match historical catalog.
+3,Execution SHA exception,BLOCKED_EXTERNAL,"UNRECORDED_LOCAL_SHA explicitly retained, no later HEAD substitution."
+4,Tests,PARTIAL,297 current +297 clean passed;419 package tests passed; originalR20 collection error; Linux CI not run.
+5,Lineage,PARTIAL,Three short historical trace pieces have full hash chain; all-source/day certification absent.
+6,Paired F0/F1,VERIFIED_COMPLETE,20/20 historical scientific event/objective pairs newly checked.
+7,B10 semantics,VERIFIED_COMPLETE,"Output shortlist only, natural membership, no backfill; capacity blocks tested."
+8,Deterministic selection,VERIFIED_COMPLETE,DISCOVERY minmax/Linf/L1/lexical ties and reproducible synthetic resume tested.
+9,Archive confidence calibration,BLOCKED_SCIENTIFIC,No elimination method passes all required synthetic scenarios.
+10,False removal vs undercoverage,VERIFIED_COMPLETE,"Separate ground-truth metrics,3600 records with blocked-support denominators explicit."
+11,Adaptive contribution,BLOCKED_SCIENTIFIC,Historical held-out30/30 outcome equality; small pilot is not independent benefit evidence.
+12,Full cost fairness,PARTIAL,Instrumentation and small measured examples; legacy internal phases/full256 cost absent.
+13,Inference justified,PARTIAL,Assumptions explicit and alternatives implemented; actual confirmatory assumptions unapproved.
+14,Power defensible,PARTIAL,Model curves/tables generated;30-seed power depends on unknown paired SD and external plan approval.
+15,Safety enforced,PARTIAL,"New opt-in veto tested; not all legacy pipelines integrated, no physical authority or hung-process supervisor."
+16,Leakage prevented,PARTIAL,Structural negative checks; real exposure cannot be established from a local flag.
+17,New external source accepted,BLOCKED_EXTERNAL,No eligible authorized new measurement dataset admitted.
+18,Externally preregistered,BLOCKED_EXTERNAL,No genuine independent registry/receipt installed.
+19,New confirmatory AUDIT,NOT_STARTED,No authorized new experiment run.
+20,Independent operational TEST,BLOCKED_EXTERNAL,"NO_GO, eligible new data/protocol/authority absent."
+21,Manuscript supported claims,PARTIAL,Separate v13 corrected and compiled; full author/scientific/reference review pending.
+22,A01–A32,PARTIAL,All32 mapped; no global success percentage used.

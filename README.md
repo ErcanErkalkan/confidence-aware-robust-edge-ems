@@ -1,6 +1,8 @@
 # Confidence-Aware Robust Edge EMS
 
-> **Canonical single-project update (2026-10-23):** This repository is one continuous CRMT research project. **`main` is the only authoritative development branch.** Earlier audit and evidence-sync branches were fully merged into `main` by [PR #2](https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems/pull/2); both obsolete remote branch refs have now been safely deleted after verifying they contained no unmerged commits; **`main` is the repository's only remaining branch**. For the up-to-date single-project chronology, OpenCEM 19/19 raw-source SHA-verified completeness (883,382,698 bytes), R7/R8 errata, and independent TEST caveats, see **[Canonical CRMT project status](docs/CRMT_SINGLE_MAIN_PROJECT_STATUS_20261023.md)**. All data, experiments and manuscripts live under the [single Drive project root](https://drive.google.com/drive/folders/1g8afkrJCfF4fFSNxS1kJo9aQISGOlBne). A new `main` commit does not retroactively change any frozen experimental source revision.
+Current engineering and scientific status (2026-10-28): [active execution/evidence index](docs/remediation/ACTIVE_EXECUTION_20261028.md), [PR #4](https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems/pull/4). New strict EMS replay uses process containment and versioned corrected metrics. Historical results remain outputs of the preserved legacy metric implementation; the effect of the identified rainflow defect on historical rankings has not been re-evaluated. Prospective R19, independent TEST, physical safety and manuscript release remain NO-GO pending independent evidence.
+
+> **Historical project organization note (2026-10-23):** This repository is one continuous CRMT research project. **`main` contains reviewed, merged development.** Earlier audit and evidence-sync branches were fully merged into `main` by [PR #2](https://github.com/ErcanErkalkan/confidence-aware-robust-edge-ems/pull/2); both obsolete remote branch refs have now been safely deleted after verifying they contained no unmerged commits; subsequent changes use reviewed feature branches and pull requests. For the up-to-date single-project chronology, OpenCEM 19/19 raw-source SHA-verified completeness (883,382,698 bytes), R7/R8 errata, and independent TEST caveats, see **[Canonical CRMT project status](docs/CRMT_SINGLE_MAIN_PROJECT_STATUS_20261023.md)**. All data, experiments and manuscripts live under the [single Drive project root](https://drive.google.com/drive/folders/1g8afkrJCfF4fFSNxS1kJo9aQISGOlBne). A new `main` commit does not retroactively change any frozen experimental source revision.
 
 
 Reproducible research-code workspace for **confidence-aware, risk-calibrated, multi-objective tuning of an edge-executable battery-supported microgrid energy-management system (EMS)**.
@@ -45,7 +47,7 @@ Completed stages include:
 - paired nonparametric statistical reporting with multiplicity correction;
 - immutable evidence roots and report freezes for each confirmatory stage.
 
-The confirmatory results support a **protocol-specific TRAIN approximation-quality advantage for CRMT**, but held-out internal and external-OOD outcomes remain **objective-specific**. The evidence does **not** establish universal operational superiority, universal OOD robustness, independent held-out benefit of each CRMT component, certified hard-real-time behavior, or physical battery-lifetime extension.
+The confirmatory results support a **protocol-specific validation-evaluated approximation-set quality of TRAIN-generated fronts under the legacy metric implementation**, but held-out internal and external-OOD outcomes remain **objective-specific**. The evidence does **not** establish universal operational superiority, universal OOD robustness, independent held-out benefit of each CRMT component, certified hard-real-time behavior, or physical battery-lifetime extension.
 
 ## Manuscript synchronization
 
@@ -53,7 +55,7 @@ The current journal-facing manuscript line is:
 
 **Confidence-Aware Risk-Calibrated Multiobjective Tuning for Edge Microgrid Energy Management under Distribution Shift**
 
-Current canonical manuscript revision: **v12**.
+Frozen released manuscript revision: **v12**. A separate v13 working draft exists on Drive; the v14 methods/claim revision is working material, with compilation and author approval pending.
 
 - 33-page manuscript with 24 cited references;
 - 18 references from *Applied Soft Computing*;
@@ -125,7 +127,7 @@ Windows / PowerShell:
 py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -U pip
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,remediation]"
 ```
 
 The package requires Python `>=3.11`; core dependencies are declared in `pyproject.toml`.

@@ -58,7 +58,9 @@ Primary mathematical reference:
 Pascal Massart (1990), The Tight Constant in the Dvoretzky-Kiefer-Wolfowitz
 Inequality, Annals of Probability 18(3), 1269–1283,
 [DOI](https://doi.org/10.1214/aop/1176990746).
-The theorem and constant 2 were also checked in
+The IID assumption and two-sided constant 2 were verified directly in the
+[author-uploaded original paper abstract](https://www.researchgate.net/publication/38360933_The_Tight_Constant_in_the_Dvoretzky-Kiefer-Wolfowitz_Inequality),
+which also records the journal, pages and DOI. The theorem was also checked in
 [MIT mathematical research notes](https://math.mit.edu/~rmd/Research/semtalk.pdf).
 The publisher page's automated access was blocked during this session; no
 publisher full-text read is claimed.

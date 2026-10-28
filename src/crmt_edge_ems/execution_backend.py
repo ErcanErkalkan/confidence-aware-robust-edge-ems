@@ -129,6 +129,8 @@ class EMSExecutionBackend:
         if plan["output_capacity"]>plan["candidate_count"]: raise ContractError("capacity exceeds candidate pool")
         if self.scope=="PROSPECTIVE" and (plan["candidate_count"],plan["discovery_budget"],plan["output_capacity"])!=(256,12600,10):
             raise ContractError("prospective R19 fixed design mismatch")
+        if (plan["candidate_count"],plan["discovery_budget"],plan["output_capacity"])==(256,12600,10) and plan.get("risk_weight",.5)!=.5:
+            raise ContractError("fixed R19 archive/ranking must use identical tail_weight=0.5")
         self.site=SiteConfig(**plan["site"])
         self.blocks=[]; self.source_bindings=[]; self.physical_sites={}
         for entry in plan.get("blocks",[]): self.blocks.append(self._load_block(entry))
