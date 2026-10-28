@@ -1,0 +1,108 @@
+name: CRMT final engineering hardening
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  regression:
+    name: Engineering regression (${{ matrix.os }}, Python ${{ matrix.python }})
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12', '3.14']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Create clean virtual environment
+        run: |
+          python -m venv .venv
+          python -c "import os; from pathlib import Path; p=Path('.venv').resolve() / ('Scripts' if os.name == 'nt' else 'bin'); f=open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8'); print(p, file=f); f.close()"
+      - name: Install package and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,remediation]"
+      - name: Run complete repository test suite
+        run: python -m pytest --junitxml=reports/test_results/junit.xml
+      - name: Record exact environment
+        if: always()
+        run: |
+          python -c "import json, os, platform, sys; from pathlib import Path; out=Path('reports/environment'); out.mkdir(parents=True, exist_ok=True); data={'python': sys.version, 'executable': sys.executable, 'platform': platform.platform(), 'machine': platform.machine(), 'implementation': platform.python_implementation(), 'ci': {k: os.environ.get(k) for k in ('GITHUB_SHA', 'GITHUB_REF', 'GITHUB_WORKFLOW', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'RUNNER_OS', 'RUNNER_ARCH')}}; (out/'platform.json').write_text(json.dumps(data, indent=2)+'\n', encoding='utf-8')"
+          python -m pip freeze --all > reports/environment/pip-freeze.txt
+          git rev-parse HEAD > reports/environment/git-head.txt
+          git status --short > reports/environment/git-status.txt
+      - name: Upload test and environment evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-regression-${{ matrix.os }}-python-${{ matrix.python }}
+          path: |
+            reports/test_results/junit.xml
+            reports/environment/
+          if-no-files-found: warn
+
+  engineering-evidence:
+    name: Engineering evidence (Ubuntu, Python 3.12)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Create clean virtual environment
+        run: |
+          python -m venv .venv
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+      - name: Install package and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,remediation]"
+      - name: Run repository tests for report evidence
+        run: python -m pytest --junitxml=reports/test_results/junit.xml
+      - name: Exercise production backend on synthetic inputs
+        if: ${{ !cancelled() }}
+        run: python experiments/runner/run_backend_smoke.py --out reports/engineering
+      - name: Evaluate conservative calibration on synthetic inputs
+        if: ${{ !cancelled() }}
+        run: python experiments/calibration/run_conservative_v2.py --out reports/calibration_v2 --repetitions 80
+      - name: Exercise strict factorial runner on synthetic inputs
+        if: ${{ !cancelled() }}
+        run: python experiments/ablations/run_strict_factorial.py --out reports/strict_factorial
+      - name: Measure engineering compute for 256 candidates
+        if: ${{ !cancelled() }}
+        run: python experiments/compute/run_full256.py --out reports/compute_full256
+      - name: Build source-backed engineering evidence report
+        if: ${{ !cancelled() }}
+        run: python tools/build_final_evidence.py --out reports/final --junit reports/test_results/junit.xml
+      - name: Record exact environment
+        if: always()
+        run: |
+          python -c "import json, os, platform, sys; from pathlib import Path; out=Path('reports/environment'); out.mkdir(parents=True, exist_ok=True); data={'python': sys.version, 'executable': sys.executable, 'platform': platform.platform(), 'machine': platform.machine(), 'implementation': platform.python_implementation(), 'ci': {k: os.environ.get(k) for k in ('GITHUB_SHA', 'GITHUB_REF', 'GITHUB_WORKFLOW', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'RUNNER_OS', 'RUNNER_ARCH')}}; (out/'platform.json').write_text(json.dumps(data, indent=2)+'\n', encoding='utf-8')"
+          python -m pip freeze --all > reports/environment/pip-freeze.txt
+          git rev-parse HEAD > reports/environment/git-head.txt
+          git status --short > reports/environment/git-status.txt
+      - name: Upload engineering reports and environment
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-engineering-evidence-ubuntu-python-3.12
+          path: reports/
+          if-no-files-found: warn
