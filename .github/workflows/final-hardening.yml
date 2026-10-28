@@ -28,6 +28,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
@@ -64,6 +66,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -77,6 +81,9 @@ jobs:
           python -m pip install -e ".[dev,remediation]"
       - name: Run repository tests for report evidence
         run: python -m pytest --junitxml=reports/test_results/junit.xml
+      - name: Recheck frozen source identities in fetched history
+        if: ${{ !cancelled() }}
+        run: python tools/audit_source_history.py --out reports/source_audit
       - name: Exercise production backend on synthetic inputs
         if: ${{ !cancelled() }}
         run: python experiments/runner/run_backend_smoke.py --out reports/engineering
@@ -99,6 +106,9 @@ jobs:
           python -m pip freeze --all > reports/environment/pip-freeze.txt
           git rev-parse HEAD > reports/environment/git-head.txt
           git status --short > reports/environment/git-status.txt
+      - name: Emit shareable report readback
+        if: always()
+        run: python tools/emit_final_evidence.py
       - name: Upload engineering reports and environment
         uses: actions/upload-artifact@v4
         if: always()

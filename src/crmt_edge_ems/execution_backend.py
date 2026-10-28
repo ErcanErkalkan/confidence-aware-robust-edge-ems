@@ -8,6 +8,8 @@ from __future__ import annotations
 from contextlib import contextmanager
 from dataclasses import asdict
 from datetime import datetime, timezone
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -26,6 +28,7 @@ from .strict_replay_v2 import StrictReplayBlock, StrictReplayEvaluator
 from .safety.process_supervisor import ProcessSupervisorConfig
 from .r19_primary import select_shortlists, audit_fidelity
 from .gates import gate_report, require_scientific_execution
+from .engineering_fixtures import execution_context
 from jer_microgrid.config import SiteConfig
 
 STAGES = ("prepare", "verify", "gate-check", "discovery", "archive-build",
@@ -100,10 +103,15 @@ class StageStore:
 class EMSExecutionBackend:
     """Opt-in active backend, distinct from historical and artificial-loss dry runs."""
     def __init__(self, plan, *, data_root, output):
-        self.plan=json.loads(canonical(plan)); self.data_root=Path(data_root).resolve()
-        self.scope=plan.get("scope")
+        self.scope=plan.get("scope") if isinstance(plan,dict) else None
         if self.scope not in {"ENGINEERING_EXPOSED_OR_SYNTHETIC","PROSPECTIVE"}: raise ContractError("explicit execution scope required")
         if self.scope=="PROSPECTIVE": require_scientific_execution("discovery")
+        self.plan=json.loads(canonical(plan)); plan=self.plan
+        self.data_root=Path(data_root).resolve()
+        self.actual_execution_context=execution_context()
+        declared_commit=plan.get("execution_context",{}).get("git_commit")
+        if declared_commit!=self.actual_execution_context["git_commit"]:
+            raise ContractError("declared source commit differs from actual execution checkout")
         if plan.get("source_kind") not in {"SYNTHETIC_ENGINEERING","HISTORICAL_TRAIN_ENGINEERING","AUTHORIZED_PROSPECTIVE"}:
             raise ContractError("explicit source kind required")
         if self.scope!="PROSPECTIVE" and plan["source_kind"]=="AUTHORIZED_PROSPECTIVE":
@@ -111,17 +119,24 @@ class EMSExecutionBackend:
         for field in ("candidate_count","discovery_budget","initial_blocks","output_capacity"):
             integer(plan.get(field),field,1)
         integer(plan.get("optimizer_seed"),"optimizer_seed");integer(plan.get("simulation_seed"),"simulation_seed")
+        integer(plan.get("allocation_batch",2),"allocation_batch",1)
+        integer(plan.get("n_boot",200),"n_boot",1)
+        if plan.get("allocation_mode","adaptive") not in {"adaptive","round_robin"}:
+            raise ContractError("invalid declared allocation mode")
+        strict_risk(np.zeros((2,4)),tail_weight=plan.get("risk_weight",.5))
         if plan["initial_blocks"]<2: raise ContractError("at least two initial paired blocks required")
         if plan["discovery_budget"]<plan["candidate_count"]*plan["initial_blocks"]: raise ContractError("initial budget insufficient")
         if plan["output_capacity"]>plan["candidate_count"]: raise ContractError("capacity exceeds candidate pool")
         if self.scope=="PROSPECTIVE" and (plan["candidate_count"],plan["discovery_budget"],plan["output_capacity"])!=(256,12600,10):
             raise ContractError("prospective R19 fixed design mismatch")
         self.site=SiteConfig(**plan["site"])
-        self.blocks=[]; self.source_bindings=[]
+        self.blocks=[]; self.source_bindings=[]; self.physical_sites={}
         for entry in plan.get("blocks",[]): self.blocks.append(self._load_block(entry))
         if not self.blocks: raise ContractError("empty replay inventory")
         self.discovery=[b for b in self.blocks if b.split=="DISCOVERY"];self.audit=[b for b in self.blocks if b.split=="AUDIT"]
         if len(self.discovery)<plan["initial_blocks"] or len(self.audit)<2: raise ContractError("incomplete declared support")
+        if plan["discovery_budget"]>plan["candidate_count"]*len(self.discovery):
+            raise ContractError("DISCOVERY budget exceeds unique candidate/block support")
         if self.scope=="PROSPECTIVE" and len(self.audit)<60: raise ContractError("prospective panel below predeclared sixty blocks")
         # Validate every block together before candidate generation, reservation, or simulation.
         self.validation_evaluator=self._evaluator(None)
@@ -129,7 +144,7 @@ class EMSExecutionBackend:
         self._partition_check()
         self.binding={"implementation":"REAL-EMS-BACKEND-v2-DRAFT","plan_sha256":digest(plan),
             "source_bindings":self.source_bindings,"site":asdict(self.site),"scope":self.scope,
-            "execution_context":plan.get("execution_context",{})}
+            "execution_context":self.actual_execution_context}
         self.store=StageStore(output,self.binding)
 
     def _path(self,value):
@@ -142,15 +157,38 @@ class EMSExecutionBackend:
             "split","historical_exposure","license_status","physical_evidence_status","raw_path","source_sha256",
             "profile_path","profile_sha256","transformation_parameters","cadence_minutes","expected_ticks",
             "data_version","exposure_record_id"}
-        if not required<=set(e): raise ContractError("block provenance schema incomplete")
+        if not isinstance(e,dict) or not required<=set(e): raise ContractError("block provenance schema incomplete")
+        integer(e["expected_ticks"],"expected_ticks",2)
+        integer(e["cadence_minutes"],"cadence_minutes",1)
+        if not isinstance(e["transformation_parameters"],dict):
+            raise ContractError("block transformation parameters must be a mapping")
+        if not isinstance(e["physical_unit_id"],str) or not e["physical_unit_id"].strip():
+            raise ContractError("block physical unit identity required")
         if e["split"] not in {"DISCOVERY","AUDIT"}: raise ContractError("backend permits only declared DISCOVERY/AUDIT")
         if self.scope!="PROSPECTIVE" and e["historical_exposure"]!="EXPOSED": raise ContractError("engineering inputs must be explicitly exposed fixtures/history")
         raw=self._path(e["raw_path"]); profile=self._path(e["profile_path"])
-        if file_hash(raw)!=e["source_sha256"] or file_hash(profile)!=e["profile_sha256"]: raise ContractError("source/transformed byte hash mismatch")
-        frame=pd.read_csv(profile); frame["timestamp"]=pd.to_datetime(frame["timestamp"],errors="raise")
+        raw_bytes=raw.read_bytes(); profile_bytes=raw_bytes if raw==profile else profile.read_bytes()
+        if hashlib.sha256(raw_bytes).hexdigest()!=e["source_sha256"] or hashlib.sha256(profile_bytes).hexdigest()!=e["profile_sha256"]:
+            raise ContractError("source/transformed byte hash mismatch")
+        # Parse the exact verified bytes; a second path read would permit a
+        # hash/parse race during cloud synchronization or concurrent writes.
+        frame=pd.read_csv(io.BytesIO(profile_bytes)); frame["timestamp"]=pd.to_datetime(frame["timestamp"],errors="raise")
         if len(frame)!=e["expected_ticks"]: raise ContractError("declared support tick count mismatch")
         if frame["timestamp"].iloc[0].isoformat()!=pd.Timestamp(e["start_timestamp"]).isoformat() or frame["timestamp"].iloc[-1].isoformat()!=pd.Timestamp(e["end_timestamp"]).isoformat():
             raise ContractError("declared time bounds differ from profile")
+        zone=e["transformation_parameters"].get("timezone")
+        if not isinstance(zone,str) or not zone:
+            raise ContractError("replay inventory requires declared local timezone")
+        try:
+            days=pd.DatetimeIndex(frame["timestamp"]).tz_convert(zone).strftime("%Y-%m-%d")
+        except (TypeError,ValueError,KeyError) as exc:
+            raise ContractError("invalid inventory timezone") from exc
+        if any(day!=e["day_id"] for day in days):
+            raise ContractError("declared day_id differs from observed local-day support")
+        physical=e["physical_unit_id"]; site=str(e["site_id"])
+        if physical in self.physical_sites and self.physical_sites[physical]!=site:
+            raise ContractError("physical unit cannot change site identity across partitions")
+        self.physical_sites[physical]=site
         self.source_bindings.append({"block_id":e["block_id"],"raw_sha256":e["source_sha256"],"profile_sha256":e["profile_sha256"],"data_version":e["data_version"]})
         return StrictReplayBlock(block_id=e["block_id"],profile=frame,source=e["source_id"],split=e["split"],site_id=e["site_id"],
             cadence_minutes=e["cadence_minutes"],expected_ticks=e["expected_ticks"],source_sha256=e["source_sha256"],
@@ -261,7 +299,7 @@ class EMSExecutionBackend:
             d=self.store.load("discovery");a=self.store.load("audit");result=self.store.load("analyze")
             return {"scope":self.scope,"scientific_confirmation":False,"independent_TEST_executed":False,"locked":False,
                 "result":result,"actual_simulator_events":d["charged_events"]+a["events"],"source_binding_sha256":digest(self.binding),
-                "phase_costs":self.store.state["stages"],"energy_joules":None,
+                "phase_costs":{k:v for k,v in self.store.state["stages"].items() if k!="report"},"energy_joules":None,
                 "cost_limit":"Parent process CPU, worker CPU/RSS in event receipts; killed worker totals may be unmeasured. No equal-compute assertion."}
         raise ContractError("unsupported stage")
 
