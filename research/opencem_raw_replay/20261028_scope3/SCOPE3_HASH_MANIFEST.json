@@ -1,0 +1,29 @@
+{
+  "scope": "OPEN_CEM_RAW_3_OF_19_PARTITIONS_36_BLOCKS",
+  "predecessor": "OPEN_CEM_RAW_2_OF_19_PARTITIONS_6_BLOCKS",
+  "source_sha": "2dcbaa49db42e7a0d4cb6edde3977f0384db1679",
+  "files": {
+    "SCOPE3_VALIDATION_REPORT_TR.md": {
+      "sha256": "dd011ccef74638c7995e660491027a5025a9ddb6582e65d004d07564c61383a7",
+      "bytes": 2349
+    },
+    "SCOPE3_SOURCE_ACCESS_BLOCKER.json": {
+      "sha256": "6a26e4742d642a96560d40a701fb7a1782ed93007718c48042f71cea4783ea96",
+      "bytes": 383
+    },
+    "results_3partitions/SCOPED_RESULT.json": {
+      "sha256": "4e5c77b4bd057c0729cf80f43015475bf0a05f59ff50a3e44e5728dc7d4217c0",
+      "bytes": 2614
+    },
+    "results_3partitions/SCOPED_FULL_DAY_VALIDATION.csv": {
+      "sha256": "5da12222cc29a649f787e4d3dddeb593ce133a63d74625aedbc3748b13582a0c",
+      "bytes": 1429
+    },
+    "results_3partitions/SCOPED_RAW_TO_REPLAY_COMPARISON.csv": {
+      "sha256": "c43894a08fc5f4b800173e832ed01f95fd31f3f273b5d6339b239447da7807db",
+      "bytes": 2717628
+    }
+  },
+  "source_09b_unavailable_404": true,
+  "independent_test": false
+}

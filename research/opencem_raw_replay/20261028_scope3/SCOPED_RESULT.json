@@ -1,0 +1,83 @@
+{
+  "result": "PASS_SCOPED_RAW_MEASUREMENT_RECONSTRUCTION",
+  "scientific_status": "ENGINEERING_HISTORICAL_TRAIN_VALIDATION_ONLY",
+  "source_ref": "5884d253a5267fb240b7a8df6fa9e4d49a905167",
+  "raw_partitions": {
+    "2025-08-a.csv": {
+      "sha256": "8feffe51d78b2b5ce007b1b602670e04306e77c9162c7f53c38376bb3ad3e3c8",
+      "rows": 6376,
+      "expected_sha256": "8feffe51d78b2b5ce007b1b602670e04306e77c9162c7f53c38376bb3ad3e3c8",
+      "raw_size_bytes": 1920989
+    },
+    "2025-08-b.csv": {
+      "sha256": "d889a3b06693d76a5d04cc21b4c6d2ce4edf29710a021438a7979a6ad31ae041",
+      "rows": 8152,
+      "expected_sha256": "d889a3b06693d76a5d04cc21b4c6d2ce4edf29710a021438a7979a6ad31ae041",
+      "raw_size_bytes": 2493086
+    },
+    "2025-09-a.csv": {
+      "sha256": "e2f60da5cfe3bb869b953704c9fbd9b735955cfb2f240dde867b0e6e8989bd84",
+      "rows": 46716,
+      "expected_sha256": "e2f60da5cfe3bb869b953704c9fbd9b735955cfb2f240dde867b0e6e8989bd84",
+      "raw_size_bytes": 14226760
+    }
+  },
+  "recomputed_eligible_bins": 25910,
+  "recomputed_blocks": 36,
+  "full_720_days": 32,
+  "frozen_bin_missing_raw_aggregate": 0,
+  "values": [
+    {
+      "signal": "load_kw",
+      "max_abs_diff": 2.220446049250313e-16,
+      "nonmatching_above_1e-10": 0
+    },
+    {
+      "signal": "pv_kw",
+      "max_abs_diff": 4.440892098500626e-16,
+      "nonmatching_above_1e-10": 0
+    },
+    {
+      "signal": "base_kw",
+      "max_abs_diff": 4.440892098500626e-16,
+      "nonmatching_above_1e-10": 0
+    },
+    {
+      "signal": "n_load",
+      "max_abs_diff": 0.0,
+      "nonmatching_above_1e-10": 0
+    },
+    {
+      "signal": "n_pv",
+      "max_abs_diff": 0.0,
+      "nonmatching_above_1e-10": 0
+    },
+    {
+      "signal": "n_distinct_raw_timestamps",
+      "max_abs_diff": 0.0,
+      "nonmatching_above_1e-10": 0
+    }
+  ],
+  "source_row_mapping": {
+    "2025-08-a.csv": {
+      "mapped_rows": 3132,
+      "total_csv_rows": 6376
+    },
+    "2025-08-b.csv": {
+      "mapped_rows": 7264,
+      "total_csv_rows": 8152
+    },
+    "2025-09-a.csv": {
+      "mapped_rows": 46716,
+      "total_csv_rows": 46716
+    }
+  },
+  "mapping_issues": [],
+  "lineage_zip_sha256": "bc8809c811c8538bde363dccd83f1096a01eb95e41daae3205bdbee1ace3be99",
+  "checks_cover_all_19_partitions": false,
+  "full_381_days_verified_from_raw_values": false,
+  "prospective_or_independent_TEST": false,
+  "historical_controller_tensors_verified": false,
+  "source_files_mutated": false,
+  "qualification": "Scope is only days whose complete frozen source partitions lie in supplied raw files; original converter semantics independently reaggregated."
+}
