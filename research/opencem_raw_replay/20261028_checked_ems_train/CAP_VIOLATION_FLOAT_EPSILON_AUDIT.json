@@ -1,0 +1,40 @@
+{
+  "reason": "HISTORICAL_METRIC_FLOATING_POINT_STRICT_COMPARATOR_VS_SAFETY_VETO_TOLERANCE",
+  "scope": "4 historically exposed full-day OpenCEM TRAIN controller simulations only",
+  "affected_legacy_metric": "cap_violation_pct_total",
+  "rows": [
+    {
+      "block_id": "opencem:inv1:2025-08-02",
+      "strict_comparator_positive_bin_count": 5,
+      "safety_1e_minus12_tolerance_violation_count": 0,
+      "max_import_excess_kw": 0.0,
+      "max_export_excess_kw": 1.1102230246251565e-16
+    },
+    {
+      "block_id": "opencem:inv1:2025-08-31",
+      "strict_comparator_positive_bin_count": 0,
+      "safety_1e_minus12_tolerance_violation_count": 0,
+      "max_import_excess_kw": 0.0,
+      "max_export_excess_kw": 0.0
+    },
+    {
+      "block_id": "opencem:inv2:2025-08-02",
+      "strict_comparator_positive_bin_count": 0,
+      "safety_1e_minus12_tolerance_violation_count": 0,
+      "max_import_excess_kw": 0.0,
+      "max_export_excess_kw": 0.0
+    },
+    {
+      "block_id": "opencem:inv2:2025-08-31",
+      "strict_comparator_positive_bin_count": 2,
+      "safety_1e_minus12_tolerance_violation_count": 0,
+      "max_import_excess_kw": 0.0,
+      "max_export_excess_kw": 5.551115123125783e-17
+    }
+  ],
+  "strict_false_positive_bins": 7,
+  "tolerance_above_1e_minus12_bins": 0,
+  "software_safety_veto_passed_4_of_4": true,
+  "legacy_objectives_frozen_unmodified": true,
+  "required_followup": "Versioned future metric threshold policy; preserve old results and disclose reproducibility changes"
+}

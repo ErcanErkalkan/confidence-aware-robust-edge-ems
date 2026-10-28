@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-10-28T09:57:21.242213+00:00",
+  "data_scope": "EXPOSED_HISTORICAL_TRAIN_ONLY",
+  "raw_full_input_not_in_zip": true,
+  "files": {
+    "run_verified_train_safe_ems.py": {
+      "sha256": "4b26f7efb7c692eb1c434cb5d69701bd554b8eabf44062397b56076a22acb6a7",
+      "bytes": 5065
+    },
+    "OPENCEM_GERCEK_VERI_4_GUN_EMS_SMOKE_RAPOR_TR.md": {
+      "sha256": "2160f0ed85368a833db84ff457a7943f8c3041972e013fd1d6821eba9d1ab10d",
+      "bytes": 2627
+    },
+    "results_checked_real_train_4blocks/CHECKED_EMS_ENGINEERING_STATUS.json": {
+      "sha256": "fa6e4d6e19b45eeae601104bf95fdd998e2523b99cfd7e826021bf3742d9dd09",
+      "bytes": 3795
+    },
+    "results_checked_real_train_4blocks/DAYWISE_CHECKED_EMS_ENGINEERING.csv": {
+      "sha256": "be15696b5a212b55a03c8b3a0ef7d307c5d88a0dd02d8ea0b9ce39a405b5c305",
+      "bytes": 1503
+    },
+    "results_checked_real_train_4blocks/CAP_VIOLATION_FLOAT_EPSILON_AUDIT.json": {
+      "sha256": "7b9ea7ce0f3ea17fd15cc5e4a0e30204d5a7ff9a3a9b860dac60182cd20d31ab",
+      "bytes": 1512
+    },
+    "results_checked_real_train_4blocks/CHECKED_EMS_720TICK_TRACE_PRIVATE.csv": {
+      "sha256": "595db96aae12fabd3eb2a66ad6916cb0b7fc33101eaa1089400d994140c9d3d7",
+      "bytes": 603015
+    },
+    "results_checked_real_train_4blocks/TRACE_SCHEMA.csv": {
+      "sha256": "a5f32ea19aa90dc2185148ff5bfc3b2427c90b55d39b5f63d6859db849b231c2",
+      "bytes": 117
+    }
+  }
+}
