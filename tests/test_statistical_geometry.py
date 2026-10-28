@@ -123,3 +123,9 @@ def test_finite_extreme_power_inputs_never_return_nan():
     assert gaussian_paired_power(
         30, effect=0, paired_sd=1e-300,
     ) == pytest.approx(0.05)
+
+
+def test_noncentral_t_power_uses_finite_reflected_lower_tail():
+    result = gaussian_paired_power(30, effect=-0.05, paired_sd=0.025)
+    assert math.isfinite(result)
+    assert result == pytest.approx(1.0)
