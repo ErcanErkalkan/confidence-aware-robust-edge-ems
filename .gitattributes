@@ -1,0 +1,2 @@
+# Keep runtime/build constraints byte-identical across supported platforms.
+reproducibility/locks/** -text

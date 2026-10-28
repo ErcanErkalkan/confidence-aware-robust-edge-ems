@@ -1,0 +1,31 @@
+# Exact observed runtime constraints; NOT a universal or historical environment lock.
+# Status: EXACT_OBSERVED_LOCK_NOT_REINSTALL_TESTED
+# Source: GitHub Actions run 40645435132; artifact 12796898334
+# Runner: Windows; Python 3.12.10
+# Executed CI merge commit: 6d9c45ec2e1cbeab8c56462c1ae20eed88b14542
+# Artifact ZIP SHA-256: 83b645c84bbe28c0c5daa257d176ac2361200208dc7bc214fd09341d6f67ae2c
+# Current editable project URI omitted; install reviewed source separately.
+# Build-isolation dependencies are outside this observed runtime snapshot.
+cffi==2.1.1
+colorama==0.4.6
+contourpy==1.4.0
+cryptography==50.0.2
+cycler==0.12.1
+fonttools==4.68.0
+iniconfig==2.3.1
+kiwisolver==1.5.1
+matplotlib==3.11.2
+numpy==2.5.4
+packaging==26.3
+pandas==3.1.0
+pillow==13.0.0
+pip==26.2.2
+pluggy==1.7.0
+pycparser==3.12
+Pygments==2.21.0
+pyparsing==3.3.3
+pytest==9.2.0
+python-dateutil==3.0.0
+scipy==1.18.1
+six==1.17.0
+tzdata==2026.5
