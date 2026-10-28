@@ -1,0 +1,70 @@
+{
+  "check": "GOOGLE_DRIVE_RAW_BYTES_READBACK",
+  "result": "PASS_11_OF_11",
+  "raw_292256_csv": {
+    "sha256": "145caf611ce23d3527162f27012d4af15126f9979bd4a1e86a72f0ab98f2fa2d",
+    "bytes": 42259426,
+    "matched": true
+  },
+  "zip_test_crc": "PASS",
+  "files": {
+    "validate_raw_to_replay_full_optimized.py": {
+      "sha256": "ce761ca945f02d6ca103654eec91f7cac620a6747b142360a459d337eacd5187",
+      "bytes": 9396,
+      "matched": true
+    },
+    "reconcile_full_19_partition_evidence.py": {
+      "sha256": "b13518f0539ee54c07d92c0e9777080c2e44524dd76ac8c05827eaeef28dd3b4",
+      "bytes": 7060,
+      "matched": true
+    },
+    "OPENCEM_FULL_19_HAM_VERI_DOGRULAMA_RAPORU_TR.md": {
+      "sha256": "91c6e4bbd65cdb92c6e72dc6f6034de61f8905e0e7dadc2ea0c0f170c86c225f",
+      "bytes": 4283,
+      "matched": true
+    },
+    "FULL_19_REGRESSION_TEST_RECEIPT.json": {
+      "sha256": "9c9e9560d51e1252d46d0481c45752a5e074fe0bc317d8cbfcb1d23a47edde9a",
+      "bytes": 269,
+      "matched": true
+    },
+    "FULL_19_RAW_TO_REPLAY_STATUS.json": {
+      "sha256": "32d2e457b80b9cb3325a9696cc94d9efd9956d21f52cff8f92f03fdd3098f705",
+      "bytes": 3355,
+      "matched": true
+    },
+    "FULL_406_DAY_VALIDATION.csv": {
+      "sha256": "a064ceb372312c75c790b1106ae037a2510d08027273b79d31e86daf81169c2a",
+      "bytes": 19156,
+      "matched": true
+    },
+    "FULL_292256_RECONSTRUCTED_VALUES.csv": {
+      "sha256": "145caf611ce23d3527162f27012d4af15126f9979bd4a1e86a72f0ab98f2fa2d",
+      "bytes": 42259426,
+      "matched": true
+    },
+    "SCOPE_2025_RESULT.json": {
+      "sha256": "10d228f761a85dae30acca741bfa5ac8218ef93406891357706bbdef0304f20b",
+      "bytes": 3733,
+      "matched": true
+    },
+    "SCOPE_2026_RESULT.json": {
+      "sha256": "7a5710a64bcb0cf03387feb42d3b63484f0026b9c6baa31a3cb7fdd711c7ba3a",
+      "bytes": 3008,
+      "matched": true
+    },
+    "FULL_19_DELIVERY_SHA256_MANIFEST.json": {
+      "sha256": "6329a7ddbb945d450da791c95c09c92e895df62863c329ad6389f754dc13e51d",
+      "bytes": 1746,
+      "matched": true
+    },
+    "CRMT_OpenCEM_19_Ham_Kaynak_Dogrulama_20261028.zip": {
+      "sha256": "5efbb37ab58f0b5f7282784342457b6e682823f0b66d89bd66b13abe74f7efa1",
+      "bytes": 4947398,
+      "matched": true
+    }
+  },
+  "github_pr": 7,
+  "scientific_status": "NO_GO",
+  "scope": "historical exposed raw-to-replay data-lineage, NOT independent Test"
+}

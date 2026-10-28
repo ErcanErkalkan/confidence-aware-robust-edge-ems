@@ -1,0 +1,8 @@
+{
+  "python_compile": true,
+  "existing_output_rejected": true,
+  "mutated_raw_csv_rejected": true,
+  "full_consolidated_19_partition_evidence": "PASS_FULL_HISTORICAL_RAW_TO_FROZEN_REPLAY_REAGGREGATION",
+  "all_scopes_passed": true,
+  "raw_originals_unchanged": true
+}
