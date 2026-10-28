@@ -5,6 +5,7 @@ import argparse
 import csv
 from datetime import datetime, timezone
 import hashlib
+import importlib.metadata as package_metadata
 import json
 import math
 import os
@@ -137,6 +138,11 @@ def parse_junit(path):
     result["sha256"] = file_sha(path)
     try:
         root = ET.parse(path).getroot()
+        suites = [suite for suite in root.iter("testsuite") if not list(suite.findall("testsuite"))]
+        declared = {key: sum(int(suite.get(key, "0")) for suite in suites)
+                    for key in ("tests", "failures", "errors", "skipped")}
+        result["declared_suite_totals"] = declared
+        result.update({key: declared[key] for key in ("failures", "errors", "skipped")})
         cases = list(root.iter("testcase"))
         if not cases:
             raise ValueError("JUnit contains no testcase records")
@@ -145,9 +151,9 @@ def parse_junit(path):
             result["cases"].append({"name": case.get("name"), "class": case.get("classname"),
                                     "file": case.get("file"), "status": state})
         result["tests"] = len(cases)
-        result["failures"] = sum(r["status"] == "failed" for r in result["cases"])
-        result["errors"] = sum(r["status"] == "error" for r in result["cases"])
-        result["skipped"] = sum(r["status"] == "skipped" for r in result["cases"])
+        result["failures"] = max(declared["failures"], sum(r["status"] == "failed" for r in result["cases"]))
+        result["errors"] = max(declared["errors"], sum(r["status"] == "error" for r in result["cases"]))
+        result["skipped"] = max(declared["skipped"], sum(r["status"] == "skipped" for r in result["cases"]))
         result["passed_count"] = result["tests"] - result["failures"] - result["errors"] - result["skipped"]
         result["available"] = True
         result["passed"] = result["failures"] == result["errors"] == 0 and result["passed_count"] > 0
@@ -227,6 +233,26 @@ def write_csv(path, rows):
         writer.writeheader()
         writer.writerows(rows)
 
+def capture_environment():
+    env = {"python": sys.version, "executable": sys.executable, "platform": platform.platform(),
+           "machine": platform.machine(), "packages": [], "pip_freeze_text": "",
+           "pip_freeze_returncode": None,
+           "scope": "CURRENT_JOB_OS_AND_PYTHON_RESOLUTION_ONLY_NOT_UNIVERSAL_OR_FROZEN_HISTORICAL_LOCK"}
+    try:
+        env["packages"] = sorted(
+            ({"name": dist.metadata.get("Name"), "version": dist.version}
+             for dist in package_metadata.distributions() if dist.metadata.get("Name")),
+            key=lambda item: (item["name"].lower(), item["version"]))
+        completed = subprocess.run([sys.executable, "-m", "pip", "freeze", "--all"],
+                                   capture_output=True, text=True, encoding="utf-8", errors="replace")
+        env["pip_freeze_returncode"] = completed.returncode
+        env["pip_freeze_text"] = completed.stdout
+        if completed.stderr:
+            env["pip_freeze_stderr"] = completed.stderr
+    except (OSError, ValueError) as exc:
+        env["error"] = str(exc)
+    return env
+
 def build(root, out, junit):
     root, out, junit = Path(root).resolve(), Path(out).resolve(), Path(junit).resolve()
     if not out.is_relative_to(root):
@@ -237,6 +263,7 @@ def build(root, out, junit):
     commit = source["git_commit"]
     tests = parse_junit(junit)
     groups, inputs, input_errors = inspect_inputs(root, commit)
+    environment = capture_environment()
     generated = []
     def metadata(name):
         return {"artifact_id": name, "source_type": "DERIVED_ENGINEERING_REPORT",
@@ -257,7 +284,7 @@ def build(root, out, junit):
     def csv_out(name, rows):
         write_csv(out / name, rows)
         generated.append(name)
-    current_ok = source["passed"] and tests["passed"] and all(g["available"] for g in groups.values()) and not input_errors
+    current_ok = source["passed"] and tests["passed"] and all(g["available"] for g in groups.values()) and not input_errors and environment["pip_freeze_returncode"] == 0
     flags = {name: "NO" for name in (
         "SOFTWARE_READY REPRODUCIBILITY_READY CALIBRATION_SCIENTIFICALLY_VALIDATED "
         "ADAPTIVE_CONTRIBUTION_SUPPORTED R19_DESIGN_APPROVED R19_PROSPECTIVE_READY "
@@ -293,8 +320,10 @@ def build(root, out, junit):
              "baseline_error": baseline_error, "current_ci_context": ci,
              "current_workflow_status": "RUNNING_AT_REPORT_GENERATION_NOT_FINAL_CI_VERDICT",
              "current_junit_passed": tests["passed"], "python": sys.version, "platform": platform.platform(),
+             "current_job_environment": environment,
              "dependency_records": [r for r in inputs if "environment" in r["source_path"]],
              "scope": "Historical baseline readback and current job evidence remain separate"})
+    text_out("ENVIRONMENT_PIP_FREEZE.txt", environment["pip_freeze_text"])
     json_out("DATA_LINEAGE_REPORT.json", {"engineering_evidence": groups["engineering"],
              "provider_measurements_admitted": False, "historical_raw_sources_rehashed": False,
              "lineage_scope": "Read available generated engineering records only",
@@ -468,7 +497,7 @@ def build(root, out, junit):
     phase = {
         "PHASE": "FINAL_ENGINEERING_EVIDENCE_ASSEMBLY",
         "FILES_INSPECTED": [r["source_path"] for r in inputs] + [str(junit), "Git HEAD tracked source", str(baseline_path)],
-        "FILES_CHANGED": [str(out / name) for name in dict.fromkeys(REQUIRED + ["GATE_STATUS.json", "NEW_FINDINGS.csv", "PHASE_REPORT.json", "PHASE_REPORT_TR.md"])],
+        "FILES_CHANGED": [str(out / name) for name in dict.fromkeys(REQUIRED + ["GATE_STATUS.json", "NEW_FINDINGS.csv", "PHASE_REPORT.json", "PHASE_REPORT_TR.md", "ENVIRONMENT_PIP_FREEZE.txt"])],
         "BUGS_FIXED": "This generator observes current evidence; fixes are attributed to source diff/CI, not invented here.",
         "TESTS_ADDED": "See current source tests/test_final_evidence.py and source commit; no guessed count",
         "TESTS_PASSED": tests.get("passed_count", 0), "TESTS_FAILED": tests["failures"] + tests["errors"],

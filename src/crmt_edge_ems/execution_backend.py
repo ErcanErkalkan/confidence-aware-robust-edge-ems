@@ -147,6 +147,7 @@ class EMSExecutionBackend:
         self.binding={"implementation":"REAL-EMS-BACKEND-v2-DRAFT","plan_sha256":digest(plan),
             "source_bindings":self.source_bindings,"site":asdict(self.site),"scope":self.scope,
             "execution_context":self.actual_execution_context}
+        self.block_snapshot_hashes={b.block_id:digest(plain(b.profile.to_dict(orient="records"))) for b in self.blocks}
         self.store=StageStore(output,self.binding)
 
     def _path(self,value):
@@ -306,6 +307,14 @@ class EMSExecutionBackend:
         raise ContractError("unsupported stage")
 
     def run(self,through="report"):
+        if digest(self.plan)!=self.binding["plan_sha256"]:
+            raise ContractError("execution plan changed after preflight")
+        for block in self.blocks:
+            if digest(plain(block.profile.to_dict(orient="records")))!=self.block_snapshot_hashes[block.block_id]:
+                raise ContractError("replay snapshot changed after preflight")
+        for entry in self.plan["blocks"]:
+            if file_hash(self._path(entry["raw_path"]))!=entry["source_sha256"] or file_hash(self._path(entry["profile_path"]))!=entry["profile_sha256"]:
+                raise ContractError("source bytes changed after preflight")
         if through=="independent-test":require_scientific_execution("independent-test")
         if through not in STAGES:raise ContractError("unknown stage")
         result=None

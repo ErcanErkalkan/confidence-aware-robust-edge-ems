@@ -95,3 +95,12 @@ def test_missing_junit_and_invalid_json_remain_explicit(tmp_path, monkeypatch):
 def test_output_cannot_escape_checkout(tmp_path):
     with pytest.raises(ValueError, match="within the checkout"):
         report.build(tmp_path, tmp_path.parent / "escaped", tmp_path / "missing.xml")
+
+
+def test_junit_collection_error_without_testcases_is_not_lost(tmp_path):
+    path = tmp_path / "collection.xml"
+    path.write_text('<testsuites><testsuite tests="0" errors="1"><error>collection failed</error></testsuite></testsuites>')
+    result = report.parse_junit(path)
+    assert result["passed"] is False
+    assert result["errors"] == 1
+    assert "no testcase" in result["blocking_reason"]
